@@ -42,9 +42,11 @@ void smartQuickSort(int *data, int start, int end) {
         }
         if (left <= right) {
             if (data[left] != data[right]){
-                data[left] = data[left] ^ data[right];
-                data[right] = data[right] ^ data[left];
-                data[left] = data[left] ^ data[right];
+                if (data[left] != data[right]){
+                    data[left] = data[left] ^ data[right];
+                    data[right] = data[right] ^ data[left];
+                    data[left] = data[left] ^ data[right];
+                }
             }
             ++left;
             --right;

@@ -91,7 +91,23 @@ bool testBinarySearch(void) {
     if (binarySearch(rand() % 100 - 50, testEmptyCase, 0)) {
         return false;
     }
-//    int testNormalCase[100] =
+    int testNormalCase[100] = {74, 65, 36, 46, 53, 34, 65, 85, 32, 78,
+                               25,95, 96, 91, 55, 34, 66, 32, 67, 84,
+                               45, 17, 48, 53, 65, 69, 78, 69, 46, 67,
+                               16, 13, 8, 21, 81, 20, 52, 33, 64, 56,
+                               32, 100, 46, 21, 28, 51, 44, 85, 66, 17,
+                               92, 39, 89, 67, 78, 58, 75, 15, 11, 1,
+                               2, 68, 42, 91, 43, 44, 61, 19, 61, 64,
+                               29, 9, 42, 93, 36, 39, 3, 1, 56, 69,
+                               68, 49, 9, 8, 10, 3, 75, 85, 89, 63,
+                               89, 3, 72, 18, 33, 75, 21, 79, 51, 42};
+    smartQuickSort(testNormalCase, 0, 99);
+    for (int i = 0; i < 100; ++i) {
+        if (!(binarySearch(testNormalCase[i], testNormalCase, 100))) {
+            return false;
+        }
+    }
+    return true;
 
 }
 
@@ -100,6 +116,34 @@ int main() {
         printf("%s", "Sort is incorrect");
         return 1;
     }
-    printf("%s", "Sort is correct");
+    if (!(testBinarySearch())) {
+        printf("%s", "Search is incorrect");
+        return 1;
+    }
+    printf("%s", "Search is correct\n");
+    printf("%s", "Please, enter n and k:\n");
+    int numberOfElements = 0;
+    int numberOfSearchedElements = 0;
+    scanf("%d%d", &numberOfElements, &numberOfSearchedElements);
+    int * data = (int*)calloc(numberOfElements, sizeof(int));
+    for (int i = 0; i < numberOfElements; ++i) {
+        data[i] = rand() % 10 - 5;
+        printf("%d%s", data[i], " ");
+    }
+    printf("%s", "\n");
+    int * targets = (int*)calloc(numberOfSearchedElements, sizeof(int));
+    for (int i = 0; i < numberOfSearchedElements; ++i) {
+        targets[i] = rand() % 10 - 5;
+        printf("%d%s", targets[i], " ");
+    }
+    for (int i = 0; i < numberOfSearchedElements; ++i) {
+        if (binarySearch(targets[i], data, numberOfElements)) {
+            printf("%s%d%s", "The element ", targets[i], " is in data.\n");
+        } else {
+            printf("%s%d%s", "The element ", targets[i], " isn't in data.\n");
+        }
+    }
+    free(data);
+    free(targets);
     return 0;
 }

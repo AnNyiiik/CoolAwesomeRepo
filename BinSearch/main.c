@@ -66,6 +66,35 @@ bool testQuickSort(void) {
     return true;
 }
 
+bool binarySearch(int target, int *data, int size) {
+    if (size == 0) {
+        return false;
+    }
+    int left = 0;
+    int right = size;
+    while (left < right - 1) {
+        int mediana = (left + right) / 2;
+        if (target < data[mediana]) {
+            right = mediana;
+        } else {
+            left = mediana;
+        }
+    }
+    if (data[left] == target) {
+        return true;
+    }
+    return false;
+}
+
+bool testBinarySearch(void) {
+    int testEmptyCase[0] = {};
+    if (binarySearch(rand() % 100 - 50, testEmptyCase, 0)) {
+        return false;
+    }
+//    int testNormalCase[100] =
+
+}
+
 int main() {
     if (!(testQuickSort())) {
         printf("%s", "Sort is incorrect");

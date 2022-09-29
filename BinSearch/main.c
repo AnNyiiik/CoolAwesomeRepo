@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 void insertionSort(int *data, int start, int end)
 {
@@ -33,7 +35,7 @@ void smartQuickSort(int *data, int start, int end) {
         while (data[left] < bound) {
             ++left;
         }
-        while (data[right] > bound) {
+        while ((data[right] > bound) && (right > 0)) {
             --right;
         }
         if (left <= right) {
@@ -50,7 +52,25 @@ void smartQuickSort(int *data, int start, int end) {
     smartQuickSort(data, left, end);
 }
 
+bool testQuickSort(void) {
+    int data[100] = {0};
+    for (int i = 0; i < 100; ++i) {
+        data[i] = rand() % 100 - 50;
+    }
+    smartQuickSort(data, 0, 99);
+    for (int i = 0; i < 99; ++i) {
+        if (data[i] > data[i + 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 int main() {
-    printf("Hello, World!\n");
+    if (!(testQuickSort())) {
+        printf("%s", "Sort is incorrect");
+        return 1;
+    }
+    printf("%s", "Sort is correct");
     return 0;
 }

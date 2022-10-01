@@ -1,77 +1,106 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <stdbool.h>
 
-int fibonacciRecursion(int index, int *result) {
-    if (index < 1) {
+float powerLinear(int base, int exponent, int *errorCode) {
+    if ((base == 0) && (exponent <= 0)){
+        *errorCode = 1;
+        return 1;
+    }
+    if (exponent == 0) {
+        *errorCode = 0;
         return 1;
     }
 
-    if (index <= 2) {
-        *result = 1;
-        return 0;
+    float answer = 1;
+
+    if (exponent > 0) {
+        for (int i = 0; i < exponent; ++i) {
+            answer = answer * base;
+        }
+        *errorCode = 0;
+        return answer;
     }
-    int firstNumber = 0;
-    int errorCodeFirst = fibonacciRecursion(index - 2, &firstNumber);
-    int secondNumber = 0;
-    int errorCodeSecond = fibonacciRecursion(index - 1, &secondNumber);
-    if (errorCodeFirst + errorCodeSecond) {
-        return 1;
+
+    for (int i = 0; i < -exponent; ++i) {
+        answer = answer / base;
     }
-    *result = firstNumber + secondNumber;
-    return 0;
+    *errorCode = 0;
+    return answer;
 }
 
-int fibonacciIterative(int index, int *result) {
-    if (index < 1) {
+float powerLog(float base, int exponent, int *errorCode) {
+    if ((base == 0) && (exponent <= 0)){
+        *errorCode = 1;
         return 1;
     }
 
-    if (index <= 2) {
-        *result = 1;
+    if (exponent == 0) {
+        *errorCode = 0;
+        return 1;
+    }
+
+    if (base == 0) {
+        *errorCode = 0;
         return 0;
     }
 
-    int maximum = 2;
-    int minimum = 1;
-
-    for (int i = 0; i < index - 3; ++i) {
-        maximum = maximum + minimum;
-        minimum = maximum - minimum;
+    if (exponent < 0) {
+        exponent = -exponent;
+        base = 1 / base;
     }
 
-    *result = maximum;
-    return 0;
+    float answer = 1;
+    while (exponent > 0) {
+        if (exponent % 2 == 1) {
+            answer = answer * base;
+        }
+        base = base * base;
+        exponent = exponent / 2;
+    }
+    *errorCode = 0;
+    return answer;
 }
 
-bool testFibonacci(bool type) {
-    int result = 0;
-
-    int correctSequence[26] = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610,
-                               987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025};
+bool testExponentCalculation(bool type) {
     if (type) {
-        for (int i = 1; i <= 25; ++i) {
-            int errorCode = fibonacciRecursion(i, &result);
-            if (errorCode) {
+        int errorCode = 0;
+        if ((powerLinear(0, rand() % 10 + 1, &errorCode) != 0) || (powerLinear(1, rand() % 10, &errorCode) != 1) || (powerLinear(rand() % 10 + 1, 0, &errorCode) != 1)) {
+            return false;
+        }
+    } else {
+        int errorCode = 0;
+        if ((powerLog(0, rand() % 10 + 1, &errorCode) != 0) || (powerLog(1, rand() % 10, &errorCode) != 1) || (powerLog(rand() % 10 + 1, 0, &errorCode) != 1)) {
+            return false;
+        }
+    }
+
+    int correctAnswersPositiveExponent[11] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
+    float correctAnswersNegativeExponent[6] = {1, 0.5, 0.25, 0.125, 0.0625, 0.03125};
+    if (type) {
+        for (int i = 1; i < 10; ++i) {
+            int errorCode = 0;
+            if (powerLinear(2, i, &errorCode) != correctAnswersPositiveExponent[i]) {
                 return false;
             }
-            if (result == correctSequence[i]){
-                continue;
-            } else {
+        }
+        for (int i = -1; i > -6; --i) {
+            int errorCode = 0;
+            if (powerLinear(2, i, &errorCode) != correctAnswersNegativeExponent[-i]) {
                 return false;
             }
         }
         return true;
     } else {
-        for (int i = 1; i <= 25; ++i) {
-            int errorCode = fibonacciIterative(i, &result);
-            if (errorCode) {
+        for (int i = 1; i < 10; ++i) {
+            int errorCode = 0;
+            if (powerLog(2, i,&errorCode) != correctAnswersPositiveExponent[i]) {
                 return false;
             }
-            if (result == correctSequence[i]){
-                continue;
-            } else {
+        }
+        for (int i = -1; i > -6; --i) {
+            int errorCode = 0;
+            if (powerLog(2, i, &errorCode) != correctAnswersNegativeExponent[-i]) {
                 return false;
             }
         }
@@ -80,49 +109,15 @@ bool testFibonacci(bool type) {
 }
 
 int main() {
-    bool testAreCorrect = true;
-    if (testFibonacci(true)) {
-        printf("%s", "Recursion is correct\n");
+    if (testExponentCalculation(true)) {
+        printf("%s", "Linear algorithm is correct\n");
     } else {
-        printf("%s", "Recursion is incorrect\n");
-        testAreCorrect = false;
+        printf("%s", "Linear algorithm is incorrect\n");
     }
 
-    if (testFibonacci(false)) {
-        printf("%s", "Iterative algorithm is correct\n");
+    if (testExponentCalculation(false)) {
+        printf("%s", "Logarithmic algorithm is correct\n");
     } else {
-        printf("%s", "Iterative algorithm is incorrect\n");
-        testAreCorrect = false;
+        printf("%s", "Logarithmic algorithm is incorrect\n");
     }
-
-    if (!testAreCorrect) {
-        return 1;
-    }
-
-    long double difference = 0;
-    int number = 1;
-    while (difference < CLOCKS_PER_SEC) {
-
-        int result = 0;
-        clock_t timeStartRecursion = clock();
-        int errorCode = fibonacciRecursion(number, &result);
-        if (errorCode) {
-            printf("%s", "Something went wrong");
-            break;
-        }
-        clock_t timeEndRecursion = clock();
-
-        clock_t timeStartIterative = clock();
-        errorCode = fibonacciIterative(number++, &result);
-        if (errorCode) {
-            printf("%s", "Something went wrong");
-            break;
-        }
-        clock_t timeEndIterative = clock();
-
-        difference = (long double) abs((timeEndRecursion - timeStartRecursion) - (timeEndIterative - timeStartIterative));
-    }
-
-    --number;
-    printf("%s%d%s", "The number ", number, " is calculated significantly longer by recursion\n");
 }

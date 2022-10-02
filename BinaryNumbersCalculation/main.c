@@ -16,7 +16,7 @@ void binaryRepresentation(int number, int *binaryNumber) {
 int binaryAddition(int *firstNumber, int *secondNumber, int *result, bool *isNegative) {
     int carrier = 0;
     for (int i = SIZE - 1; i >= 0; --i) {
-        result[i] =( ((firstNumber[i] + secondNumber[i] + carrier) % 2) == 1) ? 1 : 0;
+        result[i] =(((firstNumber[i] + secondNumber[i] + carrier) % 2) == 1) ? 1 : 0;
         carrier = ((firstNumber[i] + secondNumber[i] + carrier) > 1) ? 1 : 0;
     }
     *isNegative = (result[0] == 1);
@@ -24,7 +24,7 @@ int binaryAddition(int *firstNumber, int *secondNumber, int *result, bool *isNeg
 }
 
 bool testRepresentation(void) {
-    int testNumbers[10] = {12, 23, -12, -23};
+    int testNumbers[4] = {12, 23, -12, -23};
     int correctAnswers[4][SIZE] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0,
                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1,
                                     1, 1, 1, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,0,
@@ -41,10 +41,45 @@ bool testRepresentation(void) {
     return true;
 }
 
+int testAddition(void) {
+    int testNumberFirst[SIZE] = {1, 1, 1, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,0};
+    int testNumberSecond[SIZE] = {1, 1, 1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1,1,1,1,1,0,1,0,0,1};
+    int correctAnswer[SIZE] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,
+                                   1, 1, 0, 1};
+    int result[SIZE] = {0};
+    bool isNegative = false;
+    bool isNegativeFirst = (testNumberFirst[0] == 1);
+    bool isNegativeSecond = (testNumberSecond[0] == 1);
+    binaryAddition(testNumberFirst, testNumberSecond, result, &isNegative);
+    for (int j = 0; j < SIZE; ++j) {
+        if (!(result[j] == correctAnswer[j])) {
+            return 2;
+        }
+    }
+    if (!isNegative) {
+        if (isNegativeFirst && isNegativeSecond) {
+            return 1;
+        }
+    } else {
+        if ((!isNegativeFirst) && (!isNegativeSecond)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int main() {
     setlocale(LC_ALL, "Rus");
     if (!testRepresentation()) {
         printf("%s", "Неверный перевод в двоичную систему\n");
+        return 1;
+    }
+    int errorCode = testAddition();
+    if (errorCode == 1) {
+        printf("Произошло переполнение\n");
+        return 1;
+    } else if (errorCode == 2) {
+        printf("Неверный ответ при суммировании\n");
         return 1;
     }
     printf("Введите два числа в диапазоне [-2^31, 2^31 - 1]:\n");
@@ -67,7 +102,7 @@ int main() {
     printf("%s", "\n");
     int result[SIZE] = {0};
     bool isNegative = false;
-//    int carrier = binaryAddition(binaryFirstNumber, binarySecondNumber, result, &isNegative);
+    int carrier = binaryAddition(binaryFirstNumber, binarySecondNumber, result, &isNegative);
     if (!isNegative) {
         if (isNegativeFirst && isNegativeSecond) {
             printf("Произошло переполнение\n");
@@ -79,10 +114,9 @@ int main() {
             return 1;
         }
     }
-//    if (carrier == 1) {
-//        printf("Произошло переполнение\n");
-//        return 1;
-//    }
+    if (carrier == 1) {
+        printf("Произошел перенос\n");
+    }
 
     for (int i = 0; i < SIZE; ++i) {
         printf("%d", result[i]);

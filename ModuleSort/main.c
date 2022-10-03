@@ -1,22 +1,25 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
 #include "countingSort.h"
 
 int mostFrequentElement(int * data, int size) {
     int minimalValue = findMinValue(data, size);
     int maximalValue = findMaxValue(data, size);
-    int * countArray = (int*) calloc(maximalValue - minimalValue + 1, sizeof(int));
-    countingSort(countArray, maximalValue - minimalValue + 1);
-    int maximum = 0;
-    int maximumIndex = 0;
-    for (int i = 0; i < maximalValue - minimalValue + 1; ++i) {
-        if (countArray[i] > maximumIndex) {
-            maximum = i + minimalValue;
-            maximumIndex = countArray[i];
+    countingSort(data, maximalValue - minimalValue + 1);
+    int maximum = data[0];
+    int countCurrentCoincide = 1;
+    int maxCount = 0;
+    for (int i = 0; i < size - 1; ++i) {
+        if (data[i] == data[i + 1]) {
+            ++countCurrentCoincide;
+        } else {
+            if (countCurrentCoincide > maxCount) {
+                maxCount = countCurrentCoincide;
+                maximum = data[i];
+            }
+            countCurrentCoincide = 1;
         }
     }
-    free(countArray);
     return maximum;
 }
 
@@ -47,5 +50,10 @@ bool test(void) {
 }
 
 int main() {
-
+    if (!(test())) {
+        printf("%s", "Tests have been failed\n");
+        return 1;
+    }
+    printf("%s", "Tests have been passed successfully\n");
+    return 0;
 }

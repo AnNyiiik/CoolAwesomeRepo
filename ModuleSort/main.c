@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include "countingSort.h"
 
 int mostFrequentElement(int * data, int size) {
@@ -60,21 +61,22 @@ int main() {
         printf("%s", "file not found!");
         return 1;
     }
-    char *data[10000] = {0};
+    int data[10000] = {0};
     int linesRead = 0;
     while (!feof(file)) {
         char *buffer = malloc(sizeof(char) * 32);
         const int readBytes = fscanf(file, "%s", buffer);
         if (readBytes < 0) {
+            free(buffer);
             break;
         }
-        data[linesRead] = buffer;
+        char *number = strtok(buffer, ",");
+        data[linesRead] = atoi(number);
         ++linesRead;
-    }
-
-    for (int i = 0; i < 100; ++i) {
-        free(data[i]);
+        free(buffer);
     }
     fclose(file);
+    int answer = mostFrequentElement(data, linesRead);
+    printf("%s%d", "The most frequent element is ", answer);
     return 0;
 }

@@ -79,6 +79,9 @@
 		<Unit filename="/Users/annnikolaeff/CoolAwesomeRepo/ModuleSort/main.c">
 			<Option target="ModuleSort"/>
 		</Unit>
+		<Unit filename="/Users/annnikolaeff/CoolAwesomeRepo/ModuleSort/quickSort.h">
+			<Option target="ModuleSort"/>
+		</Unit>
 		<Unit filename="/Users/annnikolaeff/CoolAwesomeRepo/ModuleSort/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

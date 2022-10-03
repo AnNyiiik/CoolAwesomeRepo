@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "countingSort.h"
 
 int mostFrequentElement(int * data, int size) {
@@ -45,7 +46,6 @@ bool test(void) {
     if (!(correctAnswer == answer)) {
         return false;
     }
-
     return true;
 }
 
@@ -55,5 +55,26 @@ int main() {
         return 1;
     }
     printf("%s", "Tests have been passed successfully\n");
+    FILE *file = fopen("/Users/annnikolaeff/CoolAwesomeRepo/ModuleSort/sourceData", "r");
+    if (file == NULL) {
+        printf("%s", "file not found!");
+        return 1;
+    }
+    char *data[10000] = {0};
+    int linesRead = 0;
+    while (!feof(file)) {
+        char *buffer = malloc(sizeof(char) * 32);
+        const int readBytes = fscanf(file, "%s", buffer);
+        if (readBytes < 0) {
+            break;
+        }
+        data[linesRead] = buffer;
+        ++linesRead;
+    }
+
+    for (int i = 0; i < 100; ++i) {
+        free(data[i]);
+    }
+    fclose(file);
     return 0;
 }

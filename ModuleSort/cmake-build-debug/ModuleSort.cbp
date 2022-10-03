@@ -76,10 +76,13 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/annnikolaeff/CoolAwesomeRepo/ModuleSort/main.c">
+		<Unit filename="/Users/annnikolaeff/CoolAwesomeRepo/ModuleSort/countingSort.c">
 			<Option target="ModuleSort"/>
 		</Unit>
-		<Unit filename="/Users/annnikolaeff/CoolAwesomeRepo/ModuleSort/quickSort.h">
+		<Unit filename="/Users/annnikolaeff/CoolAwesomeRepo/ModuleSort/countingSort.h">
+			<Option target="ModuleSort"/>
+		</Unit>
+		<Unit filename="/Users/annnikolaeff/CoolAwesomeRepo/ModuleSort/main.c">
 			<Option target="ModuleSort"/>
 		</Unit>
 		<Unit filename="/Users/annnikolaeff/CoolAwesomeRepo/ModuleSort/CMakeLists.txt">

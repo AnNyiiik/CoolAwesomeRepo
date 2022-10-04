@@ -2,6 +2,7 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct {
     char *name;
@@ -40,6 +41,29 @@ int main() {
         fclose(file);
         free(dataEntry.name);
 
+    } else if (commandCode == 2) {
+        FILE *file = fopen("/Users/annnikolaeff/CoolAwesomeRepo/PhoneBook/data.txt", "r");
+        if (file == NULL) {
+            printf("%s", "Файл не найден!");
+            return 1;
+        }
+        int countWords = 0;
+        while (!feof(file)) {
+            char *buffer = malloc(sizeof(char) * 200);
+            const int readBytes = fscanf(file, "%s", buffer);
+            if (readBytes < 0) {
+                free(buffer);
+                break;
+            }
+            ++countWords;
+            if (countWords % 2) {
+                printf("%s%s", buffer, " ");
+            } else {
+                printf("%s%s", buffer, "\n");
+            }
+            free(buffer);
+        }
+        fclose(file);
     }
 
     return 0;

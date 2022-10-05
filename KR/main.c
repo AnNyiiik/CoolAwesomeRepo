@@ -42,11 +42,57 @@ bool test(void) {
     return (fibonacciSumEven() == correctAnswer);
 }
 
+void mySwap(int *temp1, int *temp2) {
+    if (temp1 != temp2){
+        *temp1 = *temp1 + *temp2;
+        *temp2 = *temp1 - *temp2;
+        *temp1 = *temp1 - *temp2;
+    }
+}
+
+void selectionSort(int *data, int size) {
+    for (int i = 0; i < size - 1; i = i + 2) {
+        int minimal = data[i];
+        int minimalIndex = i;
+        for (int j = i + 2; j < size; j = j + 2) {
+            if (minimal > data[j]) {
+                minimal = data[j];
+                minimalIndex = j;
+            }
+        }
+        mySwap((data + i), (data + minimalIndex));
+    }
+    return;
+}
+
+bool testSort(void) {
+    int array[5] = {5, 4, 3, 2, 1};
+    int correctSequence[5] = {1, 4, 3, 2, 5};
+    selectionSort(array, 5);
+    for (int i = 0; i < 5; ++i) {
+        if (correctSequence[i] != array[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 int main() {
     if (!test()) {
         printf("%s", "The answer is incorrect, test failed");
         return 1;
     }
     printf("%s%d", "The answer is ", fibonacciSumEven());
+
+    if (!testSort()) {
+        printf("%s", "The answer is incorrect, test failed");
+        return 1;
+    }
+    int array[10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1}; //{10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    selectionSort(array, 10);
+    for (int i = 0; i < 10; ++i) {
+        printf("%d%s", array[i], " ");
+    }
+
     return 0;
 }

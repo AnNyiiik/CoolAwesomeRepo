@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
 
 int fibonacciIterative(int index, int *result) {
     if (index < 1) {
@@ -77,6 +79,35 @@ bool testSort(void) {
     return true;
 }
 
+bool testReadComments(void) {
+    const char correctSequence[18] = ";jasijioijaioijsio";
+    FILE *file = fopen("/Users/annnikolaeff/CoolAwesomeRepo/KR/testData", "r");
+    if (file == NULL) {
+        printf("%s", "file not found!");
+        return 1;
+    }
+    while (!feof(file)) {
+        char *buffer = malloc(sizeof(char) * 100);
+        const int readBytes = fscanf(file, "%s", buffer);
+        if (readBytes < 0) {
+            free(buffer);
+            break;
+        }
+        if (buffer[0] == ';') {
+            for (int i = 0; i < 18; ++i) {
+                if (buffer[i] != correctSequence[i]) {
+                    free(buffer);
+                    fclose(file);
+                    return false;
+                }
+            }
+        }
+        free(buffer);
+    }
+    fclose(file);
+    return true;
+}
+
 int main() {
     if (!test()) {
         printf("%s", "The answer is incorrect, test failed");
@@ -93,6 +124,29 @@ int main() {
     for (int i = 0; i < 10; ++i) {
         printf("%d%s", array[i], " ");
     }
+    if (!testReadComments()) {
+        printf("%s", "The answer is incorrect, test failed");
+        return 1;
+    }
+    FILE *file = fopen("/Users/annnikolaeff/CoolAwesomeRepo/KR/data.txt", "r");
+    if (file == NULL) {
+        printf("%s", "file not found!");
+        return 1;
+    }
+
+    while (!feof(file)) {
+        char *buffer = malloc(sizeof(char) * 100);
+        const int readBytes = fscanf(file, "%s", buffer);
+        if (readBytes < 0) {
+            free(buffer);
+            break;
+        }
+        if (buffer[0] == ';') {
+            printf("%s%s", buffer, "\n");
+        }
+        free(buffer);
+    }
+    fclose(file);
 
     return 0;
 }

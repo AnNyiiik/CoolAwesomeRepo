@@ -21,7 +21,7 @@ void pushBack(PhoneEntry **Last, char *name, char *phone) {
 }
 
 void delete(PhoneEntry **Last) {
-    if (Last == NULL) {
+    if (*Last == NULL) {
         return;
     }
     PhoneEntry *previous = (*Last);

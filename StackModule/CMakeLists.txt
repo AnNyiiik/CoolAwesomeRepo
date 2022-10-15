@@ -3,4 +3,4 @@ project(StackModule C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(StackModule main.c)
+add_executable(StackModule main.c stack.h stack.c)

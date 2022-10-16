@@ -1,0 +1,13 @@
+# ninja log v5
+0	29	1665937868296697423	CMakeFiles/Balance.dir/main.c.o	e3ff20e72cbcadcb
+0	30	1665937888209779010	build.ninja	9e884bb526e5aea5
+0	21	1665937882985258797	CMakeFiles/Balance.dir/Users/annnikolaeff/CoolAwesomeRepo/StackModule/stack.c.o	8c9190e4bb1cd591
+21	47	1665937883011612826	Balance	163ba103fe201a3d
+0	22	1665938132711561938	CMakeFiles/Balance.dir/main.c.o	e3ff20e72cbcadcb
+23	50	1665938132739640682	Balance	163ba103fe201a3d
+1	22	1665938670896389281	CMakeFiles/Balance.dir/main.c.o	e3ff20e72cbcadcb
+22	51	1665938670925533727	Balance	163ba103fe201a3d
+1	22	1665938815109444833	CMakeFiles/Balance.dir/main.c.o	e3ff20e72cbcadcb
+22	51	1665938815139139501	Balance	163ba103fe201a3d
+0	24	1665938836624705370	CMakeFiles/Balance.dir/main.c.o	e3ff20e72cbcadcb
+24	56	1665938836657611584	Balance	163ba103fe201a3d

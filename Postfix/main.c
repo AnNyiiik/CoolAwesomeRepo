@@ -11,7 +11,7 @@ int main() {
     int size = strlen(postfixExpression);
     int temporaryValue = 0;
     for (int i = 0; i < size; ++i) {
-        if (atoi(postfixExpression + i) < 10 && atoi(postfixExpression + i) >= 0) {
+        if (((int)postfixExpression[i] < 10) && ((int)postfixExpression[i] >= 0)) {
             pushBack(&head, postfixExpression[i]);
         } else {
             int returnValue = 0;

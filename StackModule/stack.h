@@ -6,9 +6,9 @@ typedef struct Node{
     struct Node *next;
 }Node;
 
-int pushBack(Node **Last, int value);
+int pushBack(Node **Last, char value);
 
-int pop(Node **head, int *value);
+int pop(Node **head, char *value);
 
 bool isEmpty(Node *head);
 

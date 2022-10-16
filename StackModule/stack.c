@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "stack.h"
 
-int pushBack(Node **Last, int value) {
+int pushBack(Node **Last, char value) {
     Node *newNode = (Node*) malloc(sizeof(Node));
     if (newNode == NULL) {
         return 1;
@@ -14,7 +14,7 @@ int pushBack(Node **Last, int value) {
     return 0;
 }
 
-int pop(Node **head, int *value) {
+int pop(Node **head, char *value) {
     if (head == NULL) {
         return 1;
     }

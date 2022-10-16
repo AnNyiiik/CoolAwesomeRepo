@@ -11,12 +11,13 @@ int main() {
     int size = strlen(postfixExpression);
     int temporaryValue = 0;
     for (int i = 0; i < size; ++i) {
-        if (((int)postfixExpression[i] < 10) && ((int)postfixExpression[i] >= 0)) {
-            pushBack(&head, postfixExpression[i]);
+        if (((int) postfixExpression[i] - 48 < 10) && ((int) postfixExpression[i] - 48 >= 0)) {
+            pushBack(&head, (int) postfixExpression[i] - 48);
         } else {
             int returnValue = 0;
             int errorCode = 0;
             if (postfixExpression[i] == '+') {
+                temporaryValue = 0;
                 for (int i = 0; i < 2; ++i) {
                     errorCode = pop(&head, &returnValue);
                     if (errorCode != 0) {
@@ -29,14 +30,15 @@ int main() {
                     return 1;
                 }
             } else if (postfixExpression[i] == '-') {
-                int sign = 1;
+                int sign = -1;
+                temporaryValue = 0;
                 for (int i = 0; i < 2; ++i) {
                     errorCode = pop(&head, &returnValue);
                     if (errorCode != 0) {
                         return 1;
                     }
                     temporaryValue = temporaryValue + returnValue * sign;
-                    sign = -1;
+                    sign = 1;
                 }
                 errorCode = pushBack(&head, temporaryValue);
                 if (errorCode != 0) {

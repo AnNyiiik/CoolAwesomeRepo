@@ -3,4 +3,4 @@ project(Postfix C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(Postfix main.c)
+add_executable(Postfix main.c ../StackModule/stack.c)

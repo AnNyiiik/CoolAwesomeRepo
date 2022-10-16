@@ -1,0 +1,4 @@
+# ninja log v5
+1	52	1665871072310553489	CMakeFiles/StackModule.dir/main.c.o	bebbba50c6d3e349
+1	53	1665871072310816805	CMakeFiles/StackModule.dir/stack.c.o	1cf897b885a51e8f
+53	88	1665871072347202812	StackModule	a1f6e5c12ec92ffb

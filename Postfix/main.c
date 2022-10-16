@@ -9,11 +9,11 @@ int main() {
     char *postfixExpression = (char*) malloc(sizeof(char) * 100);
     scanf("%s", postfixExpression);
     int size = strlen(postfixExpression);
+    int temporaryValue = 0;
     for (int i = 0; i < size; ++i) {
-        if ((int) postfixExpression[i] < 10 && (int) postfixExpression[i] >= 0) {
+        if (atoi(postfixExpression + i) < 10 && atoi(postfixExpression + i) >= 0) {
             pushBack(&head, postfixExpression[i]);
         } else {
-            int temporaryValue = 0;
             int returnValue = 0;
             int errorCode = 0;
             if (postfixExpression[i] == '+') {
@@ -43,8 +43,34 @@ int main() {
                     return 1;
                 }
             } else if (postfixExpression[i] == '*') {
-
+                temporaryValue = 1;
+                for (int i = 0; i < 2; ++i) {
+                    errorCode = pop(&head, &returnValue);
+                    if (errorCode != 0) {
+                        return 1;
+                    }
+                    temporaryValue = temporaryValue * returnValue;
+                }
+                errorCode = pushBack(&head, temporaryValue);
+                if (errorCode != 0) {
+                    return 1;
+                }
+            } else if (postfixExpression[i] == '/') {
+                temporaryValue = 1;
+                for (int i = 0; i < 2; ++i) {
+                    errorCode = pop(&head, &returnValue);
+                    if (errorCode != 0) {
+                        return 1;
+                    }
+                    temporaryValue = (i == 0) ? (temporaryValue * returnValue) : (temporaryValue / returnValue);
+                }
+                errorCode = pushBack(&head, temporaryValue);
+                if (errorCode != 0) {
+                    return 1;
+                }
             }
         }
     }
+    printf("%d", temporaryValue);
+    free(postfixExpression);
 }

@@ -1,4 +1,23 @@
 # ninja log v5
-1	52	1665871072310553489	CMakeFiles/StackModule.dir/main.c.o	bebbba50c6d3e349
-1	53	1665871072310816805	CMakeFiles/StackModule.dir/stack.c.o	1cf897b885a51e8f
 53	88	1665871072347202812	StackModule	a1f6e5c12ec92ffb
+1	53	1665871072310816805	CMakeFiles/StackModule.dir/stack.c.o	1cf897b885a51e8f
+1	52	1665871072310553489	CMakeFiles/StackModule.dir/main.c.o	bebbba50c6d3e349
+3	67	1666108148749369413	build.ninja	fb96959cce821981
+0	1896	1666108150650678823	CMakeFiles/StackModule.dir/main.c.o	bebbba50c6d3e349
+1	1896	1666108150650862481	CMakeFiles/StackModule.dir/test.c.o	dcf8cafcf771f7a7
+1	1896	1666108150651554198	CMakeFiles/StackModule.dir/stack.c.o	1cf897b885a51e8f
+1896	2044	1666108150799849095	StackModule	113e5a8c23db1031
+0	22	1666108495493288422	CMakeFiles/StackModule.dir/main.c.o	bebbba50c6d3e349
+23	55	1666108495526769184	StackModule	113e5a8c23db1031
+1	28	1666108502186864227	CMakeFiles/StackModule.dir/test.c.o	dcf8cafcf771f7a7
+28	61	1666108502221072955	StackModule	113e5a8c23db1031
+1	29	1666108719333859785	CMakeFiles/StackModule.dir/test.c.o	dcf8cafcf771f7a7
+29	69	1666108719374719941	StackModule	113e5a8c23db1031
+0	23	1666108907901215627	CMakeFiles/StackModule.dir/main.c.o	bebbba50c6d3e349
+1	25	1666108907903439603	CMakeFiles/StackModule.dir/test.c.o	dcf8cafcf771f7a7
+25	57	1666108907935885582	StackModule	113e5a8c23db1031
+1	24	1666109288491541650	CMakeFiles/StackModule.dir/main.c.o	bebbba50c6d3e349
+1	27	1666109288494666957	CMakeFiles/StackModule.dir/test.c.o	dcf8cafcf771f7a7
+27	64	1666109288531279395	StackModule	113e5a8c23db1031
+1	27	1666109331336430832	CMakeFiles/StackModule.dir/test.c.o	dcf8cafcf771f7a7
+27	63	1666109331373035395	StackModule	113e5a8c23db1031

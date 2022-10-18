@@ -2,8 +2,25 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../StackModule/stack.h"
+#include "../StackModule/test.h"
 
 int main() {
+    if (!testPush()) {
+        printf("%s", "Problems with push!");
+        return 1;
+    }
+    if (!testPop()) {
+        printf("%s", "Problems with pop!");
+        return 1;
+    }
+    if (!testDeleteAll()) {
+        printf("%s", "Problems with deleteAll!");
+        return 1;
+    }
+    if (!testIsEmpty()) {
+        printf("%s", "Problems with isEmpty!");
+        return 1;
+    }
     Node *head = NULL;
     printf("Enter the expression:\n");
     char *postfixExpression = (char*) malloc(sizeof(char) * 100);

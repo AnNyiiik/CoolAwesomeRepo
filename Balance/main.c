@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../StackModule/stack.h"
-int main() {
+#include "../StackModule/test.h"
+
+int checkBalance(char *sequence, bool *result) {
     Node *head = NULL;
-    char *sequence = (char*) malloc(sizeof(char) * 100);
-    printf("%s", "Enter the sequence:\n");
-    scanf("%s", sequence);
+    *result = true;
     int size = strlen(sequence);
-    bool answer = true;
     for (int i = 0; i < size; ++i) {
         int errorCode = 0;
         int returnValue = 0;
@@ -19,8 +18,8 @@ int main() {
                 return 1;
             }
         } else if ((sequence[i] == ')') || (sequence[i] == '}') || (sequence[i] == ']')) {
-            if (isEmpty(&head)) {
-                answer = false;
+            if (isEmpty(head)) {
+                *result = false;
                 break;
             }
             errorCode = pop(&head, &returnValue);
@@ -31,19 +30,57 @@ int main() {
             if (((int) sequence[i] == returnValue + 1) || ((int) sequence[i] == returnValue + 2)) {
                 continue;
             }
-            answer = false;
+            *result = false;
             break;
         }
     }
-    free(sequence);
-    if (!isEmpty(&head)) {
-        answer = false;
+    if (!isEmpty(head)) {
+        *result = false;
     }
     deleteAll(&head);
-    if (answer) {
-        printf("%s", "The sequence is correct");
-    } else {
-        printf("%s", "The sequence is incorrect");
-    }
     return 0;
+}
+
+bool test(void) {
+    char *samples[3] = {"{{}[(()())]}", "[[)]", "]][["};
+    bool result = false;
+    for (int i = 0; i < 3; ++i) {
+        int errorCode = checkBalance(samples[i], &result);
+        if (errorCode != 0) {
+            return false;
+        }
+        if (i == 0) {
+            if (!result){
+                return false;
+            }
+        } else if (i == 1) {
+            if (result) {
+                return false;
+            }
+        } else {
+            return (!result);
+        }
+    }
+}
+
+int main() {
+    if (!test()) {
+        printf("%s", "The algorithm is incorrect!");
+        return 1;
+    }
+    char *sequence = (char*) malloc(sizeof(char) * 100);
+    printf("%s", "Enter the sequence:\n");
+    scanf("%s", sequence);
+    bool result = true;
+    int errorCode = checkBalance(sequence, &result);
+    if (errorCode != 0) {
+        free(sequence);
+        return 1;
+    }
+    free(sequence);
+    if (result) {
+        printf("%s", "The sequence is correct.");
+    } else {
+        printf("%s", "The sequence is incorrect.");
+    }
 }

@@ -4,27 +4,8 @@
 #include "../StackModule/stack.h"
 #include "../StackModule/test.h"
 
-int main() {
-    if (!testPush()) {
-        printf("%s", "Problems with push!");
-        return 1;
-    }
-    if (!testPop()) {
-        printf("%s", "Problems with pop!");
-        return 1;
-    }
-    if (!testDeleteAll()) {
-        printf("%s", "Problems with deleteAll!");
-        return 1;
-    }
-    if (!testIsEmpty()) {
-        printf("%s", "Problems with isEmpty!");
-        return 1;
-    }
+int postfixCaculation(char *postfixExpression, int *result) {
     Node *head = NULL;
-    printf("Enter the expression:\n");
-    char *postfixExpression = (char*) malloc(sizeof(char) * 100);
-    scanf("%s", postfixExpression);
     int size = strlen(postfixExpression);
     int temporaryValue = 0;
     for (int i = 0; i < size; ++i) {
@@ -90,6 +71,68 @@ int main() {
             }
         }
     }
-    printf("%d", temporaryValue);
+    *result = temporaryValue;
+    return 0;
+}
+
+bool test(void) {
+    char sampleOne[7] = "96-12+*";
+    char sampleTwo[7] = "45+23*-";
+    char sampleThree[7] = "46*99/-";
+    for (int i = 0; i < 3; ++i) {
+        int result = 0;
+        int errorCode = 0;
+        if (i == 0) {
+            errorCode = postfixCaculation(sampleOne, &result);
+        } else if (i == 1) {
+            errorCode = postfixCaculation(sampleTwo, &result);
+        } else {
+            errorCode = postfixCaculation(sampleThree, &result);
+        }
+        if (errorCode != 0) {
+            return false;
+        }
+        if ((i == 0) && (result != 9)) {
+            return false;
+        } else if ((i == 1) && (result != 3)) {
+            return false;
+        } if (i == 2) {
+            return (result == 23);
+        }
+    }
+}
+
+int main() {
+    if (!testPush()) {
+        printf("%s", "Problems with push!");
+        return 1;
+    }
+    if (!testPop()) {
+        printf("%s", "Problems with pop!");
+        return 1;
+    }
+    if (!testDeleteAll()) {
+        printf("%s", "Problems with deleteAll!");
+        return 1;
+    }
+    if (!testIsEmpty()) {
+        printf("%s", "Problems with isEmpty!");
+        return 1;
+    }
+    if (!test()) {
+        printf("%s", "Problems with algorithm!");
+        return 1;
+    }
+    printf("Enter the expression:\n");
+    char *postfixExpression = (char*) malloc(sizeof(char) * 100);
+    scanf("%s", postfixExpression);
+    int result = 0;
+    int errorCode = postfixCaculation(postfixExpression, &result);
+    if (errorCode != 0) {
+        free(postfixExpression);
+        return 1;
+    }
     free(postfixExpression);
+    printf("%s%d", "The result is ", result);
+    return 0;
 }

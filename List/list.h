@@ -15,6 +15,8 @@ int insert(List *list, int place, int value);
 
 void delete(List *list, int place);
 
+int getElementPlace(List *list, int value);
+
 int pop(List **list, int *value);
 
 bool isEmpty(List *list);

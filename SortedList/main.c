@@ -15,7 +15,7 @@ int main() {
             int value = 0;
             printf("%s", "Please, enter the value:\n");
             scanf("%d", &value);
-            push(&list, value);
+            insertByOrder(list, value);
         } else if (option == 2) {
             int value = 0;
             printf("%s", "Please, enter the value:\n");
@@ -25,7 +25,7 @@ int main() {
                 delete(list, place);
             }
         } else if (option == 3) {
-
+            return 0;
         }
         scanf("%d", &option);
         if (option < 0 || option > 3) {
@@ -33,6 +33,7 @@ int main() {
             return 1;
         }
     }
+    deleteList(&list);
     return 0;
 }
 //    0 – выйти

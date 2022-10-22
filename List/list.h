@@ -7,7 +7,7 @@ typedef struct List List;
 
 List *createList(void);
 
-int deleteStack(List **list);
+int deleteList(List **list);
 
 int push(List **list, int value);
 

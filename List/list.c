@@ -20,7 +20,7 @@ List *createList(void) {
     return list;
 }
 
-int deleteStack(List **list) {
+int deleteList(List **list) {
     while (!isEmpty(*list)) {
         int value = 0;
         int errorCode = pop(list, &value);

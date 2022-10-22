@@ -7,11 +7,11 @@
 
 typedef struct ListElement {
     int value;
-    struct Node *next;
+    struct ListElement *next;
 } ListElement;
 
 typedef struct List {
-    ListElement *head;
+    struct ListElement *head;
 } List;
 
 List *createList(void) {
@@ -28,6 +28,28 @@ int deleteList(List **list) {
             return 1;
         }
     }
+    return 0;
+}
+
+int insert(List *list, int place, int value) {
+    if (place == 0) {
+        push(&list, value);
+        return 0;
+    }
+    int index = 0;
+    ListElement *element = list->head;
+    while (index < place - 1 && element->next) {
+        element = element->next;
+        ++index;
+    }
+    ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
+    newElement->value = value;
+    if (element->next) {
+        newElement->next = element->next;
+    } else {
+        newElement->next = NULL;
+    }
+    element->next = newElement;
     return 0;
 }
 

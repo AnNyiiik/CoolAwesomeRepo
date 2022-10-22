@@ -12,16 +12,17 @@ int main() {
     while (option != 0) {
         int errorCode = 0;
         if (option == 1) {
-
+            int value = 0;
+            printf("%s", "Please, enter the value:\n");
+            scanf("%d", &value);
+            push(&list, value);
         } else if (option == 2) {
             int value = 0;
             printf("%s", "Please, enter the value:\n");
             scanf("%d", &value);
-            errorCode = pop(&list, &value);
-            if (errorCode != 0) {
-                deleteList(&list);
-                printf("%s", "Problems with pop\n");
-                return 1;
+            int place = getElementPlace(list, value);
+            if (place != -1) {
+                delete(list, place);
             }
         } else if (option == 3) {
 

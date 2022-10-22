@@ -22,4 +22,6 @@ int getElementPlace(List *list, int value);
 int pop(List **list, int *value);
 
 bool isEmpty(List *list);
+
+void printList(List *list);
 #endif //LIST_LIST_H

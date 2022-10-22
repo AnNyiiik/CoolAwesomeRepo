@@ -15,7 +15,10 @@ int main() {
             int value = 0;
             printf("%s", "Please, enter the value:\n");
             scanf("%d", &value);
-            insertByOrder(list, value);
+            errorCode = insertByOrder(list, value);
+            if (errorCode != 0) {
+                return 1;
+            }
         } else if (option == 2) {
             int value = 0;
             printf("%s", "Please, enter the value:\n");
@@ -25,7 +28,7 @@ int main() {
                 delete(list, place);
             }
         } else if (option == 3) {
-            return 0;
+            printList(list);
         }
         scanf("%d", &option);
         if (option < 0 || option > 3) {
@@ -33,10 +36,14 @@ int main() {
             return 1;
         }
     }
-    deleteList(&list);
+    int errorCode = deleteList(&list);
+    if (errorCode != 0) {
+        return 1;
+    }
     return 0;
 }
 //    0 – выйти
 //    1 – добавить значение в сортированный список
 //    2 – удалить значение из списка
 //    3 – распечатать список
+//3 5 8 19 -3 6

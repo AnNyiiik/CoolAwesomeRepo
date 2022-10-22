@@ -3,4 +3,4 @@ project(SortedList C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(SortedList main.c "../List/list.c")
+add_executable(SortedList main.c "../List/list.c" sortedList.c sortedList.h)

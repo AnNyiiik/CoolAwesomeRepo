@@ -98,6 +98,13 @@ int getElementPlace(List *list, int value) {
 }
 
 int insertByOrder(List *list, int value) {
+    if (isEmpty(list)) {
+        int errorCode = push(&list, value);
+        if (errorCode != 0) {
+            return 1;
+        }
+        return 0;
+    }
     if (list->head->value >= value) {
         int errorCode = push(&list, value);
         if (errorCode != 0) {

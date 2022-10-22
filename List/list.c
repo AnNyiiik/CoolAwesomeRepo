@@ -1,5 +1,4 @@
 #include "list.h"
-#include "List.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,7 +32,10 @@ int deleteList(List **list) {
 
 int insert(List *list, int place, int value) {
     if (place == 0) {
-        push(&list, value);
+        int errorCode = push(&list, value);
+        if (errorCode != 0) {
+            return 1;
+        }
         return 0;
     }
     int index = 0;
@@ -51,6 +53,35 @@ int insert(List *list, int place, int value) {
     }
     element->next = newElement;
     return 0;
+}
+
+void delete(List *list, int place) {
+    if (place == 0) {
+        int value = 0;
+        int errorCode = pop(&list, &value);
+        if (errorCode != 0) {
+            return;
+        }
+        return;
+    }
+    int index = 0;
+    ListElement *element = list->head;
+    while (index < place - 1 && element->next) {
+        element = element->next;
+        ++index;
+    }
+    if (element->next) {
+        if (element->next->next) {
+            ListElement *elementAfterDeleted = element->next->next;
+            free(element->next);
+            element->next = elementAfterDeleted;
+            return;
+        }
+        free(element->next);
+        element->next = NULL;
+        return;
+    }
+    return;
 }
 
 int push(List **list, int value) {

@@ -13,6 +13,8 @@ int push(List **list, int value);
 
 int insert(List *list, int place, int value);
 
+void delete(List *list, int place);
+
 int pop(List **list, int *value);
 
 bool isEmpty(List *list);

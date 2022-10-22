@@ -84,6 +84,19 @@ void delete(List *list, int place) {
     return;
 }
 
+int getElementPlace(List *list, int value) {
+    ListElement *element = list->head;
+    int index = 0;
+    while (element->next) {
+        if (element->value == value) {
+            return index;
+        }
+        element = element->next;
+        ++index;
+    }
+    return -1;
+}
+
 int push(List **list, int value) {
     ListElement *newNode = (ListElement *) malloc(sizeof(ListElement));
     if (newNode == NULL) {

@@ -5,9 +5,7 @@ int main() {
     push(&list, 12);
     push(&list, 13);
     push(&list, 16);
-    insert(list, 0, 14);
-    delete(list, 2);
-    int i = getElementPlace(list, 13);
+    insertByOrder(list, 17);
     deleteList(&list);
     return 0;
 }

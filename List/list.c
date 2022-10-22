@@ -97,6 +97,40 @@ int getElementPlace(List *list, int value) {
     return -1;
 }
 
+int insertByOrder(List *list, int value) {
+    if (list->head->value >= value) {
+        int errorCode = push(&list, value);
+        if (errorCode != 0) {
+            return 1;
+        }
+        return 0;
+    }
+    ListElement *element = list->head;
+    ListElement *previous = list->head;
+    while (element->value <= value && element->next) {
+        previous = element;
+        element = element->next;
+    }
+    if (!element->next) {
+        if (element->value <= value) {
+            ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
+            newElement->value = value;
+            newElement->next = NULL;
+            element->next = newElement;
+            return 0;
+        }
+    }
+    ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
+    newElement->value = value;
+    if (previous->next) {
+        newElement->next = element->next;
+    } else {
+        newElement->next = NULL;
+    }
+    previous->next = newElement;
+    return 0;
+}
+
 int push(List **list, int value) {
     ListElement *newNode = (ListElement *) malloc(sizeof(ListElement));
     if (newNode == NULL) {

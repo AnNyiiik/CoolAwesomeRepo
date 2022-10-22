@@ -31,6 +31,13 @@ int deleteList(List **list) {
 }
 
 int insert(List *list, int place, int value) {
+    if (isEmpty(list)) {
+        int errorCode = push(&list, value);
+        if (errorCode != 0) {
+            return 1;
+        }
+        return 0;
+    }
     if (place == 0) {
         int errorCode = push(&list, value);
         if (errorCode != 0) {
@@ -56,6 +63,9 @@ int insert(List *list, int place, int value) {
 }
 
 void delete(List *list, int place) {
+    if (isEmpty(list)) {
+        return;
+    }
     if (place == 0) {
         int value = 0;
         int errorCode = pop(&list, &value);
@@ -85,6 +95,9 @@ void delete(List *list, int place) {
 }
 
 int getElementPlace(List *list, int value) {
+    if (isEmpty(list)) {
+        return -1;
+    }
     ListElement *element = list->head;
     int index = 0;
     while (element->next) {
@@ -98,6 +111,13 @@ int getElementPlace(List *list, int value) {
 }
 
 int insertByOrder(List *list, int value) {
+    if (isEmpty(list)) {
+        int errorCode = push(&list, value);
+        if (errorCode != 0) {
+            return 1;
+        }
+        return 0;
+    }
     if (list->head->value >= value) {
         int errorCode = push(&list, value);
         if (errorCode != 0) {
@@ -143,7 +163,7 @@ int push(List **list, int value) {
 }
 
 int pop(List **list, int *value) {
-    if (list == NULL) {
+    if (isEmpty(list)) {
         return 1;
     }
     ListElement *previous = (*list)->head;
@@ -157,3 +177,13 @@ bool isEmpty(List *list) {
     return list->head == NULL;
 }
 
+void printList(List *list) {
+    if (isEmpty(list)) {
+        printf("List is empty\n");
+    }
+    ListElement *element = list->head;
+    while (element != NULL) {
+        printf("%d%s", element->value, ", ");
+        element = element->next;
+    }
+}

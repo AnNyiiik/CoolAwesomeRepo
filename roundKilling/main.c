@@ -1,13 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "../CycleList/cycleList.h"
-int main() {
-    printf("Enter the number of warriors:\n");
-    int numberOfWarriors = 0;
-    scanf("%d", &numberOfWarriors);
-    printf("Enter the gap between them:\n");
-    int gap = 0;
-    scanf("%d", &gap);
+int whoWillSurvive(int numberOfWarriors, int gap) {
     List *list = createList();
     for (int i = 0; i < numberOfWarriors; ++i) {
         pushBack(&list, 1);
@@ -22,7 +17,35 @@ int main() {
             answer = getIndex(list);
         }
     }
-    printf("%d", answer);
     free(list);
+    return answer;
+}
+
+bool test(void) {
+    int sequenceOfNumberOfPeople[3] = {5, 8, 7};
+    int sequenceOfGap[3] = {3, 5, 9};
+    int correctAnswers[3] = {4, 3, 7};
+    for (int i = 0; i < 3; ++i) {
+        int answer = whoWillSurvive(sequenceOfNumberOfPeople[i], sequenceOfGap[i]);
+        if (answer != correctAnswers[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    if (!test()) {
+        printf("Tests have been failed");
+        return 1;
+    }
+    printf("Enter the number of warriors:\n");
+    int numberOfWarriors = 0;
+    scanf("%d", &numberOfWarriors);
+    printf("Enter the gap between them:\n");
+    int gap = 0;
+    scanf("%d", &gap);
+    int answer = whoWillSurvive(numberOfWarriors, gap);
+    printf("%d", answer);
     return 0;
 }

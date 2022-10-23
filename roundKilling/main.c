@@ -11,5 +11,12 @@ int main() {
     for (int i = 0; i < numberOfWarriors; ++i) {
         pushBack(&list, 1);
     }
+//    int index = 1;
+//    while (!isEmpty(list)) {
+//        index = index + gap - 1 % numberOfWarriors;
+//        delete(list, index % numberOfWarriors - 1);
+//        index = (index + 2) % numberOfWarriors;
+//    }
+//    printf("%d", index);
     return 0;
 }

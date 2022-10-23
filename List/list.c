@@ -181,7 +181,11 @@ void printList(List *list) {
     }
     ListElement *element = list->head;
     while (element != NULL) {
-        printf("%d%s", element->value, ", ");
+        if (!element->next) {
+            printf("%d%s", element->value, "\n");
+        } else {
+            printf("%d%s", element->value, ", ");
+        }
         element = element->next;
     }
 }

@@ -99,6 +99,10 @@ int pop(List **list) {
     return 0;
 }
 
+int getIndex(List *list) {
+    return list->head->index;
+}
+
 bool isEmpty(List *list) {
     return list->head == NULL;
 }

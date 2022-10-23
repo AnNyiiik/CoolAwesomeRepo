@@ -131,19 +131,17 @@ int insertByOrder(List *list, int value) {
         previous = element;
         element = element->next;
     }
-    if (!element->next) {
-        if (element->value <= value) {
-            ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
-            newElement->value = value;
-            newElement->next = NULL;
-            element->next = newElement;
-            return 0;
-        }
+    if ((!element->next) && (element->value <= value)) {
+        ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
+        newElement->value = value;
+        newElement->next = NULL;
+        element->next = newElement;
+        return 0;
     }
     ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
     newElement->value = value;
     if (previous->next) {
-        newElement->next = element->next;
+        newElement->next = previous->next;
     } else {
         newElement->next = NULL;
     }

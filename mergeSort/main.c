@@ -14,7 +14,13 @@ int main() {
     if (!testPop()) {
         return 1;
     }
-    
+    if (!testIsEmpty()) {
+        return 1;
+    }
+    if (!testSort()) {
+        return 1;
+    }
+
     List *list = createList();
     pushBack(&list, "W", "7896");
     pushBack(&list, "B", "8906");

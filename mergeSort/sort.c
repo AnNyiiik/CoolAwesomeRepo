@@ -56,12 +56,15 @@ int pop(List **list) {
     }
     ListElement *previous = (*list)->head;
     ((*list)->head) = ((*list)->head)->next;
+    if (previous == (*list)->tail) {
+        (*list)->tail = NULL;
+    }
     free(previous);
     return 0;
 }
 
 bool isEmpty(List *list) {
-    return list->head == NULL;
+    return (list->head == NULL) && (list->tail == NULL);
 }
 
 ListElement *merge(ListElement *halfFirst, ListElement *halfSecond, int key) {
@@ -125,6 +128,11 @@ void mergeSort(ListElement **head, int key) {
 
 void sort(List **list, int key) {
     mergeSort(&((*list)->head), key);
+    ListElement *tail = (*list)->head;
+    while (tail->next != NULL) {
+        tail = tail->next;
+    }
+    (*list)->tail = tail;
 }
 
 void printList(List *list) {

@@ -11,8 +11,8 @@ typedef struct ListElement {
 } ListElement;
 
 typedef struct List {
-    struct ListElement *head;
-    struct ListElement *tail;
+    ListElement *head;
+    ListElement *tail;
 } List;
 
 List *createList(void) {
@@ -42,6 +42,8 @@ int pushBack(List **list, char *name, char *phone) {
     newNode->next = NULL;
     if (isEmpty(*list)) {
         (*list)->head = newNode;
+        (*list)->tail = newNode;
+        return 0;
     }
     (*list)->tail->next = newNode;
     (*list)->tail = newNode;
@@ -54,8 +56,6 @@ int pop(List **list) {
     }
     ListElement *previous = (*list)->head;
     ((*list)->head) = ((*list)->head)->next;
-    free(previous->name);
-    free(previous->phone);
     free(previous);
     return 0;
 }
@@ -88,7 +88,7 @@ ListElement *merge(ListElement *halfFirst, ListElement *halfSecond, int key) {
     return result;
 }
 
-void split(ListElement *full, ListElement **first, ListElement **second) {
+void divide(ListElement *full, ListElement **first, ListElement **second) {
     if (full == NULL || full->next == NULL)
     {
         *first = full;
@@ -110,6 +110,32 @@ void split(ListElement *full, ListElement **first, ListElement **second) {
     *second = ptr1->next;
     ptr1->next = NULL;
 }
+
+void mergeSort(ListElement **head, int key) {
+    if ((*head) == NULL || (*head)->next == NULL) {
+        return;
+    }
+    ListElement *firstHalf = NULL;
+    ListElement *secondHalf = NULL;
+    divide(*head, &firstHalf, &secondHalf);
+    mergeSort(&firstHalf, key);
+    mergeSort(&secondHalf, key);
+    *head = merge(firstHalf, secondHalf, key);
+}
+
+void sort(List **list, int key) {
+    mergeSort(&((*list)->head), key);
+}
+
+void printList(List *list) {
+    ListElement *element = list->head;
+    while (element != NULL) {
+        printf("%s%s%s%s", element->name, " ", element->phone, "\n");
+        element = element->next;
+    }
+    return;
+}
+
 
 
 

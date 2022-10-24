@@ -15,4 +15,12 @@ int pop(List **list);
 
 bool isEmpty(List *list);
 
+ListElement *merge(ListElement *halfFirst, ListElement *halfSecond, int key);
+
+void divide(ListElement *full, ListElement **first, ListElement **second);
+
+void sort(List **list, int key);
+
+void printList(List *list);
+
 #endif //MERGESORT_SORT_H

@@ -15,7 +15,7 @@ int insert(List *list, int place, int value);
 
 int insertByOrder(List *list, int value);
 
-void delete(List *list, int place);
+int delete(List *list, int place);
 
 int pop(List **list, int *value);
 

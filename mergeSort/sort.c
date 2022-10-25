@@ -37,8 +37,10 @@ int pushBack(List **list, char *name, char *phone) {
     if (newNode == NULL) {
         return 1;
     }
-    newNode->name = name;
-    newNode->phone = phone;
+    newNode->name = (char*) malloc(sizeof(char) * 100);
+    strcpy(newNode->name, name);
+    newNode->phone = (char*) malloc(sizeof(char) * 30);
+    strcpy(newNode->phone, phone);
     newNode->next = NULL;
     if (isEmpty(*list)) {
         (*list)->head = newNode;
@@ -59,6 +61,8 @@ int pop(List **list) {
     if (previous == (*list)->tail) {
         (*list)->tail = NULL;
     }
+    free(previous->name);
+    free(previous->phone);
     free(previous);
     return 0;
 }

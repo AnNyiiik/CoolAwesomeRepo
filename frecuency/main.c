@@ -40,6 +40,7 @@ void monckeySort(int *data, int size) {
 
 int sumOfDigits(int number) {
     int result = 0;
+    number = (number < 0) ? -number : number;
     while (number != 0) {
         result = result + number % 10;
         number = number / 10;

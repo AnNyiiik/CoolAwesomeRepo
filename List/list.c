@@ -33,15 +33,15 @@ int deleteList(List **list) {
 }
 
 int insert(List *list, int place, int value) {
-    if (place > list->size - 1) {
-        return 1;
-    }
     if (isEmpty(list)) {
         int errorCode = push(&list, value);
         if (errorCode != 0) {
             return 1;
         }
         return 0;
+    }
+    if (place > list->size) {
+        return 1;
     }
     if (place == 0) {
         int errorCode = push(&list, value);

@@ -175,7 +175,7 @@ int push(List **list, int value) {
 }
 
 int pop(List **list, int *value) {
-    if (isEmpty(list)) {
+    if (isEmpty(*list)) {
         return 1;
     }
     ListElement *previous = (*list)->head;

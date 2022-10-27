@@ -84,17 +84,11 @@ build CMakeFiles/SortedList.dir/Users/annnikolaeff/CoolAwesomeRepo/List/list.c.o
   OBJECT_DIR = CMakeFiles/SortedList.dir
   OBJECT_FILE_DIR = CMakeFiles/SortedList.dir/Users/annnikolaeff/CoolAwesomeRepo/List
 
-build CMakeFiles/SortedList.dir/sortedList.c.o: C_COMPILER__SortedList_Debug /Users/annnikolaeff/CoolAwesomeRepo/SortedList/sortedList.c || cmake_object_order_depends_target_SortedList
-  DEP_FILE = CMakeFiles/SortedList.dir/sortedList.c.o.d
+build CMakeFiles/SortedList.dir/Users/annnikolaeff/CoolAwesomeRepo/List/test.c.o: C_COMPILER__SortedList_Debug /Users/annnikolaeff/CoolAwesomeRepo/List/test.c || cmake_object_order_depends_target_SortedList
+  DEP_FILE = CMakeFiles/SortedList.dir/Users/annnikolaeff/CoolAwesomeRepo/List/test.c.o.d
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -mmacosx-version-min=11.0 -std=gnu2x
   OBJECT_DIR = CMakeFiles/SortedList.dir
-  OBJECT_FILE_DIR = CMakeFiles/SortedList.dir
-
-build CMakeFiles/SortedList.dir/test.c.o: C_COMPILER__SortedList_Debug /Users/annnikolaeff/CoolAwesomeRepo/SortedList/test.c || cmake_object_order_depends_target_SortedList
-  DEP_FILE = CMakeFiles/SortedList.dir/test.c.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -mmacosx-version-min=11.0 -std=gnu2x
-  OBJECT_DIR = CMakeFiles/SortedList.dir
-  OBJECT_FILE_DIR = CMakeFiles/SortedList.dir
+  OBJECT_FILE_DIR = CMakeFiles/SortedList.dir/Users/annnikolaeff/CoolAwesomeRepo/List
 
 
 # =============================================================================
@@ -104,7 +98,7 @@ build CMakeFiles/SortedList.dir/test.c.o: C_COMPILER__SortedList_Debug /Users/an
 #############################################
 # Link the executable SortedList
 
-build SortedList: C_EXECUTABLE_LINKER__SortedList_Debug CMakeFiles/SortedList.dir/main.c.o CMakeFiles/SortedList.dir/Users/annnikolaeff/CoolAwesomeRepo/List/list.c.o CMakeFiles/SortedList.dir/sortedList.c.o CMakeFiles/SortedList.dir/test.c.o
+build SortedList: C_EXECUTABLE_LINKER__SortedList_Debug CMakeFiles/SortedList.dir/main.c.o CMakeFiles/SortedList.dir/Users/annnikolaeff/CoolAwesomeRepo/List/list.c.o CMakeFiles/SortedList.dir/Users/annnikolaeff/CoolAwesomeRepo/List/test.c.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -mmacosx-version-min=11.0
   OBJECT_DIR = CMakeFiles/SortedList.dir
   POST_BUILD = :

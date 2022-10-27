@@ -1,0 +1,11 @@
+# ninja log v5
+1	22	1666508430139086525	CMakeFiles/SortedList.dir/main.c.o	874b9613c3e39a32
+26	56	1666510570303243476	SortedList	ad54cd639c62cf2c
+1	26	1666510570272665913	CMakeFiles/SortedList.dir/Users/annnikolaeff/CoolAwesomeRepo/List/list.c.o	64e91127d77ebcef
+0	15	1666482889910885104	CMakeFiles/SortedList.dir/sortedList.c.o	5cbad752dc02640
+0	32	1666734472059180314	build.ninja	258fef63cc50862f
+1	22	1666734753588734600	CMakeFiles/SortedList.dir/sortedList.c.o	5cbad752dc02640
+1	30	1666734753596669427	CMakeFiles/SortedList.dir/main.c.o	874b9613c3e39a32
+1	30	1666734753597381847	CMakeFiles/SortedList.dir/test.c.o	9c17dc85db3f1acd
+1	31	1666734753598207928	CMakeFiles/SortedList.dir/Users/annnikolaeff/CoolAwesomeRepo/List/list.c.o	64e91127d77ebcef
+31	68	1666734753635362028	SortedList	f52206660862c1bb

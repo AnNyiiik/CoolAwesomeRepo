@@ -1,5 +1,4 @@
 #include "list.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -11,11 +10,13 @@ typedef struct ListElement {
 
 typedef struct List {
     struct ListElement *head;
+    int size;
 } List;
 
 List *createList(void) {
     struct List *list = (List *) malloc(sizeof(List));
     list->head = NULL;
+    list->size = 0;
     return list;
 }
 
@@ -38,6 +39,9 @@ int insert(List *list, int place, int value) {
         }
         return 0;
     }
+    if (place > list->size) {
+        return 1;
+    }
     if (place == 0) {
         int errorCode = push(&list, value);
         if (errorCode != 0) {
@@ -59,20 +63,24 @@ int insert(List *list, int place, int value) {
         newElement->next = NULL;
     }
     element->next = newElement;
+    ++list->size;
     return 0;
 }
 
-void delete(List *list, int place) {
+int delete(List *list, int place) {
+    if (place > list->size - 1) {
+        return 1;
+    }
     if (isEmpty(list)) {
-        return;
+        return 1;
     }
     if (place == 0) {
         int value = 0;
         int errorCode = pop(&list, &value);
         if (errorCode != 0) {
-            return;
+            return 1;
         }
-        return;
+        return 0;
     }
     int index = 0;
     ListElement *element = list->head;
@@ -85,13 +93,16 @@ void delete(List *list, int place) {
             ListElement *elementAfterDeleted = element->next->next;
             free(element->next);
             element->next = elementAfterDeleted;
-            return;
+            --list->size;
+            return 0;
         }
         free(element->next);
         element->next = NULL;
-        return;
+        --list->size;
+        return 0;
     }
-    return;
+    --list->size;
+    return 0;
 }
 
 int getElementPlace(List *list, int value) {
@@ -136,6 +147,7 @@ int insertByOrder(List *list, int value) {
         newElement->value = value;
         newElement->next = NULL;
         element->next = newElement;
+        ++list->size;
         return 0;
     }
     ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
@@ -146,6 +158,7 @@ int insertByOrder(List *list, int value) {
         newElement->next = NULL;
     }
     previous->next = newElement;
+    ++list->size;
     return 0;
 }
 
@@ -157,6 +170,7 @@ int push(List **list, int value) {
     newNode->value = value;
     newNode->next = (*list)->head;
     (*list)->head = newNode;
+    ++(*list)->size;
     return 0;
 }
 
@@ -167,6 +181,7 @@ int pop(List **list, int *value) {
     ListElement *previous = (*list)->head;
     *value = (previous)->value;
     ((*list)->head) = ((*list)->head)->next;
+    --(*list)->size;
     free(previous);
     return 0;
 }
@@ -189,6 +204,4 @@ void printList(List *list) {
         element = element->next;
     }
 }
-
-
 

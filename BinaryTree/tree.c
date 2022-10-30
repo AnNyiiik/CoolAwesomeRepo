@@ -20,6 +20,9 @@ BinaryTree *createTree(void) {
 }
 
 int addElement(int key, char *value, BinaryTree **tree) {
+    if (*tree == NULL) {
+        return 1;
+    }
     if ((*tree)->root == NULL) {
         Node *newElement = (Node *) malloc(sizeof(Node));
         newElement->value = (char *) malloc(sizeof(char) * 30);
@@ -65,29 +68,33 @@ int addElement(int key, char *value, BinaryTree **tree) {
 };
 
 int findValue(int key, BinaryTree *tree, bool *isExits, char *value) {
-    {
-        if (tree->root == NULL) {
-            *isExits = false;
-            return 0;
-        }
-        Node *element = tree->root;
-        while(element != NULL && element->key != key) {
-            if (key > element->key) {
-                element = element->right;
-            } else {
-                element = element->left;
-            }
-        }
-        if (element != NULL) {
-            strcpy(value, element->value);
-            *isExits = true;
-            return 0;
-        }
-        *isExits = false;
+    if (tree == NULL) {
         return 1;
     }
+    if (tree->root == NULL) {
+        *isExits = false;
+        return 0;
+    }
+    Node *element = tree->root;
+    while(element != NULL && element->key != key) {
+        if (key > element->key) {
+            element = element->right;
+        } else {
+            element = element->left;
+        }
+    }
+    if (element != NULL) {
+        strcpy(value, element->value);
+        *isExits = true;
+        return 0;
+    }
+    *isExits = false;
+    return 0;
 }
 int clear(BinaryTree **tree) {
+    if (*tree == NULL) {
+        return 1;
+    }
     clearTree(&((*tree)->root));
     (*tree) = NULL;
 }
@@ -104,6 +111,9 @@ int clearTree(Node **root) {
 }
 
 int deleteElement(int key, BinaryTree **tree) {
+    if (*tree == NULL) {
+        return 1;
+    }
     if ((*tree)->root == NULL) {
         return 0;
     }

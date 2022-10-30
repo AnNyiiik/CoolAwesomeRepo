@@ -17,12 +17,21 @@ int main() {
     if (!testClear()) {
         return 1;
     }
+    if (!testDeleteElement()) {
+        return 1;
+    }
     BinaryTree *tree = createTree();
-    addElement(2, "amogus", &tree);
-    addElement(4, "aboba", &tree);
-    addElement(3, "jojo", &tree);
-    addElement(5, "biba", &tree);
-    addElement(1, "boba", &tree);
+    addElement(4, "jojo", &tree);
+    addElement(3, "amogus", &tree);
+    addElement(1, "aboba", &tree);
+    addElement(2, "abobus", &tree);
+    addElement(0, "pupa", &tree);
+    addElement(5, "lupa", &tree);
+    addElement(6, "boba", &tree);
+    deleteElement(0, &tree);
+    bool isExists = false;
+    char * value = (char *) malloc(sizeof(char) * 30);
+    findValue(0, tree, &isExists, value);
     clear(&tree);
     return 0;
 }

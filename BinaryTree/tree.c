@@ -22,7 +22,8 @@ BinaryTree *createTree(void) {
 int addElement(int key, char *value, BinaryTree **tree) {
     if ((*tree)->root == NULL) {
         Node *newElement = (Node *) malloc(sizeof(Node));
-        newElement->value = value;
+        newElement->value = (char *) malloc(sizeof(char) * 30);
+        strcpy(newElement->value, value);
         newElement->key = key;
         newElement->right = NULL;
         newElement->left = NULL;
@@ -37,7 +38,8 @@ int addElement(int key, char *value, BinaryTree **tree) {
         } else if (key > element->key) {
             if (element->right == NULL) {
                 Node *newElement = (Node *) malloc(sizeof(Node));
-                newElement->value = value;
+                newElement->value = (char *) malloc(sizeof(char) * 30);
+                strcpy(newElement->value, value);
                 newElement->key = key;
                 newElement->right = NULL;
                 newElement->left = NULL;
@@ -48,7 +50,8 @@ int addElement(int key, char *value, BinaryTree **tree) {
         } else {
             if (element->left == NULL) {
                 Node *newElement = (Node *) malloc(sizeof(Node));
-                newElement->value = value;
+                newElement->value = (char *) malloc(sizeof(char) * 30);
+                strcpy(newElement->value, value);
                 newElement->key = key;
                 newElement->right = NULL;
                 newElement->left = NULL;
@@ -86,6 +89,7 @@ int findValue(int key, BinaryTree *tree, bool *isExits, char *value) {
 }
 int clear(BinaryTree **tree) {
     clearTree(&((*tree)->root));
+    (*tree) = NULL;
 }
 
 int clearTree(Node **root) {
@@ -94,6 +98,7 @@ int clearTree(Node **root) {
     }
     clearTree(&((*root)->right));
     clearTree(&((*root)->left));
+    free((*root)->value);
     free(*root);
     *root = NULL;
 }
@@ -124,26 +129,31 @@ int deleteElement(int key, BinaryTree **tree) {
             previous->right = NULL;
         }
         previous->left = NULL;
+        free(element->value);
         free(element);
         return 0;
     }
     if (element->left == NULL) {
         if (previous->right == element) {
             previous->right = element->right;
+            free(element->value);
             free(element);
             return 0;
         } else {
             previous->left = element->right;
+            free(element->value);
             free(element);
             return 0;
         }
     } else if (element->right == NULL) {
         if (previous->right == element) {
             previous->right = element->left;
+            free(element->value);
             free(element);
             return 0;
         } else {
             previous->left = element->left;
+            free(element->value);
             free(element);
             return 0;
         }
@@ -156,6 +166,7 @@ int deleteElement(int key, BinaryTree **tree) {
     }
     if (elementCopy->left == NULL) {
         element->key = elementCopy->key;
+        free(element->value);
         element->value = elementCopy->value;
         if (previous == element) {
             element->left = NULL;
@@ -167,6 +178,7 @@ int deleteElement(int key, BinaryTree **tree) {
     }
     previous->right = elementCopy->left;
     element->key = elementCopy->key;
+    free(element->value);
     element->value = elementCopy->value;
     free(elementCopy);
     return 0;

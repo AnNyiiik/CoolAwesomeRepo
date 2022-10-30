@@ -84,6 +84,12 @@ build CMakeFiles/BinaryTree.dir/tree.c.o: C_COMPILER__BinaryTree_Debug /Users/an
   OBJECT_DIR = CMakeFiles/BinaryTree.dir
   OBJECT_FILE_DIR = CMakeFiles/BinaryTree.dir
 
+build CMakeFiles/BinaryTree.dir/test.c.o: C_COMPILER__BinaryTree_Debug /Users/annnikolaeff/CoolAwesomeRepo/BinaryTree/test.c || cmake_object_order_depends_target_BinaryTree
+  DEP_FILE = CMakeFiles/BinaryTree.dir/test.c.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -mmacosx-version-min=11.0 -std=gnu2x
+  OBJECT_DIR = CMakeFiles/BinaryTree.dir
+  OBJECT_FILE_DIR = CMakeFiles/BinaryTree.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target BinaryTree
@@ -92,7 +98,7 @@ build CMakeFiles/BinaryTree.dir/tree.c.o: C_COMPILER__BinaryTree_Debug /Users/an
 #############################################
 # Link the executable BinaryTree
 
-build BinaryTree: C_EXECUTABLE_LINKER__BinaryTree_Debug CMakeFiles/BinaryTree.dir/main.c.o CMakeFiles/BinaryTree.dir/tree.c.o
+build BinaryTree: C_EXECUTABLE_LINKER__BinaryTree_Debug CMakeFiles/BinaryTree.dir/main.c.o CMakeFiles/BinaryTree.dir/tree.c.o CMakeFiles/BinaryTree.dir/test.c.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -mmacosx-version-min=11.0
   OBJECT_DIR = CMakeFiles/BinaryTree.dir
   POST_BUILD = :

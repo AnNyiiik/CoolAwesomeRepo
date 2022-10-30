@@ -10,5 +10,5 @@ int main() {
     addElement(3, "jojo", &tree);
     addElement(5, "biba", &tree);
     addElement(1, "boba", &tree);
-    deleteElement(4, &tree);
+    clear(&tree);
 }

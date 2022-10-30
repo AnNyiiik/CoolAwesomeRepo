@@ -84,11 +84,18 @@ int findValue(int key, BinaryTree *tree, bool *isExits, char *value) {
         return 1;
     }
 }
+int clear(BinaryTree **tree) {
+    clearTree(&((*tree)->root));
+}
 
-int clearTree(BinaryTree **tree) {
-    if ((*tree)->root == NULL) {
+int clearTree(Node **root) {
+    if ((*root) == NULL) {
         return 0;
     }
+    clearTree(&((*root)->right));
+    clearTree(&((*root)->left));
+    free(*root);
+    *root = NULL;
 }
 
 int deleteElement(int key, BinaryTree **tree) {

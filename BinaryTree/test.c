@@ -95,8 +95,49 @@ bool testDeleteElement(void) {
     addElement(0, "pupa", &tree);
     addElement(5, "lupa", &tree);
     addElement(6, "boba", &tree);
-    deleteElement(0, &tree);
-    
+    int deletedKeys[5] = {0, 1, 3, 5, 4};
+    for (int i = 0; i < 5; ++i) {
+        deleteElement(deletedKeys[i], &tree);
+        if (i != 6 && tree->root == NULL) {
+            return false;
+        }
+        bool isExists = false;
+        char * value = (char *) malloc(sizeof(char) * 30);
+        findValue(deletedKeys[i], tree, &isExists, value);
+        if (isExists) {
+            return false;
+        }
+        if (deletedKeys[i] == 0) {
+            if (tree->root->left->left->left != NULL || tree->root->left->left->right == NULL) {
+                return false;
+            }
+        }
+        if (deletedKeys[i] == 1) {
+            if (tree->root->left->left->right != NULL || tree->root->left->left->key != 2
+            || strcmp(tree->root->left->left->value, "abobus") != 0) {
+                return false;
+            }
+        }
+        if (deletedKeys[i] == 3) {
+            if (tree->root->left->left != NULL || tree->root->left->key != 2
+            || strcmp(tree->root->left->value, "abobus") != 0) {
+                return false;
+            }
+        }
+        if (deletedKeys[i] == 5) {
+            if (tree->root->right->right != NULL || tree->root->right->key != 6
+                || strcmp(tree->root->right->value, "boba") != 0) {
+                return false;
+            }
+        }
+        if (deletedKeys[i] == 4) {
+            if (tree->root->key != 2
+                || strcmp(tree->root->value, "abobus") != 0 || tree->root->left != NULL) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 bool testClear(void) {

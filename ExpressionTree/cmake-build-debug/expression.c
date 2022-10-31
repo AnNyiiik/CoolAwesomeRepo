@@ -20,101 +20,54 @@ BinaryTree *createTree(void) {
 
 void parseOperands(char *source, char *operation, char *operandFirst, char *operandSecond) {
     operation[0] = source[1];
-    if (strlen(source) == 5) {
-        operandFirst[0] = *(source + 2);
-        operandSecond[0] = *(source + 3);
-        return;
-    }
-    if (*(source + 2) == '(' && *(source + 3) != '+' && *(source + 3)
-    != '-' && *(source + 3) != '*' && *(source + 3) != '/') {
-        int index = 3;
-        char character = *(source + 3);
-        while (character != ')') {
-            operandFirst[index - 3] = character;
-            ++index;
-            character = *(source + index);
-        }
-        if (*(source + index + 1) != '(') {
-            operandSecond[0] = *(source + index + 1);
-        } else {
-            index = index + 2;
-            int number = index;
-            char character = *(source + index);
-            while (character != ')') {
-                operandSecond[index - number] = character;
-                ++index;
-                character = *(source + index);
-            }
-        }
-        return;
-    }
-    if (source[2] != '(') {
-        operandFirst[0] = *(source + 2);
-        if (*(source + 4) != '+' && *(source + 4) != '-' && *(source + 4) != '*' && *(source + 4) != '/') {
-            int index = 4;
-            char character = *(source + 4);
-            while (character != ')') {
-                operandSecond[index - 4] = character;
-                ++index;
-                character = *(source + index);
-            }
-            return;
-        } else {
-            int countBrackets = 1;
-            int index = 0;
-            while (countBrackets != 0) {
-                char character = *(source + index + 3);
-                if (character == ')') {
-                    --countBrackets;
-                } else if (character == '(' && index != 0) {
-                    ++countBrackets;
-                }
-                operandSecond[index] = character;
-                ++index;
-            }
-            return;
-        }
-    }
-    int countBrackets = 1;
+    char character = source[3];
     int index = 0;
-    while (countBrackets != 0) {
-        char character = *(source + index + 2);
-        if (character == ')') {
-            --countBrackets;
-        } else if (character == '(' && index != 0) {
-            ++countBrackets;
+    if (character != '(') {
+        character = source[3];
+        while (character != ' ') {
+            operandFirst[index] = character;
+            ++index;
+            character = source[3 + index];
         }
-        operandFirst[index] = character;
-        ++index;
+    } else {
+        int countBrackets = 1;
+        index = 0;
+        char character = ' ';
+        while (countBrackets != 0) {
+            character = *(source + index + 3);
+            if (character == ')') {
+                --countBrackets;
+            } else if (character == '(' && index != 0) {
+                ++countBrackets;
+            }
+            operandFirst[index] = character;
+            ++index;
+        }
     }
-    if (*(source + index + 2) != '(') {
-        operandSecond[0] = *(source + index + 2);
-        return;
-    }
-    if (*(source + index + 3) != '+' && *(source + index + 3) != '-'
-    && *(source + index + 3) != '*' && *(source + index + 3) != '/') {
-        int number = index + 3;
+    character = *(source + index + 4);
+    if (character == '(') {
+        int countBrackets = 1;
+        int number = index + 4;
         int index = 0;
-        char character = *(source + number);
+        while (countBrackets != 0) {
+            character = *(source + index + number);
+            if (character == ')') {
+                --countBrackets;
+            } else if (character == '(' && index != 0) {
+                ++countBrackets;
+            }
+            operandSecond[index] = character;
+            ++index;
+        }
+    } else {
+        int number = index + 4;
+        int index = 0;
+        character = *(source + index + number);
         while (character != ')') {
             operandSecond[index] = character;
             ++index;
-            character = *(source + number + index);
+            character = *(source + index + number);
         }
-        return;
-    }
-    countBrackets = 1;
-    int number = index + 2;
-    index = 0;
-    while (countBrackets != 0) {
-        char character = *(source + index + number);
-        if (character == ')') {
-            --countBrackets;
-        } else if (character == '(' && index != 0) {
-            ++countBrackets;
-        }
-        operandSecond[index] = character;
-        ++index;
     }
     return;
 }
@@ -164,7 +117,7 @@ int clearTree(Node **root) {
 }
 
 void printTree(BinaryTree *tree) {
-    printExpression(tree->root);
+    printExpression(tree->root, true);
 }
 
 int countTree(BinaryTree *tree) {
@@ -195,20 +148,24 @@ int implementOperation(char *operation, int operandFirst, int operandSecond) {
         return operandFirst / operandSecond;
     }
 }
-void printExpression(Node *root) {
+void printExpression(Node *root, bool isFirst) {
     if (root == NULL)
     {
         return;
     }
     if (root->left != NULL && root->right != NULL) {
-        printf("%s%s", "(", root->value);
-        printExpression(root->left);
-        printExpression(root->right);
-        printf("%s", ")");
+        printf("%s%s%s", "(", root->value, " ");
+        printExpression(root->left, true);
+        printExpression(root->right, false);
+        if (isFirst) {
+            printf("%s", ") ");
+        } else {
+            printf("%s", ")");
+        }
     } else {
-        if (strlen(root->value) > 1) {
-            printf("%s%s%s", "(", root->value, ")");
-        }else {
+        if (isFirst) {
+            printf("%s%s", root->value, " ");
+        } else {
             printf("%s", root->value);
         }
     }

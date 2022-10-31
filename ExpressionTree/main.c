@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include "cmake-build-debug/expression.h"
 int main() {
-    char *expression = "(+(*(+12)3)(-2(*24)))";
+    char *expression = "(+ (+ 1 1) (* -12 2))";
     BinaryTree *tree = makeTree(expression);
-    int result = count(tree);
-    printf("%d", result);
+    printTree(tree);
+    //int result = count(tree);
+    //printf("%d", result);
     return 0;
 }

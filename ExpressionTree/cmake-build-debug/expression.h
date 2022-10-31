@@ -1,3 +1,4 @@
+#include "stdbool.h"
 #ifndef EXPRESSIONTREE_EXPRESSION_H
 #define EXPRESSIONTREE_EXPRESSION_H
 typedef struct BinaryTree BinaryTree;
@@ -10,7 +11,7 @@ void parseOperands(char *source, char *operation, char *operandFirst, char *oper
 
 BinaryTree *makeTree(char *expression);
 
-void printExpression(Node *root);
+void printExpression(Node *root, bool isFirst);
 
 void printTree(BinaryTree *tree);
 

@@ -120,10 +120,6 @@ void printTree(BinaryTree *tree) {
     printExpression(tree->root, true);
 }
 
-int countTree(BinaryTree *tree) {
-    return 1;
-}
-
 int count(BinaryTree *tree) {
     return countExpression(tree->root);
 }

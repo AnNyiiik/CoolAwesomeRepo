@@ -24,6 +24,56 @@ void parseOperands(char *source, char *operation, char *operandFirst, char *oper
         operandSecond[0] = *(source + 3);
         return;
     }
+    if (*(source + 2) == '(' && *(source + 3) != '+' && *(source + 3)
+    != '-' && *(source + 3) != '*' && *(source + 3) != '/') {
+        int index = 3;
+        char character = *(source + 3);
+        while (character != ')') {
+            operandFirst[index - 3] = character;
+            ++index;
+            character = *(source + index);
+        }
+        if (*(source + index + 1) != '(') {
+            operandSecond[0] = *(source + index + 1);
+        } else {
+            index = index + 2;
+            int number = index;
+            char character = *(source + index);
+            while (character != ')') {
+                operandSecond[index - number] = character;
+                ++index;
+                character = *(source + index);
+            }
+        }
+        return;
+    }
+    if (source[2] != '(') {
+        operandFirst[0] = *(source + 2);
+        if (*(source + 4) != '+' && *(source + 4) != '-' && *(source + 4) != '*' && *(source + 4) != '/') {
+            int index = 4;
+            char character = *(source + 4);
+            while (character != ')') {
+                operandSecond[index - 4] = character;
+                ++index;
+                character = *(source + index);
+            }
+            return;
+        } else {
+            int countBrackets = 1;
+            int index = 0;
+            while (countBrackets != 0) {
+                char character = *(source + index + 3);
+                if (character == ')') {
+                    --countBrackets;
+                } else if (character == '(' && index != 0) {
+                    ++countBrackets;
+                }
+                operandSecond[index] = character;
+                ++index;
+            }
+            return;
+        }
+    }
     int countBrackets = 1;
     int index = 0;
     while (countBrackets != 0) {
@@ -57,7 +107,7 @@ void parseOperands(char *source, char *operation, char *operandFirst, char *oper
 }
 
 BinaryTree *makeTree(char *expression) {
-    if (strlen(expression) == 1) {
+    if (expression[0] != '(') {
         BinaryTree *tree = createTree();
         Node *root = (Node *) malloc(sizeof(Node));
         root->value = expression;
@@ -84,3 +134,4 @@ BinaryTree *makeTree(char *expression) {
 void printExpression(BinaryTree *tree, char *expression) {
     return;
 }
+

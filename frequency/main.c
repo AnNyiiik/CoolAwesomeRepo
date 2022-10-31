@@ -224,6 +224,7 @@ int main() {
             for (int i = 0; i < size; ++i) {
                 printf("%d%s", array[i], " ");
             }
+            printf("\n");
         } else {
             printf("Not sorted\n");
         }

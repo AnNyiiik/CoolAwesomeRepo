@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "expression.h"
 typedef struct Node {
     char *value;
@@ -90,6 +91,18 @@ void parseOperands(char *source, char *operation, char *operandFirst, char *oper
         operandSecond[0] = *(source + index + 2);
         return;
     }
+    if (*(source + index + 3) != '+' && *(source + index + 3) != '-'
+    && *(source + index + 3) != '*' && *(source + index + 3) != '/') {
+        int number = index + 3;
+        int index = 0;
+        char character = *(source + number);
+        while (character != ')') {
+            operandSecond[index] = character;
+            ++index;
+            character = *(source + number + index);
+        }
+        return;
+    }
     countBrackets = 1;
     int number = index + 2;
     index = 0;
@@ -131,7 +144,74 @@ BinaryTree *makeTree(char *expression) {
     return tree;
 }
 
-void printExpression(BinaryTree *tree, char *expression) {
+int clear(BinaryTree **tree) {
+    if (*tree == NULL) {
+        return 1;
+    }
+    clearTree(&((*tree)->root));
+    (*tree) = NULL;
+}
+
+int clearTree(Node **root) {
+    if ((*root) == NULL) {
+        return 0;
+    }
+    clearTree(&((*root)->right));
+    clearTree(&((*root)->left));
+    free((*root)->value);
+    free(*root);
+    *root = NULL;
+}
+
+void printTree(BinaryTree *tree) {
+    printExpression(tree->root);
+}
+
+int countTree(BinaryTree *tree) {
+    return 1;
+}
+
+int count(BinaryTree *tree) {
+    return countExpression(tree->root);
+}
+
+int countExpression(Node *root) {
+    if (root->left == NULL) {
+        return atoi(root->value);
+    }
+    int operandFirst = countExpression(root->left);
+    int operandSecond = countExpression(root->right);
+    return implementOperation(root->value, operandFirst, operandSecond);
+}
+
+int implementOperation(char *operation, int operandFirst, int operandSecond) {
+    if (operation[0] == '+') {
+        return operandFirst + operandSecond;
+    } else if (operation[0] == '-') {
+        return operandFirst - operandSecond;
+    } else if (operation[0] == '*') {
+        return operandFirst * operandSecond;
+    } else {
+        return operandFirst / operandSecond;
+    }
+}
+void printExpression(Node *root) {
+    if (root == NULL)
+    {
+        return;
+    }
+    if (root->left != NULL && root->right != NULL) {
+        printf("%s%s", "(", root->value);
+        printExpression(root->left);
+        printExpression(root->right);
+        printf("%s", ")");
+    } else {
+        if (strlen(root->value) > 1) {
+            printf("%s%s%s", "(", root->value, ")");
+        }else {
+            printf("%s", root->value);
+        }
+    }
     return;
 }
 

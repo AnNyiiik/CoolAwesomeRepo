@@ -98,7 +98,7 @@ bool testDeleteElement(void) {
     int deletedKeys[5] = {0, 1, 3, 5, 4};
     for (int i = 0; i < 5; ++i) {
         deleteElement(deletedKeys[i], &tree);
-        if (i != 6 && tree->root == NULL) {
+        if (tree->root == NULL) {
             return false;
         }
         bool isExists = false;

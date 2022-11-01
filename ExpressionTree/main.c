@@ -1,7 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "test.h"
 #include "cmake-build-debug/expression.h"
 int main() {
+    if (!testMakeTree()) {
+        printf("Test make tree has been failed");
+        return 1;
+    }
+    if (!testCalculate()) {
+        printf("Test calculate has been failed");
+        return 1;
+    }
     FILE *file = fopen("../tree", "r");
     if (file == NULL) {
         printf("file not found");
@@ -25,6 +34,7 @@ int main() {
         }
         clear(tree);
     }
+    free(treeRepresentation);
     fclose("../tree");
     return 0;
 }

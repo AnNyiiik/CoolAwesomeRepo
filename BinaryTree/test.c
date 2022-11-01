@@ -19,8 +19,10 @@ bool testCreateTree(void) {
         return false;
     }
     if (tree->root != NULL) {
+        clear(&tree);
         return false;
     }
+    clear(&tree);
     return true;
 }
 
@@ -28,10 +30,11 @@ bool testAddElement(void) {
     BinaryTree *tree = createTree();
     addElement(4, "aboba", &tree);
     if (tree->root == NULL) {
+        clear(&tree);
         return false;
     }
     if (!(tree->root->key == 4) || !(strcmp(tree->root->value, "aboba") == 0)) {
-        clearTree(&(tree->root));
+        clear(&tree);
         return false;
     }
     addElement(2, "amogus", &tree);
@@ -54,6 +57,7 @@ bool testAddElement(void) {
         clear(&tree);
         return false;
     }
+    clear(&tree);
     return true;
 }
 
@@ -63,11 +67,13 @@ bool testFind(void) {
     char *value = (char*) malloc(sizeof(char) * 30);
     findValue(2, tree, &isExists, value);
     if (isExists) {
+        free(value);
         return false;
     }
     addElement(2, "amogus", &tree);
     findValue(2, tree, &isExists, value);
     if (!isExists) {
+        free(value);
         return false;
     }
     addElement(4, "aboba", &tree);
@@ -76,12 +82,15 @@ bool testFind(void) {
     addElement(1, "boba", &tree);
     findValue(3, tree, &isExists, value);
     if (!isExists) {
+        free(value);
         return false;
     }
     findValue(4, tree, &isExists, value);
     if (!isExists) {
+        free(value);
         return false;
     }
+    free(value);
     clear(&tree);
     return true;
 }
@@ -105,37 +114,44 @@ bool testDeleteElement(void) {
         char * value = (char *) malloc(sizeof(char) * 30);
         findValue(deletedKeys[i], tree, &isExists, value);
         if (isExists) {
+            free(value);
             return false;
         }
         if (deletedKeys[i] == 0) {
             if (tree->root->left->left->left != NULL || tree->root->left->left->right == NULL) {
+                free(value);
                 return false;
             }
         }
         if (deletedKeys[i] == 1) {
             if (tree->root->left->left->right != NULL || tree->root->left->left->key != 2
             || strcmp(tree->root->left->left->value, "abobus") != 0) {
+                free(value);
                 return false;
             }
         }
         if (deletedKeys[i] == 3) {
             if (tree->root->left->left != NULL || tree->root->left->key != 2
             || strcmp(tree->root->left->value, "abobus") != 0) {
+                free(value);
                 return false;
             }
         }
         if (deletedKeys[i] == 5) {
             if (tree->root->right->right != NULL || tree->root->right->key != 6
                 || strcmp(tree->root->right->value, "boba") != 0) {
+                free(value);
                 return false;
             }
         }
         if (deletedKeys[i] == 4) {
             if (tree->root->key != 2
                 || strcmp(tree->root->value, "abobus") != 0 || tree->root->left != NULL) {
+                free(value);
                 return false;
             }
         }
+        free(value);
     }
     return true;
 }
@@ -152,6 +168,7 @@ bool testClear(void) {
     addElement(4, "aboba", &tree);
     clear(&tree);
     if (tree != NULL) {
+        clear(&tree);
         return false;
     }
     return true;

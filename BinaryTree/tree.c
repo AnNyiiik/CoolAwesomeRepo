@@ -4,6 +4,7 @@
 #include <string.h>
 typedef struct Node {
     int key;
+    int height;
     char *value;
     struct Node *left;
     struct Node *right;
@@ -19,7 +20,72 @@ BinaryTree *createTree(void) {
     return tree;
 }
 
+void fixHeight(Node **node) {
+    if ((*node)->left == NULL && (*node)->right == NULL) {
+        (*node)->height = 0;
+    } else if ((*node)->left == NULL) {
+        (*node)->height = (*node)->right->height + 1;
+    } else if ((*node)->right == NULL) {
+        (*node)->height = (*node)->left->height + 1;
+    } else {
+        (*node)->height = ((*node)->right->height >= (*node)->left->height) ? ((*node)->right->height + 1) : ((*node)->left->height + 1);
+    }
+    return;
+}
+
+int countBalance(Node *node) {
+    if (node == NULL) {
+        return 0;
+    }
+    if (node->right == NULL && node->left == NULL) {
+        return 0;
+    } else if (node->right == NULL) {
+        return -(node->height);
+    } else if (node->left == NULL) {
+        return (node->height);
+    } else {
+        return (node->right->height - node->left->height);
+    }
+}
+
+int add(int key, char *value, Node **node) {
+    if ((*node)->key == key) {
+        strcpy((*node)->value, value);
+    }else if ((*node)->key > key && (*node)->left == NULL) {
+        Node *newElement = (Node *) malloc(sizeof(Node));
+        newElement->value = (char *) malloc(sizeof(char) * 30);
+        strcpy(newElement->value, value);
+        newElement->key = key;
+        newElement->height = 0;
+        newElement->right = NULL;
+        newElement->left = NULL;
+        (*node)->left = newElement;
+        fixHeight(&(*node));
+        return 0;
+    } else if ((*node)->key < key && (*node)->right == NULL) {
+        Node *newElement = (Node *) malloc(sizeof(Node));
+        newElement->value = (char *) malloc(sizeof(char) * 30);
+        strcpy(newElement->value, value);
+        newElement->key = key;
+        newElement->height = 0;
+        newElement->right = NULL;
+        newElement->left = NULL;
+        (*node)->right = newElement;
+        fixHeight(&(*node));
+        return 0;
+    } else if ((*node)->key > key) {
+        add(key, value, &((*node)->left));
+        fixHeight(&(*node));
+        *node = balance(&(*node));
+    } else {
+        add(key, value, &((*node)->right));
+        fixHeight(&(*node));
+        *node = balance(&(*node));
+    }
+}
+
 int addElement(int key, char *value, BinaryTree **tree) {
+
     if (*tree == NULL) {
         return 1;
     }
@@ -28,44 +94,58 @@ int addElement(int key, char *value, BinaryTree **tree) {
         newElement->value = (char *) malloc(sizeof(char) * 30);
         strcpy(newElement->value, value);
         newElement->key = key;
+        newElement->height = 0;
         newElement->right = NULL;
         newElement->left = NULL;
         (*tree)->root = newElement;
         return 0;
+    } else {
+        add(key, value, &((*tree)->root));
+        (*tree)->root = balance(&((*tree)->root));
     }
-    Node *element = (*tree)->root;
-    while(element != NULL) {
-        if (key == element->key) {
-            element->value = value;
-            return 0;
-        } else if (key > element->key) {
-            if (element->right == NULL) {
-                Node *newElement = (Node *) malloc(sizeof(Node));
-                newElement->value = (char *) malloc(sizeof(char) * 30);
-                strcpy(newElement->value, value);
-                newElement->key = key;
-                newElement->right = NULL;
-                newElement->left = NULL;
-                element->right = newElement;
-                return 0;
-            }
-            element = element->right;
-        } else {
-            if (element->left == NULL) {
-                Node *newElement = (Node *) malloc(sizeof(Node));
-                newElement->value = (char *) malloc(sizeof(char) * 30);
-                strcpy(newElement->value, value);
-                newElement->key = key;
-                newElement->right = NULL;
-                newElement->left = NULL;
-                element->left = newElement;
-                return 0;
-            }
-            element = element->left;
+}
+
+Node *rotateRight(Node **node) {
+    Node *q = (*node)->left;
+    (*node)->left = q->right;
+    q->right = (*node);
+    fixHeight(&(*node));
+    fixHeight(&q);
+    return q;
+}
+
+Node *rotateLeft(Node **node) {
+    Node *q = (*node)->right;
+    (*node)->right = q->left;
+    q->left = (*node);
+    fixHeight(&(*node));
+    fixHeight(&q);
+    return q;
+}
+
+Node *balance(Node **node) {
+    fixHeight(&(*node));
+    int balance = countBalance((*node));
+    if (balance == 2) {
+        if (countBalance((*node)->right) < 0) {
+            (*node)->right = rotateRight(&((*node)->right));
+            fixHeight(&((*node)->right));
         }
+        fixHeight(&(*node));
+        return rotateLeft(&(*node));
     }
-    return 1;
-};
+    if(balance == -2) {
+        if (countBalance((*node)->left) > 0) {
+            (*node)->left = rotateLeft(&((*node)->left));
+            fixHeight(&((*node)->left));
+        }
+        fixHeight(&(*node));
+        return rotateRight(&(*node));
+    }
+    return (*node);
+}
+
+
 
 int findValue(int key, BinaryTree *tree, bool *isExits, char *value) {
     if (tree == NULL) {
@@ -137,8 +217,9 @@ int deleteElement(int key, BinaryTree **tree) {
         }
         if (previous->right == element) {
             previous->right = NULL;
+        }else {
+            previous->left = NULL;
         }
-        previous->left = NULL;
         free(element->value);
         free(element);
         return 0;

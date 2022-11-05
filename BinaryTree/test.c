@@ -4,6 +4,7 @@
 #include <string.h>
 typedef struct Node {
     int key;
+    int balance;
     char *value;
     struct Node *left;
     struct Node *right;

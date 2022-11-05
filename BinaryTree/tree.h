@@ -9,6 +9,14 @@ BinaryTree *createTree(void);
 
 int addElement(int key, char *value, BinaryTree **tree);
 
+int add(int key, char *value, Node **node);
+
+void fixHeight(Node **node);
+
+int countBalance(Node *node);
+
+Node *balance(Node **node);
+
 int findValue(int key, BinaryTree *tree, bool *isExits, char *value);
 
 int deleteElement(int key, BinaryTree **tree);

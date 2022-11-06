@@ -6,17 +6,15 @@
 
 int main() {
     BinaryTree *tree = createTree();
-    addElement(3, "abab", &tree);
-    addElement(2, "dwe", &tree);
-    addElement(7, "fru", &tree);
-    addElement(1, "akoap", &tree);
-    addElement(5, "appwp", &tree);
-    addElement(8, "ajpqo", &tree);
-    addElement(4, "jiaoijs", &tree);
-    addElement(6, "iopqok", &tree);
-    deleteElement(1, &tree);
-    //deleteElement(0, &tree);
-    //deleteElement(1, &tree);
+    addElement(4, "jojo", &tree);
+    addElement(3, "amogus", &tree);
+    addElement(1, "abobal", &tree);
+    addElement(2, "abobus", &tree);
+    addElement(5, "lupa", &tree);
+    addElement(6, "boba", &tree);
+    deleteElement(5, &tree);
+    deleteElement(3, &tree);
+    deleteElement(5, &tree);
     clear(&tree);
 //    if (!testCreateTree()) {
 //        return 1;

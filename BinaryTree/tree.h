@@ -23,7 +23,7 @@ int deleteElement(int key, BinaryTree **tree);
 
 void delete(int key, Node **node, Node **previous);
 
-Node *deleteMax(int key, Node **node, Node **previous);
+void deleteMax(int key, Node **node, Node **previous, Node **maxNode);
 
 int clear(BinaryTree **tree);
 

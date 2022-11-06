@@ -219,54 +219,76 @@ void delete(int key, Node **node, Node **previous) {
         }
         if ((*node)->left == NULL) {
             if ((*previous)->right == (*node)) {
-                (*previous)->right = (*node)->right;
-                free((*node)->value);
-                free(*node);
+                strcpy((*previous)->right->value, (*node)->right->value);
+                (*previous)->right->key = (*node)->right->key;
+                free((*node)->right->value);
+                free((*node)->right);
+                (*previous)->right->right = NULL;
+                fixHeight(&((*previous)->right));
                 return;
             } else {
-                (*previous)->left = (*node)->right;
-                free((*node)->value);
-                free(*node);
+                strcpy((*previous)->left->value, (*node)->right->value);
+                (*previous)->left->key = (*node)->right->key;
+                free((*node)->right->value);
+                free((*node)->right);
+                (*previous)->left->right = NULL;
+                fixHeight(&((*previous)->left));
                 return;
             }
         } else if ((*node)->right == NULL) {
             if ((*previous)->right == (*node)) {
-                (*previous)->right = (*node)->left;
-                free((*node)->value);
-                free(*node);
+                strcpy((*previous)->right->value, (*node)->left->value);
+                (*previous)->right->key = (*node)->left->key;
+                free((*node)->left->value);
+                free((*node)->left);
+                (*previous)->right->left = NULL;
+                fixHeight(&((*previous)->right));
                 return;
             } else {
-                (*previous)->left = (*node)->left;
-                free((*node)->value);
-                free(*node);
+                strcpy((*previous)->left->value, (*node)->left->value);
+                (*previous)->left->key = (*node)->left->key;
+                free((*node)->left->value);
+                free((*node)->left);
+                (*previous)->left->left = NULL;
+                fixHeight(&((*previous)->left));
                 return;
             }
         } else {
-            Node *deletedNode = deleteMax(key, &((*node)->left), &(*node));
+            Node *deletedNode = NULL;
+            deleteMax(key, &((*node)->left), &(*node), &(deletedNode));
             fixHeight(&(*node));
             (*node)->key = deletedNode->key;
             strcpy((*node)->value, deletedNode->value);
             free(deletedNode->value);
             free(deletedNode);
-            (*node) = balance(&node);
+            (*node) = balance(&(*node));
             return;
         }
-
     }
 }
 
-Node *deleteMax(int key, Node **node, Node **previous) {
+void deleteMax(int key, Node **node, Node **previous, Node **maxNode) {
     if ((*node)->right != NULL) {
-        deleteMax(key, &((*node)->right), &(*node));
+        deleteMax(key, &((*node)->right), &(*node), &(*maxNode));
         fixHeight(&(*node));
         (*node) = balance(&(*node));
     }else {
         if ((*node)->left == NULL) {
-            (*previous)->right = NULL;
-            return (*node);
+            (*maxNode) = (*node);
+            if ((*previous)->left != (*node)) {
+                (*previous)->right = NULL;
+            } else {
+                (*previous)->left = NULL;
+            }
+            return;
         } else {
-            (*previous)->right = (*node)->left;
-            return (*node);
+            (*maxNode) = (*node);
+            if ((*previous)->left != (*node)) {
+                (*previous)->right = (*node)->left;
+            } else {
+                (*previous)->left = (*node)->left;
+            }
+            return;
         }
     }
 }
@@ -275,12 +297,6 @@ int deleteElement(int key, BinaryTree **tree) {
         return 1;
     }
     if ((*tree)->root == NULL) {
-        return 0;
-    }
-    if ((*tree)->root->key == key) {
-        free((*tree)->root->value);
-        free((*tree)->root);
-        (*tree)->root = NULL;
         return 0;
     }
     delete(key, &((*tree)->root), &((*tree)->root));

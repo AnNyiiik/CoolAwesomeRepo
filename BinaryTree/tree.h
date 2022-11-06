@@ -21,6 +21,10 @@ int findValue(int key, BinaryTree *tree, bool *isExits, char *value);
 
 int deleteElement(int key, BinaryTree **tree);
 
+void delete(int key, Node **node, Node **previous);
+
+Node *deleteMax(int key, Node **node, Node **previous);
+
 int clear(BinaryTree **tree);
 
 int clearTree(Node **root);

@@ -190,6 +190,86 @@ int clearTree(Node **root) {
     *root = NULL;
 }
 
+void delete(int key, Node **node, Node **previous) {
+    if ((*node) != NULL && (*node)->key != key) {
+        if (key > (*node)->key) {
+            delete(key, &((*node)->right), &(*node));
+            fixHeight(&(*node));
+            (*node) = balance(&(*node));
+        } else {
+            delete(key, &((*node)->left), &(*node));
+            fixHeight(&(*node));
+            (*node) = balance(&(*node));
+        }
+    } else {
+        if ((*node) == NULL) {
+            return;
+        }
+        if ((*node)->left == NULL && (*node)->right == NULL) {
+            if ((*previous)->right == (*node)) {
+                free((*node)->value);
+                free(*node);
+                (*previous)->right = NULL;
+            }else {
+                free((*node)->value);
+                free(*node);
+                (*previous)->left = NULL;
+            }
+            return;
+        }
+        if ((*node)->left == NULL) {
+            if ((*previous)->right == (*node)) {
+                (*previous)->right = (*node)->right;
+                free((*node)->value);
+                free(*node);
+                return;
+            } else {
+                (*previous)->left = (*node)->right;
+                free((*node)->value);
+                free(*node);
+                return;
+            }
+        } else if ((*node)->right == NULL) {
+            if ((*previous)->right == (*node)) {
+                (*previous)->right = (*node)->left;
+                free((*node)->value);
+                free(*node);
+                return;
+            } else {
+                (*previous)->left = (*node)->left;
+                free((*node)->value);
+                free(*node);
+                return;
+            }
+        } else {
+            Node *deletedNode = deleteMax(key, &((*node)->left), &(*node));
+            fixHeight(&(*node));
+            (*node)->key = deletedNode->key;
+            strcpy((*node)->value, deletedNode->value);
+            free(deletedNode->value);
+            free(deletedNode);
+            (*node) = balance(&node);
+            return;
+        }
+
+    }
+}
+
+Node *deleteMax(int key, Node **node, Node **previous) {
+    if ((*node)->right != NULL) {
+        deleteMax(key, &((*node)->right), &(*node));
+        fixHeight(&(*node));
+        (*node) = balance(&(*node));
+    }else {
+        if ((*node)->left == NULL) {
+            (*previous)->right = NULL;
+            return (*node);
+        } else {
+            (*previous)->right = (*node)->left;
+            return (*node);
+        }
+    }
+}
 int deleteElement(int key, BinaryTree **tree) {
     if (*tree == NULL) {
         return 1;
@@ -197,81 +277,15 @@ int deleteElement(int key, BinaryTree **tree) {
     if ((*tree)->root == NULL) {
         return 0;
     }
-    Node *element = (*tree)->root;
-    Node *previous = (*tree)->root;
-    while(element != NULL && element->key != key) {
-        if (key > element->key) {
-            previous = element;
-            element = element->right;
-        } else {
-            previous = element;
-            element = element->left;
-        }
-    }
-    if (element == NULL) {
+    if ((*tree)->root->key == key) {
+        free((*tree)->root->value);
+        free((*tree)->root);
+        (*tree)->root = NULL;
         return 0;
     }
-    if (element->left == NULL && element->right == NULL) {
-        if (element == (*tree)->root) {
-            (*tree)->root = NULL;
-        }
-        if (previous->right == element) {
-            previous->right = NULL;
-        }else {
-            previous->left = NULL;
-        }
-        free(element->value);
-        free(element);
-        return 0;
-    }
-    if (element->left == NULL) {
-        if (previous->right == element) {
-            previous->right = element->right;
-            free(element->value);
-            free(element);
-            return 0;
-        } else {
-            previous->left = element->right;
-            free(element->value);
-            free(element);
-            return 0;
-        }
-    } else if (element->right == NULL) {
-        if (previous->right == element) {
-            previous->right = element->left;
-            free(element->value);
-            free(element);
-            return 0;
-        } else {
-            previous->left = element->left;
-            free(element->value);
-            free(element);
-            return 0;
-        }
-    }
-    Node *elementCopy = element->left;
-    previous = element;
-    while (elementCopy->right != NULL) {
-        previous = elementCopy;
-        elementCopy = elementCopy->right;
-    }
-    if (elementCopy->left == NULL) {
-        element->key = elementCopy->key;
-        free(element->value);
-        element->value = elementCopy->value;
-        if (previous == element) {
-            element->left = NULL;
-        } else {
-            previous->right = NULL;
-        }
-        free(elementCopy);
-        return 0;
-    }
-    previous->right = elementCopy->left;
-    element->key = elementCopy->key;
-    free(element->value);
-    element->value = elementCopy->value;
-    free(elementCopy);
+    delete(key, &((*tree)->root), &((*tree)->root));
+    fixHeight(&((*tree)->root));
+    (*tree)->root = balance(&((*tree)->root));
     return 0;
 }
 

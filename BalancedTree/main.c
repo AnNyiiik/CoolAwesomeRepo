@@ -3,6 +3,21 @@
 #include "../BinaryTree/tree.h"
 #include "../BinaryTree/test.h"
 int main() {
+    if (!testCreateTree()) {
+        return 1;
+    }
+    if (!testAddElement()) {
+        return 1;
+    }
+    if (!testFind()) {
+        return 1;
+    }
+    if (!testClear()) {
+        return 1;
+    }
+    if (!testDeleteElement()) {
+        return 1;
+    }
     int option = 0;
     printf("To add an element enter 0\nto get value by key enter 1\nto check if the particular key exists enter 2\nto delete an element by key enter 3\nto exit enter 4\n");
     scanf("%d", &option);

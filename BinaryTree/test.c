@@ -29,33 +29,75 @@ bool testCreateTree(void) {
 
 bool testAddElement(void) {
     BinaryTree *tree = createTree();
-    addElement(4, "aboba", &tree);
+    addElement(3, "aboba", &tree);
+    addElement(2, "jojo", &tree);
+    addElement(4, "biba", &tree);
+    addElement(5, "boba", &tree);
+    addElement(6, "abobal", &tree);
     if (tree->root == NULL) {
-        clear(&tree);
         return false;
     }
-    if (!(tree->root->key == 4) || !(strcmp(tree->root->value, "aboba") == 0)) {
-        clear(&tree);
+    if (tree->root->key != 3) {
         return false;
     }
-    addElement(2, "amogus", &tree);
     if (tree->root->left == NULL) {
-        clear(&tree);
         return false;
     }
-    addElement(5, "pupa", &tree);
+    if (tree->root->left->key != 2) {
+        return false;
+    }
     if (tree->root->right == NULL) {
-        clear(&tree);
         return false;
     }
-    if (!(tree->root->right->key == 5) || !(strcmp(tree->root->right->value, "pupa") == 0)
-    || !(tree->root->right->right == NULL) || !(tree->root->right->left == NULL)) {
-        clear(&tree);
+    if (tree->root->right->key != 5) {
         return false;
     }
-    if (!(tree->root->left->key == 2) || !(strcmp(tree->root->left->value, "amogus") == 0)
-    || !(tree->root->left->right == NULL) || !(tree->root->left->left == NULL)) {
-        clear(&tree);
+    if (tree->root->right->right == NULL) {
+        return false;
+    }
+    if (tree->root->right->right->key != 6) {
+        return false;
+    }
+    if (tree->root->right->left == NULL) {
+        return false;
+    }
+    if (tree->root->right->left->key != 4) {
+        return false;
+    }
+    clearTree(&(tree->root));
+    addElement(5, "aboba", &tree);
+    addElement(4, "jojo", &tree);
+    addElement(6, "biba", &tree);
+    addElement(3, "boba", &tree);
+    addElement(2, "abobal", &tree);
+    if (tree->root == NULL) {
+        return false;
+    }
+    if (tree->root->key != 5) {
+        return false;
+    }
+    if (tree->root->left == NULL) {
+        return false;
+    }
+    if (tree->root->left->key != 3) {
+        return false;
+    }
+    if (tree->root->left->left == NULL) {
+        return false;
+    }
+    if (tree->root->left->left->key != 2) {
+        return false;
+    }
+    if (tree->root->left->right == NULL) {
+        return false;
+    }
+    if (tree->root->left->right->key != 4) {
+        return false;
+    }
+    if (tree->root->right == NULL) {
+        return false;
+    }
+    if (tree->root->right->key != 6) {
         return false;
     }
     clear(&tree);
@@ -98,62 +140,96 @@ bool testFind(void) {
 
 bool testDeleteElement(void) {
     BinaryTree *tree = createTree();
-    addElement(4, "jojo", &tree);
-    addElement(3, "amogus", &tree);
-    addElement(1, "aboba", &tree);
-    addElement(2, "abobus", &tree);
-    addElement(0, "pupa", &tree);
-    addElement(5, "lupa", &tree);
-    addElement(6, "boba", &tree);
-    int deletedKeys[5] = {0, 1, 3, 5, 4};
-    for (int i = 0; i < 5; ++i) {
-        deleteElement(deletedKeys[i], &tree);
-        if (tree->root == NULL) {
-            return false;
-        }
-        bool isExists = false;
-        char * value = (char *) malloc(sizeof(char) * 30);
-        findValue(deletedKeys[i], tree, &isExists, value);
-        if (isExists) {
-            free(value);
-            return false;
-        }
-        if (deletedKeys[i] == 0) {
-            if (tree->root->left->left->left != NULL || tree->root->left->left->right == NULL) {
-                free(value);
-                return false;
-            }
-        }
-        if (deletedKeys[i] == 1) {
-            if (tree->root->left->left->right != NULL || tree->root->left->left->key != 2
-            || strcmp(tree->root->left->left->value, "abobus") != 0) {
-                free(value);
-                return false;
-            }
-        }
-        if (deletedKeys[i] == 3) {
-            if (tree->root->left->left != NULL || tree->root->left->key != 2
-            || strcmp(tree->root->left->value, "abobus") != 0) {
-                free(value);
-                return false;
-            }
-        }
-        if (deletedKeys[i] == 5) {
-            if (tree->root->right->right != NULL || tree->root->right->key != 6
-                || strcmp(tree->root->right->value, "boba") != 0) {
-                free(value);
-                return false;
-            }
-        }
-        if (deletedKeys[i] == 4) {
-            if (tree->root->key != 2
-                || strcmp(tree->root->value, "abobus") != 0 || tree->root->left != NULL) {
-                free(value);
-                return false;
-            }
-        }
-        free(value);
+    addElement(5, "jojo", &tree);
+    addElement(2, "amogus", &tree);
+    addElement(6, "abobal", &tree);
+    addElement(1, "abobus", &tree);
+    addElement(4, "lupa", &tree);
+    addElement(7, "boba", &tree);
+    addElement(3, "aiwot", &tree);
+    deleteElement(7, &tree);
+    if (tree->root == NULL) {
+        return false;
     }
+    if (tree->root->key != 4) {
+        return false;
+    }
+    if (tree->root->left == NULL) {
+        return false;
+    }
+    if (tree->root->left->key != 2) {
+        return false;
+    }
+    if (tree->root->right == NULL) {
+        return false;
+    }
+    if (tree->root->right->key != 5) {
+        return false;
+    }
+    if (tree->root->left->left == NULL) {
+        return false;
+    }
+    if (tree->root->left->left->key != 1) {
+        return false;
+    }
+    if (tree->root->left->right == NULL) {
+        return false;
+    }
+    if (tree->root->left->right->key != 3) {
+        return false;
+    }
+    if (tree->root->right->right == NULL) {
+        return false;
+    }
+    if (tree->root->right->right->key != 6) {
+        return false;
+    }
+    clearTree(&(tree->root));
+    addElement(3, "jojo", &tree);
+    addElement(2, "amogus", &tree);
+    addElement(6, "abobal", &tree);
+    addElement(1, "abobus", &tree);
+    addElement(4, "lupa", &tree);
+    addElement(7, "boba", &tree);
+    addElement(5, "aiwot", &tree);
+    deleteElement(1, &tree);
+    if (tree->root == NULL) {
+        return false;
+    }
+    if (tree->root->key != 4) {
+        return false;
+    }
+    if (tree->root->left == NULL) {
+        return false;
+    }
+    if (tree->root->left->key != 3) {
+        return false;
+    }
+    if (tree->root->right == NULL) {
+        return false;
+    }
+    if (tree->root->right->key != 6) {
+        return false;
+    }
+    if (tree->root->left->left == NULL) {
+        return false;
+    }
+    if (tree->root->left->left->key != 2) {
+        return false;
+    }
+    if (tree->root->right->right == NULL) {
+        return false;
+    }
+    if (tree->root->right->right->key != 7) {
+        return false;
+    }
+    if (tree->root->right->left == NULL) {
+        return false;
+    }
+    if (tree->root->right->left->key != 5) {
+        return false;
+    }
+    clear(&tree);
     return true;
 }
 

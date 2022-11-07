@@ -218,6 +218,15 @@ void delete(int key, Node **node, Node **previous) {
             return;
         }
         if ((*node)->left == NULL) {
+            if ((*previous) == (*node)) {
+                strcpy((*node)->value, (*node)->right->value);
+                (*node)->key = (*node)->right->key;
+                free((*node)->right->value);
+                free((*node)->right);
+                (*node)->right = NULL;
+                fixHeight(&(*node));
+                return;
+            }
             if ((*previous)->right == (*node)) {
                 strcpy((*previous)->right->value, (*node)->right->value);
                 (*previous)->right->key = (*node)->right->key;
@@ -236,6 +245,15 @@ void delete(int key, Node **node, Node **previous) {
                 return;
             }
         } else if ((*node)->right == NULL) {
+            if ((*previous) == (*node)) {
+                strcpy((*node)->value, (*node)->left->value);
+                (*node)->key = (*node)->left->key;
+                free((*node)->left->value);
+                free((*node)->left);
+                (*node)->left = NULL;
+                fixHeight(&(*node));
+                return;
+            }
             if ((*previous)->right == (*node)) {
                 strcpy((*previous)->right->value, (*node)->left->value);
                 (*previous)->right->key = (*node)->left->key;
@@ -297,6 +315,12 @@ int deleteElement(int key, BinaryTree **tree) {
         return 1;
     }
     if ((*tree)->root == NULL) {
+        return 0;
+    }
+    if (((*tree)->root->height == 0) && (key == (*tree)->root->key)) {
+        free((*tree)->root->value);
+        free((*tree)->root);
+        (*tree)->root = NULL;
         return 0;
     }
     delete(key, &((*tree)->root), &((*tree)->root));

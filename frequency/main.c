@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <locale.h>
+#include <string.h>
 
 int countCharacters(int *data, int size, int *reduced) {
     int index = 0;
@@ -59,12 +60,54 @@ bool testTextReduce(void) {
     return true;
 }
 
+bool isPalindrome(char *string) {
+    int size = strlen(string);
+    char *copy = (char *)malloc(sizeof(char) * size);
+    int index = 0;
+    for (int i = 0; i < size; ++i) {
+        if (string[i] != ' ') {
+            copy[index] = string[i];
+            ++index;
+        }
+    }
+    for (int i = 0; i < index / 2; ++i) {
+        if (copy[i] != copy[index - 1 - i]) {
+            free(copy);
+            return false;
+        }
+    }
+    free(copy);
+    return true;
+}
+
+bool testPalindrome(void) {
+    const char *stringCaseTrue = "ab sb a ";
+    if (!isPalindrome(stringCaseTrue)) {
+        return false;
+    }
+    const char *stringCaseFalse = "As sjsa";
+    if (isPalindrome(stringCaseFalse)) {
+        return false;
+    }
+    return true;
+}
+
 int main() {
+    setlocale(LC_ALL, "RUS");
+    //1
+    if (!testPalindrome()) {
+        return 1;
+    }
+    const char *string = "Sac vtvca S";
+    if (isPalindrome(string)) {
+        printf("TRUE\n");
+    } else {
+        printf("FALSE\n");
+    }
     //3
     if (!testTextReduce()) {
         return 1;
     }
-    setlocale(LC_ALL, "RUS");
     FILE *file = fopen("../text", "r");
     if (file == NULL) {
         printf("%s", "file not found!");

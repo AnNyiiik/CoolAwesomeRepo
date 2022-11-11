@@ -1,0 +1,15 @@
+# ninja log v5
+1	14	1667239940229891962	CMakeFiles/ExpressionTree.dir/test.c.o	db349b05170898c8
+1	29	1667243057969170949	CMakeFiles/ExpressionTree.dir/main.c.o	dfe4e63cc0f84616
+0	25	1667239940240083214	CMakeFiles/ExpressionTree.dir/expression.c.o	bd969ef379cc0993
+29	60	1667243058001254250	ExpressionTree	678357a3b095c492
+0	48	1667300616130970289	build.ninja	1ac6e251cdcbbc40
+1	234	1667300616370369910	CMakeFiles/ExpressionTree.dir/test.c.o	db349b05170898c8
+1	235	1667300616370743557	CMakeFiles/ExpressionTree.dir/main.c.o	dfe4e63cc0f84616
+1	235	1667300616371714797	CMakeFiles/ExpressionTree.dir/expression.c.o	bd969ef379cc0993
+235	291	1667300616428593787	ExpressionTree	678357a3b095c492
+1	21	1667301206835226768	CMakeFiles/ExpressionTree.dir/test.c.o	db349b05170898c8
+1	26	1667301206840086219	CMakeFiles/ExpressionTree.dir/main.c.o	dfe4e63cc0f84616
+26	61	1667301206875706875	ExpressionTree	678357a3b095c492
+0	20	1667301647378921737	CMakeFiles/ExpressionTree.dir/test.c.o	db349b05170898c8
+20	51	1667301647411013455	ExpressionTree	678357a3b095c492

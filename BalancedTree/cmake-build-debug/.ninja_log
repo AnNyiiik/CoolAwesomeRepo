@@ -1,0 +1,10 @@
+# ninja log v5
+24	54	1667812917157327700	BalancedTree	57771ad3342dc9bf
+0	24	1667812917126529011	CMakeFiles/BalancedTree.dir/main.c.o	676f1f534d43d2a6
+0	31	1667812805925153042	CMakeFiles/BalancedTree.dir/Users/annnikolaeff/CoolAwesomeRepo/BinaryTree/tree.c.o	a66eea11ef8b2b9a
+0	26	1667812805920868688	CMakeFiles/BalancedTree.dir/Users/annnikolaeff/CoolAwesomeRepo/BinaryTree/test.c.o	4321cc0749013a12
+0	60	1668192644189835460	build.ninja	89c0e1dc790f283d
+0	63	1668192644256887856	CMakeFiles/BalancedTree.dir/main.c.o	676f1f534d43d2a6
+1	65	1668192644259596568	CMakeFiles/BalancedTree.dir/Users/annnikolaeff/CoolAwesomeRepo/BinaryTree/test.c.o	4321cc0749013a12
+0	69	1668192644263623202	CMakeFiles/BalancedTree.dir/Users/annnikolaeff/CoolAwesomeRepo/BinaryTree/tree.c.o	a66eea11ef8b2b9a
+69	107	1668192644302455082	BalancedTree	57771ad3342dc9bf

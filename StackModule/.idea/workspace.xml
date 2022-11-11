@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="StackModule" targetName="StackModule" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="82915e7c-d802-4613-b240-c9963cde4518" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Balance/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BubbleCountingSorts/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HalfQSort/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Infix/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-2ab6f639f139382e8680.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Infix/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-bed1c4c0d2adda4ee8b3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Infix/cmake-build-debug/.cmake/api/v1/reply/index-2022-10-16T17-58-38-0316.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Infix/cmake-build-debug/.cmake/api/v1/reply/target-Infix-Debug-a78625a846ec6424113e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Infix/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Infix/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Infix/cmake-build-debug/Infix" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../KR/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../KR/cmake-build-debug/KR" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ModuleSort/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PhoneBook/.idea/PhoneBook.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/.idea/Postfix.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/query/cache-v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/query/cmakeFiles-v1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/query/codemodel-v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/query/toolchains-v1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/reply/cache-v2-26204367e8459ca37bba.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-e63d6c1d003ccb56b030.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-d5f8511a049a903f2460.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/reply/index-2022-10-16T15-19-40-0179.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/reply/target-Postfix-Debug-9083e57139d91f120825.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.cmake/api/v1/reply/toolchains-v1-d8162a2eac00ff4e2cdd.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/Postfix" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/cmake-build-debug/build.ninja" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Power/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2021" />
+    <option name="minorVersion" value="3.4" />
+  </component>
+  <component name="ProjectId" id="2GBN75luP0PZgQ27ekI1k4g2VTn" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="cmake.loaded.for.project" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RunManager">
+    <configuration name="StackModule" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="StackModule" TARGET_NAME="StackModule" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="StackModule" RUN_TARGET_NAME="StackModule">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="82915e7c-d802-4613-b240-c9963cde4518" name="Changes" comment="" />
+      <created>1665857846320</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665857846320</updated>
+      <workItem from="1665857847820" duration="977000" />
+      <workItem from="1665859198209" duration="231000" />
+      <workItem from="1665859526077" duration="3615000" />
+      <workItem from="1665908588628" duration="812000" />
+      <workItem from="1665912838219" duration="133000" />
+      <workItem from="1666107438632" duration="1901000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.c</url>
+          <line>4</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.c</url>
+          <line>16</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.c</url>
+          <line>7</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.c</url>
+          <line>10</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.c</url>
+          <line>13</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

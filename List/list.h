@@ -9,15 +9,11 @@ List *createList(void);
 
 int deleteList(List **list);
 
-int push(List **list, int value);
-
-int insert(List *list, int place, int value);
-
-int insertByOrder(List *list, int value);
+int push(List **list, int value, char *word);
 
 int delete(List *list, int place);
 
-int pop(List **list, int *value);
+int pop(List **list);
 
 bool isEmpty(List *list);
 #endif //LIST_LIST_H

@@ -5,7 +5,8 @@
 
 typedef struct HashTable {
     List *values[997];
-    float occupancyRate;
+    int numberOfSegments;
+    int numberOfElements;
 } HashTable;
 
 typedef struct ListElement {
@@ -22,7 +23,8 @@ typedef struct List {
 
 HashTable *createHashTable(void) {
     HashTable *hashTable = (HashTable *)malloc(sizeof(HashTable));
-    hashTable->occupancyRate = 1;
+    hashTable->numberOfSegments = 0;
+    hashTable->numberOfElements = 0;
     for (int i = 0; i < 997; ++i) {
         hashTable->values[i] = createList();
     }
@@ -39,10 +41,32 @@ void deleteHashTable(HashTable **hashTable) {
     return;
 }
 
+void deleteWord(char *word, HashTable **hashTable) {
+    int hash = getHash(word);
+    if(isEmpty((*hashTable)->values[hash])) {
+        return;
+    }
+    ListElement *element = (*hashTable)->values[hash]->head;
+    while (element != NULL) {
+        if (strcmp(element->word, word) == 0) {
+            --(*hashTable)->numberOfElements;
+            if (element->next == NULL) {
+                --(*hashTable)->numberOfSegments;
+            }
+            delete(word, &((*hashTable)->values[hash]));
+            break;
+        }
+        element = element->next;
+    }
+    return;
+}
+
 void put(char *word, HashTable *hashTable) {
     int hash = getHash(word);
     if(isEmpty(hashTable->values[hash])) {
         push(&(hashTable->values[hash]), 1, word);
+        ++hashTable->numberOfElements;
+        ++hashTable->numberOfSegments;
     } else {
         ListElement *element = hashTable->values[hash]->head;
         bool isExists = false;
@@ -55,6 +79,7 @@ void put(char *word, HashTable *hashTable) {
             element = element->next;
         }
         if (!isExists) {
+            ++hashTable->numberOfElements;
             push(&(hashTable->values[hash]), 1, word);
         }
     }
@@ -78,7 +103,7 @@ int getFrequency(char *word, HashTable *hashTable) {
 }
 
 int getHash(char *word) {
-    int module = 997;
+    int module = 2;
     int base = 996;
     int hash = 0;
     int power = 1;
@@ -89,3 +114,31 @@ int getHash(char *word) {
     }
     return hash;
 }
+
+int occupancyRate(HashTable *hashTable) {
+    return (hashTable->numberOfSegments == 0) ? 1 : (int)(hashTable->numberOfElements/hashTable->numberOfSegments);
+}
+
+int maxSegmentSize(HashTable *hashTable) {
+    int max = hashTable->values[0]->size;
+    for (int i = 1; i < 997; ++i) {
+        if (hashTable->values[i]->size > max) {
+            max = hashTable->values[i]->size;
+        }
+    }
+    return max;
+}
+
+//int averageSegmentSize(HashTable *hashTable) {
+//    int *sizes = (int*) calloc(hashTable->numberOfSegments, sizeof(int));
+//    int index = 0;
+//    for (int i = 0; i < 997; ++i) {
+//        if (hashTable->values[i]->size != 0) {
+//            sizes[index] = hashTable->values[i]->size;
+//            ++index;
+//        }
+//    }
+//    for (int i = 1; i < index; ++i) {
+//        if (sizes[i - 1] > si)
+//    }
+//}

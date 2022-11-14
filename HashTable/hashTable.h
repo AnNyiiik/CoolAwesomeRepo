@@ -10,6 +10,12 @@ void deleteHashTable(HashTable **hashTable);
 
 void put(char *word, HashTable *hashTable);
 
+void deleteWord(char *word, HashTable **hashTable);
+
+int maxSegmentSize(HashTable *hashTable);
+
+int occupancyRate(HashTable *hashTable);
+
 int getFrequency(char *word, HashTable *hashTable);
 
 int getHash(char *word);

@@ -68,6 +68,30 @@ int pop(List **list) {
     return 0;
 }
 
+void delete(char *word, List **list) {
+    if (isEmpty(list)) {
+        return;
+    }
+    ListElement *element = (*list)->head;
+    ListElement *previous = (*list)->head;
+    while (element != NULL && strcmp(element->word, word) != 0) {
+        previous = element;
+        element = element->next;
+    }
+    if (element == NULL) {
+        return;
+    }
+    if (element == previous) {
+        pop(list);
+        return;
+    }
+    previous->next = element->next;
+    free(element->word);
+    free(element);
+    --(*list)->size;
+    return;
+}
+
 bool isEmpty(List *list) {
     return list->head == NULL;
 }

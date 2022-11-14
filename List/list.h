@@ -13,5 +13,7 @@ int push(List **list, int value, char *word);
 
 int pop(List **list);
 
+void delete(char *word, List **list);
+
 bool isEmpty(List *list);
 #endif //LIST_LIST_H

@@ -6,7 +6,7 @@
 typedef struct HashTable {
     List **values;
     float occupancyRate;
-}HashTable;
+} HashTable;
 
 HashTable *createHashTable(void) {
     HashTable *hashTable = (HashTable *) malloc(sizeof(HashTable));
@@ -17,7 +17,7 @@ HashTable *createHashTable(void) {
 
 void deleteHashTable(HashTable *hashTable) {
     for (int i = 0; i < 997; ++i) {
-        deleteList(hashTable->values[i]);
+        deleteList(&(hashTable->values[i]));
         free(hashTable->values[i]);
     }
     free(hashTable);
@@ -25,9 +25,9 @@ void deleteHashTable(HashTable *hashTable) {
 
 void put(char *word, HashTable *hashTable) {
     int hash = getHash(word);
-    if(isEmpty(hashTable->values[hash]) {
-        push(hashTable->values[hash], 1)
-    }
+    if(isEmpty(hashTable->values[hash])) {
+        push(&(hashTable->values[hash]), 1, word);
+    } else
     return;
 }
 

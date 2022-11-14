@@ -11,8 +11,6 @@ int deleteList(List **list);
 
 int push(List **list, int value, char *word);
 
-int delete(List *list, int place);
-
 int pop(List **list);
 
 bool isEmpty(List *list);

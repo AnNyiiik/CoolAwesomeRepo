@@ -26,68 +26,13 @@ List *createList(void) {
 
 int deleteList(List **list) {
     while (!isEmpty(*list)) {
-        int value = 0;
         int errorCode = pop(list);
         if (errorCode != 0) {
             return 1;
         }
     }
+    (*list) = NULL;
     return 0;
-}
-
-int delete(List *list, int place) {
-    if (place > list->size - 1) {
-        return 1;
-    }
-    if (isEmpty(list)) {
-        return 1;
-    }
-    if (place == 0) {
-        int errorCode = pop(&list);
-        if (errorCode != 0) {
-            return 1;
-        }
-        return 0;
-    }
-    int index = 0;
-    ListElement *element = list->head;
-    while (index < place - 1 && element->next) {
-        element = element->next;
-        ++index;
-    }
-    if (element->next) {
-        if (element->next->next) {
-            ListElement *elementAfterDeleted = element->next->next;
-            free(element->next->word);
-            free(element->next);
-            element->next = elementAfterDeleted;
-            --list->size;
-            return 0;
-        } else {
-            free(element->next->word);
-            free(element->next);
-        }
-        element->next = NULL;
-        --list->size;
-        return 0;
-    }
-    return 0;
-}
-
-int getElementPlace(List *list, char *word) {
-    if (isEmpty(list)) {
-        return -1;
-    }
-    ListElement *element = list->head;
-    int place = 0;
-    while (element->next) {
-        if (strcmp(word, element->word)) {
-            return place;
-        }
-        element = element->next;
-        ++place;
-    }
-    return -1;
 }
 
 int push(List **list, int frequency, char *word) {
@@ -96,7 +41,7 @@ int push(List **list, int frequency, char *word) {
         return 1;
     }
     newNode->frequency = frequency;
-    newNode = (char *) malloc(sizeof(word));
+    newNode->word = (char *) malloc(sizeof(word));
     strcpy(newNode->word, word);
     if ((*list)->head) {
         (*list)->tail->next = newNode;
@@ -105,6 +50,7 @@ int push(List **list, int frequency, char *word) {
     } else {
         newNode->next = NULL;
         (*list)->head = newNode;
+        (*list)->tail = newNode;
     }
     ++(*list)->size;
     return 0;

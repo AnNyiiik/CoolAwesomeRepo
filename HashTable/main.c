@@ -1,7 +1,11 @@
 #include <stdio.h>
+#include "hashTable.h"
 #include "../List/list.h"
 
 int main() {
-    printf("Hello, World!\n");
+    HashTable *hashTable = createHashTable();
+    put("fox", hashTable);
+    put("fox", hashTable);
+    deleteHashTable(&hashTable);
     return 0;
 }

@@ -6,11 +6,11 @@ typedef struct HashTable HashTable;
 
 HashTable *createHashTable(void);
 
-void deleteHashTable(HashTable *hashTable);
+void deleteHashTable(HashTable **hashTable);
 
 void put(char *word, HashTable *hashTable);
 
-int getFrequency(char *word);
+int getFrequency(char *word, HashTable *hashTable);
 
 int getHash(char *word);
 

@@ -103,7 +103,7 @@ int getFrequency(char *word, HashTable *hashTable) {
 }
 
 int getHash(char *word) {
-    int module = 2;
+    int module = 997;
     int base = 996;
     int hash = 0;
     int power = 1;
@@ -115,8 +115,8 @@ int getHash(char *word) {
     return hash;
 }
 
-int occupancyRate(HashTable *hashTable) {
-    return (hashTable->numberOfSegments == 0) ? 1 : (int)(hashTable->numberOfElements/hashTable->numberOfSegments);
+float occupancyRate(HashTable *hashTable) {
+    return (float)(hashTable->numberOfElements/997);
 }
 
 int maxSegmentSize(HashTable *hashTable) {
@@ -129,16 +129,6 @@ int maxSegmentSize(HashTable *hashTable) {
     return max;
 }
 
-//int averageSegmentSize(HashTable *hashTable) {
-//    int *sizes = (int*) calloc(hashTable->numberOfSegments, sizeof(int));
-//    int index = 0;
-//    for (int i = 0; i < 997; ++i) {
-//        if (hashTable->values[i]->size != 0) {
-//            sizes[index] = hashTable->values[i]->size;
-//            ++index;
-//        }
-//    }
-//    for (int i = 1; i < index; ++i) {
-//        if (sizes[i - 1] > si)
-//    }
-//}
+int averageSegmentSize(HashTable *hashTable) {
+    return (hashTable->numberOfSegments == 0) ? 1 : (int)(hashTable->numberOfElements/hashTable->numberOfSegments);
+}

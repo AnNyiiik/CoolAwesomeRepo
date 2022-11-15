@@ -14,7 +14,9 @@ void deleteWord(char *word, HashTable **hashTable);
 
 int maxSegmentSize(HashTable *hashTable);
 
-int occupancyRate(HashTable *hashTable);
+float occupancyRate(HashTable *hashTable);
+
+int averageSegmentSize(HashTable *hashTable);
 
 int getFrequency(char *word, HashTable *hashTable);
 

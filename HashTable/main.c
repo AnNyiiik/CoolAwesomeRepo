@@ -4,7 +4,8 @@
 
 int main() {
     HashTable *hashTable = createHashTable();
-    put("fox", hashTable);
+    put("yellow", hashTable);
+    printf("%d", getHash("fox"));
     put("apple", hashTable);
     put("snake", hashTable);
     deleteWord("apple", &hashTable);

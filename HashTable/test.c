@@ -23,7 +23,7 @@ typedef struct List {
 
 bool testHash(void) {
     char *words[3] = {"fox", "snake", "yellow"};
-    int hashes[3] = {111, 90, 12};
+    int hashes[3] = {111, 96, 12};
     for (int i = 0; i < 3; ++i) {
         int hash = getHash(words[i]);
         if (hash != hashes[i]) {

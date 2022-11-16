@@ -22,4 +22,6 @@ int getFrequency(char *word, HashTable *hashTable);
 
 int getHash(char *word);
 
+void printTable(HashTable *hashTable);
+
 #endif //HASHTABLE_HASHTABLE_H

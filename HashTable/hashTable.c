@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "hashTable.h"
 #include "../List/list.h"
 
@@ -43,6 +44,9 @@ void deleteHashTable(HashTable **hashTable) {
 
 void deleteWord(char *word, HashTable **hashTable) {
     int hash = getHash(word);
+    if (hash < 0 || hash > 996) {
+        return;
+    }
     if(isEmpty((*hashTable)->values[hash])) {
         return;
     }
@@ -63,6 +67,9 @@ void deleteWord(char *word, HashTable **hashTable) {
 
 void put(char *word, HashTable *hashTable) {
     int hash = getHash(word);
+    if (hash < 0 || hash > 996) {
+        return;
+    }
     if(isEmpty(hashTable->values[hash])) {
         push(&(hashTable->values[hash]), 1, word);
         ++hashTable->numberOfElements;
@@ -88,6 +95,9 @@ void put(char *word, HashTable *hashTable) {
 
 int getFrequency(char *word, HashTable *hashTable) {
     int hash = getHash(word);
+    if (hash < 0 || hash > 996) {
+        return 1;
+    }
     if(isEmpty(hashTable->values[hash])) {
         return 0;
     } else {
@@ -100,6 +110,19 @@ int getFrequency(char *word, HashTable *hashTable) {
         }
     }
     return 0;
+}
+
+void printTable(HashTable *hashTable) {
+    for (int i = 0; i < 997; ++i) {
+        if (hashTable->values[i]->head != NULL) {
+            ListElement * element = hashTable->values[i]->head;
+            while (element != NULL) {
+                printf("%s%s%d%s", element->word, " - ", element->frequency, "\n");
+                element = element->next;
+            }
+        }
+    }
+    return;
 }
 
 int getHash(char *word) {
@@ -116,7 +139,7 @@ int getHash(char *word) {
 }
 
 float occupancyRate(HashTable *hashTable) {
-    return (float)(hashTable->numberOfElements/997);
+    return hashTable->numberOfElements / 997;
 }
 
 int maxSegmentSize(HashTable *hashTable) {

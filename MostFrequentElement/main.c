@@ -2,43 +2,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-int findMinValue(int * data, int size) {
-    int minValue = data[0];
-    for (int i = 0; i < size; ++i) {
-        if (data[i] < minValue) {
-            minValue = data[i];
-        }
-    }
-    return minValue;
-}
-
-int findMaxValue(int * data, int size) {
-    int maxValue = data[0];
-    for (int i = 0; i < size; ++i) {
-        if (data[i] > maxValue) {
-            maxValue = data[i];
-        }
-    }
-    return maxValue;
-}
-
 int mostFrequentElement(int * data, int size) {
-    int minimalValue = findMinValue(data, size);
-    int maximalValue = findMaxValue(data, size);
-    int * countArray = (int*) calloc(maximalValue - minimalValue + 1, sizeof(int));
-    for (int i = 0; i < size; ++i) {
-        countArray[data[i] - minimalValue] ++;
-    }
-    int maximum = 0;
-    int maximumIndex = 0;
-    for (int i = 0; i < maximalValue - minimalValue + 1; ++i) {
-        if (countArray[i] > maximumIndex) {
-            maximum = i + minimalValue;
-            maximumIndex = countArray[i];
-        }
-    }
-    free(countArray);
-    return maximum;
+
 }
 
 bool test(void) {

@@ -139,7 +139,7 @@ int getHash(char *word) {
 }
 
 float occupancyRate(HashTable *hashTable) {
-    return hashTable->numberOfElements / 997;
+    return (float) hashTable->numberOfElements / 997;
 }
 
 int maxSegmentSize(HashTable *hashTable) {

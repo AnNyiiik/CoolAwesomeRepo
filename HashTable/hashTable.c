@@ -29,7 +29,7 @@ HashTable *createHashTable(int size) {
     hashTable->size = size;
     hashTable->numberOfUsedSegments = 0;
     hashTable->numberOfElements = 0;
-    hashTable->values = (List*)calloc(size, sizeof(List *));
+    hashTable->values = (List**)calloc(size, sizeof(List *));
     for (int i = 0; i < size; ++i) {
         hashTable->values[i] = createList();
     }
@@ -38,11 +38,11 @@ HashTable *createHashTable(int size) {
 
 void resize(HashTable **hashTable) {
     float occupancy = occupancyRate(*hashTable);
-    if ((occupancy < 0.75 && occupancy > 0.5) || (occupancy <= 0.5 && (*hashTable)->size == 8)) {
+    if ((occupancy <= 1 && occupancy > 0.5) || (occupancy <= 0.5 && (*hashTable)->size == 8)) {
         return;
     }
     HashTable *newHashTable = NULL;
-    if (occupancy >= 0.75) {
+    if (occupancy > 1) {
         newHashTable = createHashTable((*hashTable)->size * 2);
     } else if (occupancy <= 0.5 && (*hashTable)->size > 8) {
         newHashTable = createHashTable((*hashTable)->size / 2);
@@ -96,9 +96,6 @@ void put(char *word, HashTable *hashTable) {
     int hash = getHash(word, hashTable->size);
     if (hash < 0 || hash >= hashTable->size) {
         return;
-    }
-    if (strcmp(word, "who") == 0) {
-        printf("here");
     }
     if (isEmpty(hashTable->values[hash])) {
         push(&(hashTable->values[hash]), 1, word);

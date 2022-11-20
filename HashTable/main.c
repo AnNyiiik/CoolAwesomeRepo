@@ -64,6 +64,7 @@ int main() {
         }
     }
     free(word);
+    printTable(hashTable);
     printf("%f", occupancyRate(hashTable));
     deleteHashTable(&hashTable);
     return 0;

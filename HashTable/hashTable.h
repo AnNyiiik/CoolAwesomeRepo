@@ -1,10 +1,11 @@
 #include "../List/list.h"
 #ifndef HASHTABLE_HASHTABLE_H
 #define HASHTABLE_HASHTABLE_H
+#define INIT_SIZE 8
 
 typedef struct HashTable HashTable;
 
-HashTable *createHashTable(void);
+HashTable *createHashTable(int size);
 
 void deleteHashTable(HashTable **hashTable);
 
@@ -20,7 +21,9 @@ int averageSegmentSize(HashTable *hashTable);
 
 int getFrequency(char *word, HashTable *hashTable);
 
-int getHash(char *word);
+int getHash(char *word, int size);
+
+void resize(HashTable **hashTable);
 
 void printTable(HashTable *hashTable);
 

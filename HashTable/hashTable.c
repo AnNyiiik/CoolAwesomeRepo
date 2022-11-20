@@ -3,10 +3,12 @@
 #include <stdio.h>
 #include "hashTable.h"
 #include "../List/list.h"
+#define INIT_SIZE 8
 
 typedef struct HashTable {
-    List *values[997];
-    int numberOfSegments;
+    List **values;
+    int size;
+    int numberOfUsedSegments;
     int numberOfElements;
 } HashTable;
 
@@ -22,18 +24,43 @@ typedef struct List {
     int size;
 } List;
 
-HashTable *createHashTable(void) {
+HashTable *createHashTable(int size) {
     HashTable *hashTable = (HashTable *)malloc(sizeof(HashTable));
-    hashTable->numberOfSegments = 0;
+    hashTable->size = size;
+    hashTable->numberOfUsedSegments = 0;
     hashTable->numberOfElements = 0;
-    for (int i = 0; i < 997; ++i) {
+    hashTable->values = (List*)calloc(size, sizeof(List *));
+    for (int i = 0; i < size; ++i) {
         hashTable->values[i] = createList();
     }
     return hashTable;
 }
 
+void resize(HashTable **hashTable) {
+    float occupancy = occupancyRate(*hashTable);
+    if ((occupancy < 0.75 && occupancy > 0.5) || (occupancy <= 0.5 && (*hashTable)->size == 8)) {
+        return;
+    }
+    HashTable *newHashTable = NULL;
+    if (occupancy >= 0.75) {
+        newHashTable = createHashTable((*hashTable)->size * 2);
+    } else if (occupancy <= 0.5 && (*hashTable)->size > 8) {
+        newHashTable = createHashTable((*hashTable)->size / 2);
+    }
+    for (int i = 0; i < (*hashTable)->size; ++i) {
+        ListElement *element = (*hashTable)->values[i]->head;
+        while (element != NULL) {
+            put(element->word, newHashTable);
+            element = element->next;
+        }
+    }
+    deleteHashTable(&(*hashTable));
+    (*hashTable) = newHashTable;
+    return;
+}
+
 void deleteHashTable(HashTable **hashTable) {
-    for (int i = 0; i < 997; ++i) {
+    for (int i = 0; i < (*hashTable)->size; ++i) {
         deleteList(&((*hashTable)->values[i]));
         free((*hashTable)->values[i]);
     }
@@ -43,8 +70,8 @@ void deleteHashTable(HashTable **hashTable) {
 }
 
 void deleteWord(char *word, HashTable **hashTable) {
-    int hash = getHash(word);
-    if (hash < 0 || hash > 996) {
+    int hash = getHash(word, (*hashTable)->size);
+    if (hash < 0 || hash >= (*hashTable)->size) {
         return;
     }
     if(isEmpty((*hashTable)->values[hash])) {
@@ -55,7 +82,7 @@ void deleteWord(char *word, HashTable **hashTable) {
         if (strcmp(element->word, word) == 0) {
             --(*hashTable)->numberOfElements;
             if (element->next == NULL) {
-                --(*hashTable)->numberOfSegments;
+                --(*hashTable)->numberOfUsedSegments;
             }
             delete(word, &((*hashTable)->values[hash]));
             break;
@@ -66,14 +93,17 @@ void deleteWord(char *word, HashTable **hashTable) {
 }
 
 void put(char *word, HashTable *hashTable) {
-    int hash = getHash(word);
-    if (hash < 0 || hash > 996) {
+    int hash = getHash(word, hashTable->size);
+    if (hash < 0 || hash >= hashTable->size) {
         return;
     }
-    if(isEmpty(hashTable->values[hash])) {
+    if (strcmp(word, "who") == 0) {
+        printf("here");
+    }
+    if (isEmpty(hashTable->values[hash])) {
         push(&(hashTable->values[hash]), 1, word);
         ++hashTable->numberOfElements;
-        ++hashTable->numberOfSegments;
+        ++hashTable->numberOfUsedSegments;
     } else {
         ListElement *element = hashTable->values[hash]->head;
         bool isExists = false;
@@ -94,8 +124,8 @@ void put(char *word, HashTable *hashTable) {
 }
 
 int getFrequency(char *word, HashTable *hashTable) {
-    int hash = getHash(word);
-    if (hash < 0 || hash > 996) {
+    int hash = getHash(word, hashTable->size);
+    if (hash < 0 || hash >= hashTable->size) {
         return 1;
     }
     if(isEmpty(hashTable->values[hash])) {
@@ -113,7 +143,7 @@ int getFrequency(char *word, HashTable *hashTable) {
 }
 
 void printTable(HashTable *hashTable) {
-    for (int i = 0; i < 997; ++i) {
+    for (int i = 0; i < hashTable->size; ++i) {
         if (hashTable->values[i]->head != NULL) {
             ListElement * element = hashTable->values[i]->head;
             while (element != NULL) {
@@ -125,9 +155,9 @@ void printTable(HashTable *hashTable) {
     return;
 }
 
-int getHash(char *word) {
-    int module = 997;
-    int base = 996;
+int getHash(char *word, int size) {
+    int module = size;
+    int base = size - 1;
     int hash = 0;
     int power = 1;
     int length = strlen(word);
@@ -139,12 +169,12 @@ int getHash(char *word) {
 }
 
 float occupancyRate(HashTable *hashTable) {
-    return (float) hashTable->numberOfElements / 997;
+    return (float) hashTable->numberOfElements / hashTable->size;
 }
 
 int maxSegmentSize(HashTable *hashTable) {
     int max = hashTable->values[0]->size;
-    for (int i = 1; i < 997; ++i) {
+    for (int i = 1; i < hashTable->size; ++i) {
         if (hashTable->values[i]->size > max) {
             max = hashTable->values[i]->size;
         }
@@ -153,5 +183,5 @@ int maxSegmentSize(HashTable *hashTable) {
 }
 
 int averageSegmentSize(HashTable *hashTable) {
-    return (hashTable->numberOfSegments == 0) ? 1 : (int)(hashTable->numberOfElements/hashTable->numberOfSegments);
+    return (hashTable->numberOfUsedSegments == 0) ? 1 : (int)(hashTable->numberOfElements/hashTable->numberOfUsedSegments);
 }

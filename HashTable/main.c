@@ -31,6 +31,14 @@ int main() {
 //    if (!testOccupancy()) {
 //        return 1;
 //    }
+
+//    HashTable *hashTable = createHashTable(INIT_SIZE);
+//    char *words[16] = {"rain", "rainbow", "maple", "green", "ocean", "mountain", "roar", "storm", "goat", "lake", "tree", "cloud", "bush", "stick", "dog", "cat"};
+//    for (int i = 0; i < 16; ++i) {
+//        put(words[i], hashTable);
+//        resize(&hashTable);
+//    }
+
     FILE *file = fopen("../text", "r");
     if (file == NULL) {
         printf("File not found");
@@ -39,11 +47,12 @@ int main() {
     int character = ' ';
     int length = 0;
     char *word = (char *)calloc(30, sizeof(char));
-    HashTable *hashTable = createHashTable();
+    HashTable *hashTable = createHashTable(INIT_SIZE);
     while ((character = fgetc(file)) != EOF) {
         if (character == ',' || character == '?' || character == '!' || character == ';' || character == '.'
         || character == ':' || character == '\"' || character == ' ' || character == '(' || character == ')' || character == '-') {
             if (length > 0) {
+                resize(&hashTable);
                 put(word, hashTable);
                 free(word);
                 word = (char *)calloc(30, sizeof(char));
@@ -55,7 +64,6 @@ int main() {
         }
     }
     free(word);
-    printTable(hashTable);
     printf("%f", occupancyRate(hashTable));
     deleteHashTable(&hashTable);
     return 0;

@@ -4,7 +4,8 @@
 #include "hashTable.h"
 
 typedef struct HashTable {
-    List *values[997];
+    List **values;
+    int size;
     int numberOfSegments;
     int numberOfElements;
 } HashTable;
@@ -25,7 +26,7 @@ bool testHash(void) {
     char *words[3] = {"fox", "snake", "yellow"};
     int hashes[3] = {111, 96, 12};
     for (int i = 0; i < 3; ++i) {
-        int hash = getHash(words[i]);
+        int hash = getHash(words[i], 8);
         if (hash != hashes[i]) {
             return false;
         }
@@ -34,7 +35,7 @@ bool testHash(void) {
 }
 
 bool testOccupancy(void) {
-    HashTable *hashTable = createHashTable();
+    HashTable *hashTable = createHashTable(INIT_SIZE);
     char *words[10] = {"fox", "apple", "snake", "mountain", "exquisite", "lengthy", "capacity", "embroidery", "lake", "maple"};
     for (int i = 0; i < 1000; ++i) {
         put(words[i % 10], hashTable);
@@ -48,7 +49,7 @@ bool testOccupancy(void) {
 }
 
 bool testMaxSegment(void) {
-    HashTable *hashTable = createHashTable();
+    HashTable *hashTable = createHashTable(INIT_SIZE);
     char *words[10] = {"fox", "apple", "snake", "mountain", "exquisite", "lengthy", "capacity", "embroidery", "lake", "maple"};
     for (int i = 0; i < 1000; ++i) {
         put(words[i % 10], hashTable);
@@ -62,7 +63,7 @@ bool testMaxSegment(void) {
 }
 
 bool testAverageSegment(void) {
-    HashTable *hashTable = createHashTable();
+    HashTable *hashTable = createHashTable(INIT_SIZE);
     char *words[10] = {"fox", "apple", "snake", "mountain", "exquisite", "lengthy", "capacity", "embroidery", "lake", "maple"};
     for (int i = 0; i < 1000; ++i) {
         put(words[i % 10], hashTable);
@@ -76,8 +77,8 @@ bool testAverageSegment(void) {
 }
 
 bool testAdd(void) {
-    HashTable *hashTable = createHashTable();
-    int hash = getHash("cloud");
+    HashTable *hashTable = createHashTable(INIT_SIZE);
+    int hash = getHash("cloud", 8);
     put("cloud", hashTable);
     if (strcmp(hashTable->values[hash]->head->word, "cloud") != 0) {
         deleteHashTable(&hashTable);
@@ -88,8 +89,8 @@ bool testAdd(void) {
 }
 
 bool testDelete(void) {
-    HashTable *hashTable = createHashTable();
-    int hash = getHash("cloud");
+    HashTable *hashTable = createHashTable(INIT_SIZE);
+    int hash = getHash("cloud", 8);
     put("cloud", hashTable);
     deleteWord("cloud", &hashTable);
     if (hashTable->values[hash]->head != NULL) {
@@ -101,7 +102,7 @@ bool testDelete(void) {
 }
 
 bool testCreateTable(void) {
-    HashTable *hashTable = createHashTable();
+    HashTable *hashTable = createHashTable(INIT_SIZE);
     if (hashTable == NULL) {
         deleteHashTable(&hashTable);
         return false;
@@ -110,7 +111,7 @@ bool testCreateTable(void) {
         deleteHashTable(&hashTable);
         return false;
     }
-    for (int i = 0; i < 997; ++i) {
+    for (int i = 0; i < hashTable->size; ++i) {
         if (hashTable->values[i] == NULL) {
             deleteHashTable(&hashTable);
             return false;
@@ -121,7 +122,7 @@ bool testCreateTable(void) {
 }
 
 bool testDeleteTable(void) {
-    HashTable *hashTable = createHashTable();
+    HashTable *hashTable = createHashTable(INIT_SIZE);
     deleteHashTable(&hashTable);
     if (hashTable != NULL) {
         return false;

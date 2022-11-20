@@ -41,8 +41,9 @@ int push(List **list, int frequency, char *word) {
         return 1;
     }
     newNode->frequency = frequency;
-    newNode->word = (char *) malloc(sizeof(word));
+    newNode->word = (char *) malloc(sizeof(word) + 1);
     strcpy(newNode->word, word);
+    newNode->word[sizeof(word)] = '\0';
     if ((*list)->head) {
         (*list)->tail->next = newNode;
         newNode->next = NULL;

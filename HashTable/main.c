@@ -7,38 +7,33 @@
 #include "test.h"
 
 int main() {
-//    if (!testCreateTable()) {
-//        return 1;
-//    }
-//    if (!testDelete()) {
-//        return 1;
-//    }
-//    if (!testHash()) {
-//        return 1;
-//    }
-//    if (!testAdd()) {
-//        return 1;
-//    }
-//    if (!testDelete()) {
-//        return 1;
-//    }
-//    if (!testMaxSegment()) {
-//        return 1;
-//    }
-//    if (!testAverageSegment()) {
-//        return 1;
-//    }
-//    if (!testOccupancy()) {
-//        return 1;
-//    }
-
-//    HashTable *hashTable = createHashTable(INIT_SIZE);
-//    char *words[16] = {"rain", "rainbow", "maple", "green", "ocean", "mountain", "roar", "storm", "goat", "lake", "tree", "cloud", "bush", "stick", "dog", "cat"};
-//    for (int i = 0; i < 16; ++i) {
-//        put(words[i], hashTable);
-//        resize(&hashTable);
-//    }
-
+    if (!testCreateTable()) {
+        return 1;
+    }
+    if (!testDelete()) {
+        return 1;
+    }
+    if (!testHash()) {
+        return 1;
+    }
+    if (!testAdd()) {
+        return 1;
+    }
+    if (!testDelete()) {
+        return 1;
+    }
+    if (!testResize()) {
+        return 1;
+    }
+    if (!testMaxSegment()) {
+        return 1;
+    }
+    if (!testAverageSegment()) {
+        return 1;
+    }
+    if (!testOccupancy()) {
+        return 1;
+    }
     FILE *file = fopen("../text", "r");
     if (file == NULL) {
         printf("File not found");

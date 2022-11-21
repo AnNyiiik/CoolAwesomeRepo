@@ -24,9 +24,9 @@ typedef struct List {
 
 bool testHash(void) {
     char *words[3] = {"fox", "snake", "yellow"};
-    int hashes[3] = {111, 96, 12};
+    int hashes[3] = {7, 0, 4};
     for (int i = 0; i < 3; ++i) {
-        int hash = getHash(words[i], 8);
+        int hash = getHash(words[i], INIT_SIZE);
         if (hash != hashes[i]) {
             return false;
         }
@@ -37,10 +37,10 @@ bool testHash(void) {
 bool testOccupancy(void) {
     HashTable *hashTable = createHashTable(INIT_SIZE);
     char *words[10] = {"fox", "apple", "snake", "mountain", "exquisite", "lengthy", "capacity", "embroidery", "lake", "maple"};
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 10; ++i) {
         put(words[i % 10], hashTable);
     }
-    if (abs(occupancyRate(hashTable) - 0.01) > 0.001) {
+    if (abs(occupancyRate(hashTable) - 1.25) > 0.001) {
         deleteHashTable(&hashTable);
         return false;
     }
@@ -51,10 +51,10 @@ bool testOccupancy(void) {
 bool testMaxSegment(void) {
     HashTable *hashTable = createHashTable(INIT_SIZE);
     char *words[10] = {"fox", "apple", "snake", "mountain", "exquisite", "lengthy", "capacity", "embroidery", "lake", "maple"};
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 10; ++i) {
         put(words[i % 10], hashTable);
     }
-    if (maxSegmentSize(hashTable) != 1) {
+    if (maxSegmentSize(hashTable) != 2) {
         deleteHashTable(&hashTable);
         return false;
     }
@@ -65,7 +65,7 @@ bool testMaxSegment(void) {
 bool testAverageSegment(void) {
     HashTable *hashTable = createHashTable(INIT_SIZE);
     char *words[10] = {"fox", "apple", "snake", "mountain", "exquisite", "lengthy", "capacity", "embroidery", "lake", "maple"};
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 10; ++i) {
         put(words[i % 10], hashTable);
     }
     if (averageSegmentSize(hashTable) != 1) {
@@ -127,5 +127,20 @@ bool testDeleteTable(void) {
     if (hashTable != NULL) {
         return false;
     }
+    return true;
+}
+
+bool testResize(void) {
+    HashTable *hashTable = createHashTable(INIT_SIZE);
+    char *words[16] = {"rain", "rainbow", "maple", "green", "ocean", "mountain", "roar", "storm", "goat", "lake", "tree", "cloud", "bush", "stick", "dog", "cat"};
+    for (int i = 0; i < 16; ++i) {
+        put(words[i], hashTable);
+    }
+    resize(&hashTable);
+    if (hashTable->size != 16) {
+        deleteHashTable(&hashTable);
+        return false;
+    }
+    deleteHashTable(&hashTable);
     return true;
 }

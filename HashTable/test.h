@@ -16,4 +16,6 @@ bool testDelete(void);
 bool testCreateTable(void);
 
 bool testDeleteTable(void);
+
+bool testResize(void);
 #endif //HASHTABLE_TEST_H

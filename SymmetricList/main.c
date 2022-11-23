@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../List/list.h"
+#include "../BinaryTree/tree.h"
 
 bool testSymmetric(void) {
     FILE *file = fopen("../testFile", "r");

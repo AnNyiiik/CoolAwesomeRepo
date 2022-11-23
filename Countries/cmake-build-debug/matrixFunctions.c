@@ -56,3 +56,7 @@ int readFromFile(FILE *file, Data **data) {
     (*data) = newData;
     return 0;
 }
+
+void createCounties(Data *data, char *result) {
+
+}

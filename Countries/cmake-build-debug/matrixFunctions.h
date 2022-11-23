@@ -9,4 +9,6 @@ typedef struct Data {
     int numberOfCapitals;
 } Data;
 int readFromFile(FILE *file, Data **data);
+
+void createCounties(Data *data, char *result);
 #endif //COUNTRIES_MATRIXFUNCTIONS_H

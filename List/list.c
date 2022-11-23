@@ -55,8 +55,8 @@ int pushFront(List **list, int value) {
 }
 
 int pop(List **list, int *value) {
-    if (isEmpty(list)) {
-        return 1;
+    if (isEmpty(*list)) {
+        return 0;
     }
     ListElement *deleted = (*list)->head;
     *value = (deleted)->value;

@@ -3,4 +3,4 @@ project(SymmetricList C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(SymmetricList main.c)
+add_executable(SymmetricList main.c "../List/list.c")

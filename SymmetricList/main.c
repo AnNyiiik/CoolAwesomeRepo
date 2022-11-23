@@ -30,6 +30,13 @@ bool testSymmetric(void) {
     return true;
 }
 
+void sortingTree(int *data, int size) {
+    BinaryTree *tree = createTree();
+    for (int i = 0; i < size; ++i) {
+        addElement(data[i], " ", &tree);
+    }
+}
+
 int main() {
     if (!testSymmetric()) {
         return 1;
@@ -56,5 +63,7 @@ int main() {
         printf("List isn't symmetric");
     }
     deleteList(&list);
+    int *data[5] = {9, 16, -12, 1, 0};
+    sortingTree(data, 5);
     return 0;
 }

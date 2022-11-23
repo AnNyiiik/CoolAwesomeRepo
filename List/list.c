@@ -70,6 +70,9 @@ int pop(List **list, int *value) {
 }
 
 bool checkSymmetric(List *list) {
+    if (isEmpty(list)) {
+        return true;
+    }
     ListElement *elementEnd = list->tail;
     ListElement *elementStart = list->head;
     for (int i = 0; i < list->size / 2; ++i) {

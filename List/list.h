@@ -1,6 +1,8 @@
-#include <stdbool.h>
 #ifndef LIST_LIST_H
 #define LIST_LIST_H
+
+#include <stdbool.h>
+
 typedef struct ListElement ListElement;
 
 typedef struct List List;
@@ -16,4 +18,5 @@ int pop(List **list, int *value);
 bool isEmpty(List *list);
 
 bool checkSymmetric(List *list);
+
 #endif //LIST_LIST_H

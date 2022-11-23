@@ -1,9 +1,14 @@
 #include <stdbool.h>
+#include "../List/list.h"
 #ifndef BINARYTREE_TREE_H
 #define BINARYTREE_TREE_H
 typedef struct Node Node;
 
 typedef struct BinaryTree BinaryTree;
+
+void inorder(Node *root, List *list);
+
+int sortTree(BinaryTree *tree, int *data, int size);
 
 BinaryTree *createTree(void);
 

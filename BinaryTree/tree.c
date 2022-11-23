@@ -1,5 +1,6 @@
 #include "tree.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 typedef struct Node {
@@ -17,6 +18,32 @@ BinaryTree *createTree(void) {
     BinaryTree *tree = (BinaryTree *) malloc(sizeof(BinaryTree *));
     tree->root = NULL;
     return tree;
+}
+
+int sortTree(BinaryTree *tree, int *data, int size) {
+    List *list = createList();
+    inorder(tree->root, list);
+    for (int i = size - 1; i >= 0; --i) {
+        int errorCode = pop(&list, &data[i]);
+        if (errorCode == 1) {
+            deleteList(&list);
+            return 1;
+        }
+    }
+    int errorCode = deleteList(&list);
+    if (errorCode == 1) {
+        return 1;
+    }
+    return 0;
+}
+
+void inorder(Node *root, List *list) {
+    if (root == NULL) {
+        return;
+    }
+    inorder(root->left, list);
+    pushFront(&list, root->key);
+    inorder(root->right, list);
 }
 
 int addElement(int key, char *value, BinaryTree **tree) {
@@ -65,7 +92,7 @@ int addElement(int key, char *value, BinaryTree **tree) {
         }
     }
     return 1;
-};
+}
 
 int findValue(int key, BinaryTree *tree, bool *isExits, char *value) {
     if (tree == NULL) {

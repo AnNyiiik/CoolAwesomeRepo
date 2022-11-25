@@ -76,6 +76,7 @@ bool testQuickSort(void) {
     }
     return true;
 }
+
 int mostFrequentElement(int *data, int size) {
     if (size == 1) {
         return data[0];
@@ -105,7 +106,7 @@ bool test(void) {
     int testEvenCase [10] = {3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
     int correctAnswer = 3;
     int answer = mostFrequentElement(testEvenCase, 10);
-    if (!(correctAnswer == answer)) {
+    if (correctAnswer != answer) {
         return false;
     }
     int testUnevenCase [100] = {74, 65, 36, 46, 53, 34, 65, 85, 32, 78,
@@ -120,18 +121,14 @@ bool test(void) {
     89, 3, 72, 18, 33, 75, 21, 79, 51, 42};
     correctAnswer = 3;
     answer = mostFrequentElement(testUnevenCase, 100);
-    if (!(correctAnswer == answer)) {
-        return false;
-    }
-
-    return true;
+    return correctAnswer == answer;
 }
 
 int main() {
     if (!testQuickSort()) {
         return 1;
     }
-    if (!(test())) {
+    if (!test()) {
         printf("%s", "Tests have been failed\n");
         return 1;
     }

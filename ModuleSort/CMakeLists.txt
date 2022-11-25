@@ -3,4 +3,4 @@ project(ModuleSort C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(ModuleSort main.c countingSort.h countingSort.c)
+add_executable(ModuleSort main.c sort.h sort.c)

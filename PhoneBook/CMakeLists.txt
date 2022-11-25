@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 3.20)
-project(PhoneBook C)
+cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_C_STANDARD 11)
+# set the project name
+project(PhoneBook)
 
+# add the executable
 add_executable(PhoneBook main.c)

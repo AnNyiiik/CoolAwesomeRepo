@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeSettings" AUTO_RELOAD="true">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0c7dc294-b40b-4347-b717-5d8758b9dd6c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../BalancedTree/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BinaryTree/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BubbleCountingSorts/cmake-build-debug/.cmake/api/v1/reply/cache-v2-1402e1b4257b9926117f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BubbleCountingSorts/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-de81af491bac122864c2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BubbleCountingSorts/cmake-build-debug/.cmake/api/v1/reply/index-2022-11-25T13-28-40-0661.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BubbleCountingSorts/cmake-build-debug/BubbleCountingSorts.cbp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Countries/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CycleList/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ExpressionTree/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HalfQSort/cmake-build-debug/.cmake/api/v1/reply/cache-v2-8fc4d0c13f2ed1ea1fac.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HalfQSort/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-5fe12f3b41c55c79e391.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HalfQSort/cmake-build-debug/.cmake/api/v1/reply/index-2022-11-25T13-32-11-0289.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HalfQSort/cmake-build-debug/HalfQSort.cbp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HashTable/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Postfix/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../StackModule/.idea/StackModule.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../StackModule/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../StackModule/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../StackModule/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../StackModule/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SymmetricList/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frequency/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../haffman/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mergeSort/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../roundKilling/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CMakeLists.txt" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2GcUntHHuxGM0jk9ABgtNSz4NF7" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0c7dc294-b40b-4347-b717-5d8758b9dd6c" name="Changes" comment="" />
+      <created>1666687535991</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1666687535991</updated>
+      <workItem from="1666687537082" duration="76000" />
+      <workItem from="1669385844211" duration="120000" />
+      <workItem from="1669386305918" duration="5000" />
+      <workItem from="1669386348049" duration="61000" />
+      <workItem from="1669401012444" duration="932000" />
+      <workItem from="1669401964020" duration="2129000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -5,38 +5,33 @@
 #include <stdbool.h>
 
 typedef struct PhoneEntry {
-    char *name;
-    char *phone;
+    char name[100];
+    char phone[30];
     struct PhoneEntry *next;
 } PhoneEntry;
 
-void pushBack(PhoneEntry **Last, char *name, char *phone) {
+void pushBack(PhoneEntry **last, char *name, char *phone) {
     PhoneEntry *newNode = (PhoneEntry *) malloc(sizeof(PhoneEntry));
-    newNode->name = (char*)malloc(sizeof(name));
     strcpy(newNode->name, name);
-    newNode->phone = (char*)malloc(sizeof(phone));
     strcpy(newNode->phone, phone);
-    newNode->next = (*Last);
-    (*Last) = newNode;
+    newNode->next = *last;
+    *last = newNode;
 }
 
-void delete(PhoneEntry **Last) {
-    if (*Last == NULL) {
+void delete(PhoneEntry **last) {
+    if (*last == NULL) {
         return;
     }
-    PhoneEntry *previous = (*Last);
-    (*Last) = (*Last)->next;
-    free(previous->name);
-    free(previous->phone);
+    PhoneEntry *previous = (*last);
+    (*last) = (*last)->next;
     free(previous);
-    return;
 }
 
-bool searchByName(char *name, PhoneEntry **last, char **result) {
-    PhoneEntry *pointer = (*last);
+bool searchByName(char *name, PhoneEntry **last, char *result) {
+    PhoneEntry *pointer = *last;
     while (pointer != NULL) {
         if (strcmp(pointer->name, name) == 0) {
-            strcpy(*result, pointer->phone);
+            strcpy(result, pointer->phone);
             return true;
         }
         pointer = pointer->next;
@@ -45,7 +40,7 @@ bool searchByName(char *name, PhoneEntry **last, char **result) {
 }
 
 bool searchByPhone(char *phone, PhoneEntry **last, char **result) {
-    PhoneEntry *pointer = (*last);
+    PhoneEntry *pointer = *last;
     while (pointer != NULL) {
         if (strcmp(pointer->phone, phone) == 0) {
             strcpy(*result, pointer->name);
@@ -56,38 +51,34 @@ bool searchByPhone(char *phone, PhoneEntry **last, char **result) {
     return false;
 }
 
-int readFile(PhoneEntry **Last) {
-    FILE *file = fopen("/Users/annnikolaeff/CoolAwesomeRepo/PhoneBook/data.txt", "r");
+int readFile(PhoneEntry **last) {
+    FILE *file = fopen("../data.txt", "r");
     if (file == NULL) {
         printf("%s", "Файл не найден!");
         return 1;
     }
     while (!feof(file)) {
-        char *bufferName = malloc(sizeof(char) * 100);
-        char *bufferNumber = malloc(sizeof(char) * 30);
+        char bufferName[100] = {0};
+        char bufferNumber[30] = {0};
         const int readBytes = fscanf(file, "%s%s", bufferName, bufferNumber);
         if (readBytes < 0) {
-            free(bufferName);
-            free(bufferNumber);
             break;
         }
-        pushBack(Last, bufferName, bufferNumber);
-        free(bufferName);
-        free(bufferNumber);
+        pushBack(last, bufferName, bufferNumber);
     }
     fclose(file);
     return 0;
 }
 
-int writeFile(PhoneEntry **Last) {
-    FILE *file = fopen("/Users/annnikolaeff/CoolAwesomeRepo/PhoneBook/data.txt", "w");
+int writeFile(PhoneEntry **last) {
+    FILE *file = fopen("../data.txt", "w");
     if (file == NULL) {
         printf("%s", "Файл не найден!");
         return 1;
     }
-    PhoneEntry *pointer = (*Last);
+    PhoneEntry *pointer = (*last);
     while (pointer != NULL) {
-        fprintf(file, "%s%s%s%s", pointer->name, " ", pointer->phone, "\n");
+        fprintf(file, "%s %s\n", pointer->name, pointer->phone);
         pointer = pointer->next;
     }
     fclose(file);
@@ -109,11 +100,12 @@ int main() {
     if (commandCode > 5 || commandCode < 0) {
         printf("%s", "Неверный код команды, попробуйте ввести значение еще раз.");
         return 0;
-    } while (commandCode != 0) {
+    }
+    while (commandCode != 0) {
         if (commandCode == 1) {
             printf("%s", "Введите имя и номер:\n");
-            char *name = malloc(sizeof(char) * 100);
-            char *phone = malloc(sizeof(char) * 30);
+            char name[100] = {0};
+            char phone[30] = {0};
             scanf("%s%s", name, phone);
             pushBack(&last, name, phone);
 
@@ -129,24 +121,22 @@ int main() {
             } else {
                 printf("%s", "Please, enter the phone:\n");
             }
-            char * key = (char *) malloc(sizeof(char) * 100);
+            char key[100] = {0};
             scanf("%s", key);
-            char *result = (char*) malloc(sizeof(char) * 30);
+            char result[30] = {0};
             if (commandCode == 3) {
-                if(searchByName(key, &last, &result)) {
+                if (searchByName(key, &last, result)) {
                     printf("%s%s%s", "The phone number is ", result, "\n");
                 } else {
                     printf("%s", "There is no such a person\n");
                 }
             } else {
-                if(searchByPhone(key, &last, &result)) {
+                if(searchByPhone(key, &last, result)) {
                     printf("%s%s%s", "The name is ", result, "\n");
                 } else {
                     printf("%s", "There is no such number\n");
                 }
             }
-            free(key);
-            free(result);
         } else {
             writeFile(&last);
         }

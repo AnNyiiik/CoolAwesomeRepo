@@ -3,6 +3,11 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="PhoneBook" targetName="PhoneBook" />
+    </generated>
+  </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
       <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
@@ -24,7 +29,6 @@
       <change afterPath="$PROJECT_DIR$/../HalfQSort/cmake-build-debug/.cmake/api/v1/reply/index-2022-11-25T13-32-11-0289.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HalfQSort/cmake-build-debug/HalfQSort.cbp" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HashTable/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Postfix/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../StackModule/.idea/StackModule.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../StackModule/.idea/misc.xml" afterDir="false" />
@@ -36,8 +40,8 @@
       <change afterPath="$PROJECT_DIR$/../haffman/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../mergeSort/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../roundKilling/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +51,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -81,6 +86,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
     <property name="cidr.known.project.marker" value="true" />
+    <property name="cmake.loaded.for.project" value="true" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -91,6 +97,23 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PhoneBook" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="PhoneBook" TARGET_NAME="PhoneBook" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="PhoneBook" RUN_TARGET_NAME="PhoneBook">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -105,7 +128,9 @@
       <workItem from="1669386305918" duration="5000" />
       <workItem from="1669386348049" duration="61000" />
       <workItem from="1669401012444" duration="932000" />
-      <workItem from="1669401964020" duration="2129000" />
+      <workItem from="1669401964020" duration="2355000" />
+      <workItem from="1669415016035" duration="11000" />
+      <workItem from="1669415047651" duration="69000" />
     </task>
     <servers />
   </component>
@@ -122,5 +147,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

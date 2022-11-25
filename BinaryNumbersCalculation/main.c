@@ -8,7 +8,7 @@ void binaryRepresentation(int number, int *binaryNumber) {
     int bit = 0b01000000000000000000000000000000;
     binaryNumber[0] = (number < 0) ? 1 : 0;
     for (int i = 1; i < SIZE; ++i) {
-        *(binaryNumber + i) = (bit & number) ? 1 : 0;
+        binaryNumber[i] = (bit & number) ? 1 : 0;
         bit = bit >> 1;
     }
 }

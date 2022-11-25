@@ -17,11 +17,10 @@ void convertToBinary(int number, int *binaryNumber) {
 int convertToDecimal(const int *binaryArray) {
     int base = 1;
     int decimal = 0;
-    for (int i = SIZE - 1; i > 0; --i) {
+    for (int i = SIZE - 1; i >= 0; --i) {
         decimal += base * binaryArray[i];
         base = base * 2;
     }
-    decimal -= base * binaryArray[0];
     return decimal;
 }
 

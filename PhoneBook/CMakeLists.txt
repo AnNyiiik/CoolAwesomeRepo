@@ -3,5 +3,4 @@ project(PhoneBook C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(PhoneBook
-        main.c)
+add_executable(PhoneBook main.c)

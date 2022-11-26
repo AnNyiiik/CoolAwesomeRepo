@@ -29,6 +29,8 @@
       <change afterPath="$PROJECT_DIR$/../HalfQSort/cmake-build-debug/.cmake/api/v1/reply/index-2022-11-25T13-32-11-0289.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HalfQSort/cmake-build-debug/HalfQSort.cbp" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HashTable/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testData" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testWriteFile" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Postfix/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../StackModule/.idea/StackModule.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../StackModule/.idea/misc.xml" afterDir="false" />
@@ -41,7 +43,7 @@
       <change afterPath="$PROJECT_DIR$/../mergeSort/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../roundKilling/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,12 +101,12 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="PhoneBook" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="PhoneBook" TARGET_NAME="PhoneBook" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="PhoneBook" RUN_TARGET_NAME="PhoneBook">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PhoneBook" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="PhoneBook" TARGET_NAME="PhoneBook" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="PhoneBook" RUN_TARGET_NAME="PhoneBook">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -131,6 +133,7 @@
       <workItem from="1669401964020" duration="2355000" />
       <workItem from="1669415016035" duration="11000" />
       <workItem from="1669415047651" duration="69000" />
+      <workItem from="1669468826396" duration="4505000" />
     </task>
     <servers />
   </component>
@@ -148,5 +151,21 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.c</url>
+          <line>151</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.c</url>
+          <line>47</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

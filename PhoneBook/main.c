@@ -18,13 +18,19 @@ void pushBack(PhoneEntry **last, char *name, char *phone) {
     *last = newNode;
 }
 
-void delete(PhoneEntry **last) {
+void deleteElement(PhoneEntry **last) {
     if (*last == NULL) {
         return;
     }
     PhoneEntry *previous = (*last);
     (*last) = (*last)->next;
     free(previous);
+}
+
+void deleteAll(PhoneEntry **last) {
+    while ((*last) != NULL) {
+        deleteElement(last);
+    }
 }
 
 bool searchByName(char *name, PhoneEntry **last, char *result) {
@@ -39,11 +45,11 @@ bool searchByName(char *name, PhoneEntry **last, char *result) {
     return false;
 }
 
-bool searchByPhone(char *phone, PhoneEntry **last, char **result) {
+bool searchByPhone(char *phone, PhoneEntry **last, char *result) {
     PhoneEntry *pointer = *last;
     while (pointer != NULL) {
         if (strcmp(pointer->phone, phone) == 0) {
-            strcpy(*result, pointer->name);
+            strcpy(result, pointer->name);
             return true;
         }
         pointer = pointer->next;
@@ -51,8 +57,8 @@ bool searchByPhone(char *phone, PhoneEntry **last, char **result) {
     return false;
 }
 
-int readFile(PhoneEntry **last) {
-    FILE *file = fopen("../data.txt", "r");
+int readFile(PhoneEntry **last, char const *fileName) {
+    FILE *file = fopen(fileName, "r");
     if (file == NULL) {
         printf("%s", "Файл не найден!");
         return 1;
@@ -70,8 +76,8 @@ int readFile(PhoneEntry **last) {
     return 0;
 }
 
-int writeFile(PhoneEntry **last) {
-    FILE *file = fopen("../data.txt", "w");
+int writeFile(PhoneEntry **last, char const *fileName) {
+    FILE *file = fopen(fileName, "w");
     if (file == NULL) {
         printf("%s", "Файл не найден!");
         return 1;
@@ -85,7 +91,95 @@ int writeFile(PhoneEntry **last) {
     return 0;
 }
 
+testReadFile(void) {
+    PhoneEntry *last = NULL;
+    if (readFile(&last, "../testData") == 1) {
+        return false;
+    }
+    char *correctPhones[3] = {"910-209-19-98", "819209389", "19787281987"};
+    char *correctNames[3] = {"jaisoidjioa", "ajisoijdiosa", "uqioijjsioaji"};
+    int index = 0;
+    PhoneEntry *pointer = last;
+    while (pointer != NULL) {
+        if (strcmp(pointer->phone, correctPhones[index]) != 0 || strcmp(pointer->name, correctNames[index]) != 0) {
+            deleteAll(&last);
+            return false;
+        }
+        ++index;
+        pointer = pointer->next;
+    }
+    deleteAll(&last);
+    return true;
+}
+
+bool testWriteFile(void) {
+    PhoneEntry *last = NULL;
+    char *correctPhones[3] = {"910-209-19-98", "819209389", "19787281987"};
+    char *correctNames[3] = {"jaisoidjioa", "ajisoijdiosa", "uqioijjsioaji"};
+    for (int i = 0; i < 3; ++i) {
+        pushBack(&last, correctNames[i], correctPhones[i]);
+    }
+    if (writeFile(&last, "../testWriteFile") == 1) {
+        deleteAll(&last);
+        return false;
+    }
+    FILE *file = fopen("../testWriteFile", "r");
+    int index = 0;
+    while (!feof(file)) {
+        char bufferName[100] = {0};
+        char bufferNumber[30] = {0};
+        const int readBytes = fscanf(file, "%s%s", bufferName, bufferNumber);
+        if (readBytes < 0) {
+            break;
+        }
+        if (index > 2) {
+            deleteAll(&last);
+            fclose(file);
+            return false;
+        }
+        if (strcmp(bufferName, correctNames[2 - index]) != 0 || strcmp(bufferNumber, correctPhones[2 - index]) != 0) {
+            deleteAll(&last);
+            fclose(file);
+            return false;
+        }
+        ++index;
+    }
+    deleteAll(&last);
+    fclose(file);
+    return true;
+}
+
+bool testSearch(void) {
+    PhoneEntry *last = NULL;
+    readFile(&last, "../testData");
+    char result[100] = {0};
+    char *correctPhones[3] = {"910-209-19-98", "819209389", "19787281987"};
+    char *correctNames[3] = {"jaisoidjioa", "ajisoijdiosa", "uqioijjsioaji"};
+    for (int i = 0; i < 3; ++i) {
+        if (!searchByPhone(correctPhones[i], &last, result) || !searchByName(correctNames[i], &last, result)) {
+            deleteAll(&last);
+            return false;
+        }
+        searchByPhone(correctPhones[i], &last, result);
+        if (strcmp(correctNames[i], result) != 0) {
+            deleteAll(&last);
+            return false;
+        }
+        searchByName(correctNames[i], &last, result);
+        if (strcmp(correctPhones[i], result) != 0) {
+            deleteAll(&last);
+            return false;
+        }
+    }
+    deleteAll(&last);
+    return true;
+}
+
 int main() {
+    if (!testReadFile() || !testWriteFile() || !testSearch()) {
+        printf("tests have been failed");
+        return 1;
+    }
     setlocale(LC_ALL, "RUS");
     printf("%s%s%s%s%s%s", "Для того, чтобы выйти, введите 0.\n",
                            "Чтобы добавить запись, введите 1.\n",
@@ -94,7 +188,7 @@ int main() {
                  "Чтобы найти имя по телефону, введите 4.\n",
                  "Сохранить текущие данные в файл, введите 5.\n");
     PhoneEntry *last = NULL;
-    readFile(&last);
+    readFile(&last, "../data.txt");
     int commandCode = 0;
     scanf("%d", &commandCode);
     if (commandCode > 5 || commandCode < 0) {
@@ -138,13 +232,11 @@ int main() {
                 }
             }
         } else {
-            writeFile(&last);
+            writeFile(&last, "../data.txt");
         }
         scanf("%d", &commandCode);
     }
-    while (last != NULL) {
-        delete(&last);
-    }
+    deleteAll(&last);
     return 0;
 }
 

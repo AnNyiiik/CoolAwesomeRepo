@@ -126,7 +126,7 @@ int main() {
         printf("tests of infixToPostfix function are failed\n");
         return 1;
     }
-    char *sequence = (char*) malloc(sizeof(char) * 100);
+    char sequence[100] = {0};
     printf("%s", "Enter the sequence:\n");
     scanf("%s", sequence);
     char *sequencePostfix = (char*) malloc(sizeof(char) * 100);
@@ -137,7 +137,6 @@ int main() {
         free(sequencePostfix);
         return 1;
     }
-    free(sequence);
     printf("%s", sequencePostfix);
     free(sequencePostfix);
     return 0;

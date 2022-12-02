@@ -68,16 +68,14 @@ int main() {
         printf("%s", "The algorithm is incorrect!");
         return 1;
     }
-    char *sequence = (char*) malloc(sizeof(char) * 100);
+    char sequence[100] = {0};
     printf("%s", "Enter the sequence:\n");
     scanf("%s", sequence);
     bool result = true;
     int errorCode = checkBalance(sequence, &result);
     if (errorCode != 0) {
-        free(sequence);
         return 1;
     }
-    free(sequence);
     if (result) {
         printf("%s", "The sequence is correct.");
     } else {

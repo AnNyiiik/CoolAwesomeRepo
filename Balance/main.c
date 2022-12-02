@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "../StackModule/stack.h"
 #include "../StackModule/test.h"
@@ -9,11 +8,11 @@ int checkBalance(char *sequence, bool *result) {
     *result = true;
     int size = strlen(sequence);
     for (int i = 0; i < size; ++i) {
-        int errorCode = 0;
         int returnValue = 0;
         if ((sequence[i] == '(') || (sequence[i] == '{') || (sequence[i] == '[')) {
-            errorCode = pushBack(&head, (int)sequence[i]);
+            int errorCode = pushBack(&head, (int)sequence[i]);
             if (errorCode != 0) {
+                deleteAll(&head);
                 printf("%s", "was an error during push");
                 return 1;
             }
@@ -22,12 +21,12 @@ int checkBalance(char *sequence, bool *result) {
                 *result = false;
                 break;
             }
-            errorCode = pop(&head, &returnValue);
+            int errorCode = pop(&head, &returnValue);
             if (errorCode != 0) {
                 printf("%s", "was an error during pop");
                 return 1;
             }
-            if (((int) sequence[i] == returnValue + 1) || ((int) sequence[i] == returnValue + 2)) {
+            if ((sequence[i] == returnValue + 1) || (sequence[i] == returnValue + 2)) {
                 continue;
             }
             *result = false;
@@ -50,7 +49,7 @@ bool test(void) {
             return false;
         }
         if (i == 0) {
-            if (!result){
+            if (!result) {
                 return false;
             }
         } else if (i == 1) {
@@ -58,12 +57,17 @@ bool test(void) {
                 return false;
             }
         } else {
-            return (!result);
+            return !result;
         }
     }
+    return false;
 }
 
 int main() {
+    if (!testPop() && !testIsEmpty() && !testDeleteAll() && !testPush()) {
+        printf("stack is incorrect");
+        return 1;
+    }
     if (!test()) {
         printf("%s", "The algorithm is incorrect!");
         return 1;

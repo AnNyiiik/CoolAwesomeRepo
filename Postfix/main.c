@@ -4,13 +4,13 @@
 #include "../StackModule/stack.h"
 #include "../StackModule/test.h"
 
-int postfixCaculation(char *postfixExpression, int *result) {
+int postfixCalculation(char const *postfixExpression, int *result) {
     Node *head = NULL;
     int size = strlen(postfixExpression);
     int temporaryValue = 0;
     for (int i = 0; i < size; ++i) {
-        if (((int) postfixExpression[i] - 48 < 10) && ((int) postfixExpression[i] - 48 >= 0)) {
-            pushBack(&head, (int) postfixExpression[i] - 48);
+        if ((postfixExpression[i] - '0' < 10) && (postfixExpression[i] - '0' >= 0)) {
+            pushBack(&head, postfixExpression[i] - '0');
         } else {
             int returnValue = 0;
             int errorCode = 0;
@@ -62,7 +62,10 @@ int postfixCaculation(char *postfixExpression, int *result) {
                     if (errorCode != 0) {
                         return 1;
                     }
-                    temporaryValue = (i == 0) ? (temporaryValue * returnValue) : (temporaryValue / returnValue);
+                    if (i == 0 && returnValue == 0) {
+                        return 1;
+                    }
+                    temporaryValue = (i == 0) ? returnValue : (temporaryValue / returnValue);
                 }
                 errorCode = pushBack(&head, temporaryValue);
                 if (errorCode != 0) {
@@ -71,30 +74,29 @@ int postfixCaculation(char *postfixExpression, int *result) {
             }
         }
     }
-    *result = temporaryValue;
-    return 0;
+    pop(&head, result);
+    return isEmpty(head);
 }
 
 bool test(void) {
-    char sampleOne[7] = "96-12+*";
     char sampleTwo[7] = "45+23*-";
     char sampleThree[7] = "46*99/-";
     for (int i = 0; i < 3; ++i) {
         int result = 0;
         int errorCode = 0;
         if (i == 0) {
-            errorCode = postfixCaculation(sampleOne, &result);
+            errorCode = postfixCalculation("96-12+*", &result);
         } else if (i == 1) {
-            errorCode = postfixCaculation(sampleTwo, &result);
+            errorCode = postfixCalculation(sampleTwo, &result);
         } else {
-            errorCode = postfixCaculation(sampleThree, &result);
+            errorCode = postfixCalculation(sampleThree, &result);
         }
         if (errorCode != 0) {
             return false;
         }
-        if ((i == 0) && (result != 9)) {
+        if (i == 0 && result != 9) {
             return false;
-        } else if ((i == 1) && (result != 3)) {
+        } else if (i == 1 && (result != 3)) {
             return false;
         } if (i == 2) {
             return (result == 23);
@@ -124,15 +126,13 @@ int main() {
         return 1;
     }
     printf("Enter the expression:\n");
-    char *postfixExpression = (char*) malloc(sizeof(char) * 100);
+    char postfixExpression[100] = {0};
     scanf("%s", postfixExpression);
     int result = 0;
-    int errorCode = postfixCaculation(postfixExpression, &result);
+    int errorCode = postfixCalculation(postfixExpression, &result);
     if (errorCode != 0) {
-        free(postfixExpression);
         return 1;
     }
-    free(postfixExpression);
     printf("%s%d", "The result is ", result);
     return 0;
 }

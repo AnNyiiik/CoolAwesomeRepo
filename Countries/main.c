@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "cmake-build-debug/matrixFunctions.h"
+#include "matrixFunctions.h"
+#include "../List/list.h"
 int main() {
     FILE *file = fopen("../text", "r");
     Data *data = NULL;

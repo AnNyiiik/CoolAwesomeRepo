@@ -8,9 +8,6 @@ int main() {
     Data *data = NULL;
     readFromFile(file, &data);
     char *result = " ";
-    for (int i = 0; i < data->; ++i) {
-        printf("\n");
-    }
-    //createCounties(data, result);
+    createCounties(data, result);
     return 0;
 }

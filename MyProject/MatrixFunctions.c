@@ -73,7 +73,7 @@ void createCounties(Data *data, char *result) {
         available[i] = createList();
         for (int j = 0; j < data->towns; ++j) {
             if (data->matrix[data->capitals[i] - 1][j] != 0) {
-                push(&available[i], j + 1, data->matrix[data->capitals[i] - 1][j]);
+                insertByOrder(available[i], j + 1, data->matrix[data->capitals[i] - 1][j]);
             }
         }
     }
@@ -88,12 +88,13 @@ void createCounties(Data *data, char *result) {
             if (errorCode == 0) {
                 for (int j = 0; j < data->towns; ++j) {
                     if (data->matrix[j][town - 1] != 0) {
-                        if (getPath(countries[i], j + 1) != -1 && getPath(countries[i], j + 1) >
+                        int dist = getPath(countries[i], j + 1);
+                        if (dist != -1  && getPath(countries[i], j + 1) >
                                                                   path + data->matrix[j][town - 1]) {
                             delete(countries[i], getElementPlace(countries[i], j + 1));
                             push(&countries[i], j + 1, path + data->matrix[j][town - 1]);
                         } else if (getPath(countries[i], j + 1) == -1) {
-                            push(&available[i], j + 1, path + data->matrix[j][town - 1]);
+                            insertByOrder(available[i], j + 1, path + data->matrix[j][town - 1]);
                         }
                     }
                 }

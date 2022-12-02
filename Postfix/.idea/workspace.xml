@@ -29,13 +29,12 @@
       <change afterPath="$PROJECT_DIR$/../HalfQSort/cmake-build-debug/.cmake/api/v1/reply/index-2022-11-25T13-32-11-0289.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HalfQSort/cmake-build-debug/HalfQSort.cbp" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HashTable/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../SymmetricList/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frequency/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../haffman/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../mergeSort/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../roundKilling/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../StackModule/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../StackModule/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -104,7 +103,8 @@
       <workItem from="1669976617709" duration="43000" />
       <workItem from="1669976664364" duration="204000" />
       <workItem from="1669988071889" duration="46000" />
-      <workItem from="1669989002045" duration="968000" />
+      <workItem from="1669989002045" duration="1007000" />
+      <workItem from="1669991148428" duration="130000" />
     </task>
     <servers />
   </component>

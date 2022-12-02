@@ -76,6 +76,9 @@ void createCounties(Data *data, char *result) {
                 insertByOrder(available[i], j + 1, data->matrix[data->capitals[i] - 1][j]);
             }
         }
+        for (int j = 0; j < data->numberOfCapitals; ++j) {
+            delete(available[i], data->capitals[i]);
+        }
     }
     while (notDistributed > 0) {
         for (int i = 0; i < data->numberOfCapitals; ++i) {

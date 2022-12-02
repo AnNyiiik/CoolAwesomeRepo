@@ -66,6 +66,13 @@ int readFromFile(FILE *file, Data **data) {
 void createCounties(Data *data, char *result) {
     List **countries = (List **)calloc(data->numberOfCapitals, sizeof(List *));
     List **available = (List **)calloc(data->numberOfCapitals, sizeof(List *));
+    bool *isFree = (bool*)calloc(data->towns, sizeof(bool));
+    for (int i = 0; i < data->towns; ++i) {
+        isFree[i] = true;
+    }
+    for (int i = 0; i < data->numberOfCapitals; ++i) {
+        isFree[data->capitals[i] - 1] = false;
+    }
     int notDistributed = data->towns - data->numberOfCapitals;
     for (int i = 0; i < data->numberOfCapitals; ++i) {
         countries[i] = createList();
@@ -77,7 +84,9 @@ void createCounties(Data *data, char *result) {
             }
         }
         for (int j = 0; j < data->numberOfCapitals; ++j) {
-            delete(available[i], data->capitals[i]);
+            if (getElementPlace(available[i], data->capitals[i]) != -1) {
+                delete(available[i], getElementPlace(available[i], data->capitals[i]));
+            }
         }
     }
     while (notDistributed > 0) {
@@ -88,28 +97,36 @@ void createCounties(Data *data, char *result) {
             int town = 0;
             int path = 0;
             int errorCode = pop(&available[i], &town, &path);
+            for (int k = 0; k < data->towns; ++k) {
+                printf("%d ", isFree[k]);
+            }
+            printf("\n");
             if (errorCode == 0) {
                 for (int j = 0; j < data->towns; ++j) {
                     if (data->matrix[j][town - 1] != 0) {
                         int dist = getPath(countries[i], j + 1);
-                        if (dist != -1  && getPath(countries[i], j + 1) >
+                        if (dist != -1 && getPath(countries[i], j + 1) >
                                                                   path + data->matrix[j][town - 1]) {
                             delete(countries[i], getElementPlace(countries[i], j + 1));
                             push(&countries[i], j + 1, path + data->matrix[j][town - 1]);
-                        } else if (getPath(countries[i], j + 1) == -1) {
-                            insertByOrder(available[i], j + 1, path + data->matrix[j][town - 1]);
+                        } else if (isFree[j] && getPath(countries[i], j + 1) == -1) {
+                                insertByOrder(available[i], j + 1, path + data->matrix[j][town - 1]);
                         }
                     }
                 }
                 --notDistributed;
+                isFree[town - 1] = false;
                 push(&countries[i], town, path);
                 for (int j = 0; j < data->numberOfCapitals; ++j) {
-                    delete(available[j], getElementPlace(countries[j], town));
+                    if (j == (data->capitals[i] - 1)) {
+                        continue;
+                    }
+                    delete(available[j], getElementPlace(available[j], town));
                 }
             }
         }
-    }
-    for (int i = 0; i < data->numberOfCapitals; ++i) {
-        printList(countries[i]);
+        for (int i = 0; i < data->numberOfCapitals; ++i) {
+            printList(countries[i]);
+        }
     }
 }

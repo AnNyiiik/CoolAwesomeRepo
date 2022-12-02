@@ -9,15 +9,21 @@ List *createList(void);
 
 int deleteList(List **list);
 
-int push(List **list, int value);
+int push(List **list, int number, int path);
 
-int insert(List *list, int place, int value);
+int insert(List *list, int place, int number, int path);
 
-int insertByOrder(List *list, int value);
+int insertByOrder(List *list, int number, int path);
 
 int delete(List *list, int place);
 
-int pop(List **list, int *value);
+int pop(List **list, int *number, int *path);
+
+int getElementPlace(List *list, int number);
+
+int getPath(List *list, int number);
+
+void printList(List *list);
 
 bool isEmpty(List *list);
 #endif //LIST_LIST_H

@@ -4,7 +4,7 @@
 #include "../List/test.h"
 
 int main() {
-    if (!testIsEmpty() || !testPop() || !testCreate() || !testDelete() || !testInsertByOrder() || !testInsert()) {
+    if (!testIsEmpty() || !testPop() || !testCreate()) {
         return 1;
     }
     printf("enter a and b values (a > b):\n");
@@ -15,7 +15,7 @@ int main() {
     if (boundFirst > boundSecond) {
         return 1;
     }
-    FILE *fileInput = fopen("../input.txt", "r");
+    FILE *fileInput = fopen("../input", "r");
     if (fileInput == NULL) {
         return 1;
     }
@@ -26,12 +26,19 @@ int main() {
     while (fscanf(fileInput, "%s", number) > 0) {
         int element = atoi(number);
         if (element >= boundFirst && element <= boundSecond) {
-            push(&listAB, element);
+            pushBack(&listAB, element);
         } else if (element > boundSecond) {
-            push(&listUp, element);
+            pushBack(&listUp, element);
         } else {
-            push(&listLow, element);
+            pushBack(&listLow, element);
         }
     }
+    fclose(fileInput);
+    List *list = makeOne(makeOne(listLow, listAB), listUp);
+    printList(list, "../output");
+    deleteList(&listUp);
+    deleteList(&listAB);
+    deleteList(&listLow);
+    deleteList(&list);
     return 0;
 }

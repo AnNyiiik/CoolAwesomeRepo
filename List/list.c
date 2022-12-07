@@ -56,7 +56,7 @@ int pop(List **list, int *value) {
     }
     ListElement *previous = (*list)->head;
     *value = previous->value;
-    ((*list)->head) = ((*list)->head)->next;
+    (*list)->head = (*list)->head->next;
     --(*list)->size;
     free(previous);
     return 0;

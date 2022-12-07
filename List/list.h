@@ -3,8 +3,6 @@
 
 #include <stdbool.h>
 
-typedef struct ListElement ListElement;
-
 typedef struct List List;
 
 //Create an empty list.

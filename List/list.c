@@ -164,7 +164,7 @@ int insertByOrder(List *list, int value) {
 }
 
 int push(List **list, int value) {
-    ListElement *newNode = (ListElement *) malloc(sizeof(ListElement));
+    ListElement *newNode = (ListElement *)malloc(sizeof(ListElement));
     if (newNode == NULL) {
         return 1;
     }

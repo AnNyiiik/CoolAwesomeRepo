@@ -14,21 +14,18 @@ List *createList(void);
 int deleteList(List **list);
 
 //Add a new element at the head.
-int push(List **list, int value);
-
-//Insert a new element into the List by place
-int insert(List *list, int place, int value);
-
-//Insert a new element into the List by sorted order according to a value.
-int insertByOrder(List *list, int value);
-
-//Delete an element by place.
-int delete(List *list, int place);
+int pushBack(List **list, int value);
 
 //Delete an element from the head.
 int pop(List **list, int *value);
 
 //Check if the list is empty.
 bool isEmpty(List *list);
+
+//Print to file.
+void printList(List *list, char const *path);
+
+//Concatenate two given lists.
+List *makeOne(List *listFirst, List *listSecond);
 
 #endif //LIST_LIST_H

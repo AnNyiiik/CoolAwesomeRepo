@@ -30,4 +30,5 @@ int pop(List **list, int *value);
 
 //Check if the list is empty.
 bool isEmpty(List *list);
+
 #endif //LIST_LIST_H

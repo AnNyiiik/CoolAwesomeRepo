@@ -15,7 +15,7 @@ typedef struct List {
 } List;
 
 List *createList(void) {
-    struct List *list = (List *) malloc(sizeof(List));
+    struct List *list = (List *)calloc(1, sizeof(List));
     list->head = NULL;
     list->size = 0;
     return list;
@@ -176,11 +176,11 @@ int push(List **list, int value) {
 }
 
 int pop(List **list, int *value) {
-    if (isEmpty(list)) {
+    if (isEmpty(*list)) {
         return 1;
     }
     ListElement *previous = (*list)->head;
-    *value = (previous)->value;
+    *value = previous->value;
     ((*list)->head) = ((*list)->head)->next;
     --(*list)->size;
     free(previous);

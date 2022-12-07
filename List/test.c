@@ -1,8 +1,6 @@
 #include "test.h"
 #include "list.h"
 #include <stdbool.h>
-
-#include <stdlib.h>
 #include <string.h>
 
 typedef struct ListElement {
@@ -24,42 +22,16 @@ bool testCreate(void) {
     return false;
 }
 
-bool testDelete(void) {
-    List *list = createList();
-    insert(list, 0, 0);
-    insert(list, 1, 0);
-    deleteList(&list);
-    if (isEmpty(list)) {
-        return true;
-    }
-    return false;
-}
-
-bool testInsert(void) {
-    List *list = createList();
-    insert(list, 0, 19);
-    if (isEmpty(list) || list->size == 0 || list->head == NULL) {
-        deleteList(&list);
-        return false;
-    }
-    if (list->head->value != 19) {
-        deleteList(&list);
-        return false;
-    }
-    deleteList(&list);
-    return true;
-}
-
 bool testPop(void) {
     List *list = createList();
-    insert(list, 0, 16);
+    pushBack(&list, 0);
     int value = 0;
     int errorCode = pop(&list, &value);
     if (errorCode != 0) {
         deleteList(&list);
         return false;
     }
-    if (value != 16) {
+    if (value != 0) {
         deleteList(&list);
         return false;
     }
@@ -78,24 +50,4 @@ bool testIsEmpty(void) {
     }
     deleteList(&list);
     return false;
-}
-
-bool testInsertByOrder(void) {
-    List *list = createList();
-    for (int i = 0; i < 3; ++i) {
-        int errorCode= insertByOrder(list, rand() % 10);
-        if (errorCode != 0) {
-            deleteList(&list);
-            return false;
-        }
-    }
-    ListElement *element = list->head;
-    for (int i = 0; i < 2; ++i) {
-        if (element->value > element->next->value) {
-            deleteList(&list);
-            return false;
-        }
-    }
-    deleteList(&list);
-    return true;
 }

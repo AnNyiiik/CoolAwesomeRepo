@@ -99,8 +99,8 @@ int pop(List **list) {
         return 0;
     }
     ListElement *previous = (*list)->head;
-    ((*list)->tail->next) = ((*list)->head)->next;
-    ((*list)->head) = ((*list)->head)->next;
+    (*list)->tail->next = (*list)->head->next;
+    (*list)->head = (*list)->head->next;
     free(previous);
     return 0;
 }

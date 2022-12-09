@@ -15,6 +15,9 @@ typedef struct List {
 
 bool testCreate(void) {
     List *list = createList();
+    if (list == NULL) {
+        return false;
+    }
     if (isEmpty(list) && (list->head == NULL) && (list->tail == NULL)) {
         return true;
     }

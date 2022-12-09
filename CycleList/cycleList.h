@@ -1,7 +1,8 @@
-#include <stdbool.h>
-
 #ifndef CYCLELIST_CYCLELIST_H
 #define CYCLELIST_CYCLELIST_H
+
+#include <stdbool.h>
+
 typedef struct ListElement ListElement;
 
 typedef struct List List;

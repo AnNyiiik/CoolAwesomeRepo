@@ -23,6 +23,9 @@ List *createList(void) {
 }
 
 int deleteList(List *list) {
+    if (list == NULL) {
+        return 1;
+    }
     while (!isEmpty(list)) {
         int errorCode = pop(&list);
         if (errorCode != 0) {
@@ -33,7 +36,7 @@ int deleteList(List *list) {
 }
 
 void delete(List *list, int place) {
-    if (isEmpty(list)) {
+    if (isEmpty(list) || list == NULL) {
         return;
     }
     if (place == 0) {
@@ -58,7 +61,6 @@ void delete(List *list, int place) {
     }
     free(element->next);
     element->next = elementAfterDeleted;
-    return;
 }
 
 int pushBack(List **list, int value) {
@@ -93,8 +95,8 @@ int pop(List **list) {
         return 0;
     }
     ListElement *previous = (*list)->head;
-    ((*list)->tail->next) = ((*list)->head)->next;
-    ((*list)->head) = ((*list)->head)->next;
+    (*list)->tail->next = (*list)->head->next;
+    (*list)->head = (*list)->head->next;
     free(previous);
     return 0;
 }

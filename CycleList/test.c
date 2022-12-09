@@ -16,6 +16,9 @@ typedef struct List {
 
 bool testCreate(void) {
     List *list = createList();
+    if (list == NULL) {
+        return false;
+    }
     if (isEmpty(list) && (list->head == NULL) && (list->tail == NULL)) {
         return true;
     }
@@ -28,10 +31,10 @@ bool testDelete(void) {
     pushBack(&list, 1);
     pushBack(&list, 2);
     deleteList(list);
-    if (isEmpty(list)) {
-        return true;
+    if (list == NULL) {
+        return false;
     }
-    return false;
+    return isEmpty(list);
 }
 
 bool testPushBack(void) {

@@ -2,22 +2,7 @@
 #include "../List/list.h"
 #include "../List/test.h"
 int main() {
-    if (!testCreate()) {
-        return 1;
-    }
-    if (!testDelete()) {
-        return 1;
-    }
-    if (!testInsert()) {
-        return 1;
-    }
-    if (!testPop()) {
-        return 1;
-    }
-    if (!testInsertByOrder()) {
-        return 1;
-    }
-    if (!testIsEmpty()) {
+    if (!testCreate() || !testDelete() || !testInsert() || !testPop() || !testInsertByOrder() || !testIsEmpty()) {
         return 1;
     }
     int option = 0;

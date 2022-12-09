@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "../CycleList/cycleList.h"
 #include "../CycleList/test.h"
+
 int whoWillSurvive(int numberOfWarriors, int gap) {
     List *list = createList();
     for (int i = 0; i < numberOfWarriors; ++i) {
@@ -36,28 +37,8 @@ bool test(void) {
 }
 
 int main() {
-    if (!testCreate()) {
-        printf("Test createList has been failed");
-        return 1;
-    }
-    if (!testPushBack()) {
-        printf("Test PushBack has been failed");
-        return 1;
-    }
-    if (!testPop()) {
-        printf("Test Pop has been failed");
-        return 1;
-    }
-    if (!testDelete()) {
-        printf("Test delete has been failed");
-        return 1;
-    }
-    if (!testIsEmpty()) {
-        printf("Test IsEmpty has been failed");
-        return 1;
-    }
-    if (!test()) {
-        printf("Algorithm's tests have been failed");
+    if (!testCreate() || !testPushBack() || !testPop() || !testDelete() || !testIsEmpty() || !test()) {
+        printf("Tests have been failed");
         return 1;
     }
     printf("Enter the number of warriors:\n");

@@ -1,7 +1,7 @@
 #include "test.h"
 #include "list.h"
-#include <stdbool.h>
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -29,10 +29,7 @@ bool testDelete(void) {
     insert(list, 0, 0);
     insert(list, 1, 0);
     deleteList(&list);
-    if (isEmpty(list)) {
-        return true;
-    }
-    return false;
+    return isEmpty(list);
 }
 
 bool testInsert(void) {

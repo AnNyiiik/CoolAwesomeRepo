@@ -1,6 +1,8 @@
-#include <stdbool.h>
 #ifndef LIST_TEST_H
 #define LIST_TEST_H
+
+#include <stdbool.h>
+
 bool testCreate(void);
 
 bool testDelete(void);
@@ -8,8 +10,6 @@ bool testDelete(void);
 bool testInsert(void);
 
 bool testPop(void);
-
-bool testIsEmpty(void);
 
 bool testInsertByOrder(void);
 

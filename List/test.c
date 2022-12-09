@@ -1,23 +1,14 @@
 #include "test.h"
 #include "list.h"
-#include <stdbool.h>
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct ListElement {
-    int value;
-    struct ListElement *next;
-} ListElement;
-
-typedef struct List {
-    struct ListElement *head;
-    int size;
-} List;
-
 bool testCreate(void) {
     List *list = createList();
-    if (isEmpty(list) && (list->head == NULL) && (list->size == 0)) {
+    if (isEmpty(list)) {
+        deleteList(&list);
         return true;
     }
     deleteList(&list);
@@ -29,20 +20,19 @@ bool testDelete(void) {
     insert(list, 0, 0);
     insert(list, 1, 0);
     deleteList(&list);
-    if (isEmpty(list)) {
-        return true;
-    }
-    return false;
+    return list == NULL;
 }
 
 bool testInsert(void) {
     List *list = createList();
     insert(list, 0, 19);
-    if (isEmpty(list) || list->size == 0 || list->head == NULL) {
+    if (isEmpty(list)) {
         deleteList(&list);
         return false;
     }
-    if (list->head->value != 19) {
+    int returnValue = 0;
+    pop(&list, &returnValue);
+    if (returnValue != 19) {
         deleteList(&list);
         return false;
     }
@@ -71,15 +61,6 @@ bool testPop(void) {
     return true;
 }
 
-bool testIsEmpty(void) {
-    List *list = createList();
-    if (isEmpty(list)) {
-        return true;
-    }
-    deleteList(&list);
-    return false;
-}
-
 bool testInsertByOrder(void) {
     List *list = createList();
     for (int i = 0; i < 3; ++i) {
@@ -89,12 +70,16 @@ bool testInsertByOrder(void) {
             return false;
         }
     }
-    ListElement *element = list->head;
-    for (int i = 0; i < 2; ++i) {
-        if (element->value > element->next->value) {
+    int returnValue = 0;
+    pop(&list, &returnValue);
+    while (!isEmpty(list)) {
+        int nextValue = 0;
+        pop(&list, &nextValue);
+        if (nextValue < returnValue) {
             deleteList(&list);
             return false;
         }
+        returnValue = nextValue;
     }
     deleteList(&list);
     return true;

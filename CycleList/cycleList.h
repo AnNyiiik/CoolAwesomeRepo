@@ -12,12 +12,16 @@ int pushBack(List **list, int value);
 
 int pop(List **list);
 
-int deleteList(List *list);
+int deleteList(List **list);
 
-void delete(List *list, int place);
-
-int getIndex(List *list);
+void delete(List **list, ListElement **elementBeforeDeleted);
 
 bool isEmpty(List *list);
+
+ListElement *getHead(List *list);
+
+ListElement *getNext(ListElement *element);
+
+int getIndexFirst(List *list);
 
 #endif //CYCLELIST_CYCLELIST_H

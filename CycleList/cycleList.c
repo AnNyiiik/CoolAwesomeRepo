@@ -21,7 +21,7 @@ List *createList(void) {
 }
 
 int deleteList(List **list) {
-    while (!isEmpty(list)) {
+    while (!isEmpty(*list)) {
         int errorCode = pop(list);
         if (errorCode != 0) {
             return 1;
@@ -32,32 +32,25 @@ int deleteList(List **list) {
     return 0;
 }
 
-void delete(List *list, int place) {
-    if (isEmpty(list)) {
+void delete(List **list, ListElement **elementBeforeDeleted) {
+    if ((*elementBeforeDeleted) == NULL) {
         return;
     }
-    if (place == 0) {
-        int errorCode = pop(&list);
-        if (errorCode != 0) {
-            return;
-        }
+    if ((*list)->head == (*list)->tail) {
+        free(*elementBeforeDeleted);
+        (*list)->head = NULL;
+        (*list)->tail = NULL;
         return;
     }
-    int index = 0;
-    ListElement *element = list->head;
-    while (index < place - 1) {
-        element = element->next;
-        ++index;
+    if ((*elementBeforeDeleted)->next == (*list)->head) {
+        (*list)->head = (*elementBeforeDeleted)->next->next;
     }
-    ListElement *elementAfterDeleted = element->next->next;
-    if (element->next == list->head) {
-        list->tail->next = elementAfterDeleted;
-        list->head = elementAfterDeleted;
-    } else if (element->next == list->tail) {
-        list->tail = element;
+    if ((*elementBeforeDeleted)->next == (*list)->tail) {
+        (*list)->tail = (*elementBeforeDeleted);
     }
-    free(element->next);
-    element->next = elementAfterDeleted;
+    ListElement *elementAfterDeleted = (*elementBeforeDeleted)->next->next;
+    free((*elementBeforeDeleted)->next);
+    (*elementBeforeDeleted)->next = elementAfterDeleted;
 }
 
 int pushBack(List **list, int value) {
@@ -81,9 +74,23 @@ int pushBack(List **list, int value) {
     return 0;
 }
 
+ListElement *getHead(List *list) {
+    if (list == NULL) {
+        return NULL;
+    }
+    return list->head;
+}
+
+ListElement *getNext(ListElement *element) {
+    if (element == NULL) {
+        return NULL;
+    }
+    return element->next;
+}
+
 int pop(List **list) {
     if (isEmpty(*list)) {
-        return 0;
+        return 1;
     }
     if ((*list)->head == (*list)->tail) {
         free((*list)->head);
@@ -98,11 +105,17 @@ int pop(List **list) {
     return 0;
 }
 
-int getIndex(List *list) {
-    return list->head->index;
+bool isEmpty(List *list) {
+    if (list == NULL) {
+        return true;
+    }
+    return list->head == NULL;
 }
 
-bool isEmpty(List *list) {
-    return list->head == NULL;
+int getIndexFirst(List *list) {
+    if (list->head == NULL) {
+        return -1;
+    }
+    return list->head->index;
 }
 

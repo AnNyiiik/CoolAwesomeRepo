@@ -1,6 +1,5 @@
 #include "test.h"
 #include "cycleList.h"
-#include <stdlib.h>
 #include <string.h>
 
 typedef struct ListElement {
@@ -19,7 +18,7 @@ bool testCreate(void) {
     if (isEmpty(list) && (list->head == NULL) && (list->tail == NULL)) {
         return true;
     }
-    deleteList(list);
+    deleteList(&list);
     return false;
 }
 
@@ -27,7 +26,7 @@ bool testDelete(void) {
     List *list = createList();
     pushBack(&list, 1);
     pushBack(&list, 2);
-    deleteList(list);
+    deleteList(&list);
     if (isEmpty(list)) {
         return true;
     }
@@ -38,10 +37,10 @@ bool testPushBack(void) {
     List *list = createList();
     pushBack(&list, 19);
     if (isEmpty(list) && (list->tail == list->head)) {
-        deleteList(list);
+        deleteList(&list);
         return false;
     }
-    deleteList(list);
+    deleteList(&list);
     return true;
 }
 
@@ -50,10 +49,10 @@ bool testPop(void) {
     pushBack(&list, 16);
     pop(&list);
     if (!isEmpty(list)) {
-        deleteList(list);
+        deleteList(&list);
         return false;
     }
-    deleteList(list);
+    deleteList(&list);
     return true;
 }
 
@@ -62,6 +61,6 @@ bool testIsEmpty(void) {
     if (isEmpty(list)) {
         return true;
     }
-    deleteList(list);
+    deleteList(&list);
     return false;
 }

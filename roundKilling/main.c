@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
 #include "../CycleList/cycleList.h"
 #include "../CycleList/test.h"
@@ -9,17 +8,17 @@ int whoWillSurvive(int numberOfWarriors, int gap) {
     for (int i = 0; i < numberOfWarriors; ++i) {
         pushBack(&list, 1);
     }
-    int index = 0;
-    int answer = 1;
+    ListElement *current = getHead(list);
+    int answer = getIndexFirst(list);
     while (!isEmpty(list)) {
-        index = (index + gap - 1) % numberOfWarriors;
-        delete(list, index);
-        --numberOfWarriors;
-        if (!isEmpty(list)) {
-            answer = getIndex(list);
+        for (int i = 1; i < gap - 1; ++i) {
+            current = getNext(current);
         }
+        answer = getIndexFirst(list);
+        delete(&list, &current);
+        current = getNext(current);
     }
-    free(list);
+    deleteList(&list);
     return answer;
 }
 

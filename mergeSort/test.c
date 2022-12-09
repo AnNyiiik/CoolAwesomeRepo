@@ -1,6 +1,5 @@
 #include "test.h"
 #include "sort.h"
-#include <stdlib.h>
 #include <string.h>
 
 typedef struct ListElement {
@@ -16,6 +15,9 @@ typedef struct List {
 
 bool testCreate(void) {
     List *list = createList();
+    if (list == NULL) {
+        return false;
+    }
     if (isEmpty(list)) {
         return true;
     }
@@ -38,6 +40,10 @@ bool testPushBack(void) {
     List *list = createList();
     pushBack(&list, "A", "456");
     if (isEmpty(list)) {
+        deleteList(list);
+        return false;
+    }
+    if (strcmp(list->tail->phone, "456") != 0 || strcmp(list->tail->name, "A") != 0) {
         deleteList(list);
         return false;
     }

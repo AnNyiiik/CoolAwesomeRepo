@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include "../List/list.h"
 #include "../List/test.h"
+
 int main() {
-    if (!testCreate() || !testDelete() || !testInsert() || !testPop() || !testInsertByOrder() || !testIsEmpty()) {
+    if (!testCreate() || !testDelete() || !testInsert() || !testPop() || !testInsertByOrder()) {
         return 1;
     }
     int option = 0;
@@ -21,6 +22,7 @@ int main() {
             scanf("%d", &value);
             errorCode = insertByOrder(list, value);
             if (errorCode != 0) {
+                deleteList(&list);
                 return 1;
             }
         } else if (option == 2) {
@@ -37,6 +39,7 @@ int main() {
         scanf("%d", &option);
         if (option < 0 || option > 3) {
             printf("%s", "There is no such a command. Please, try again.\n");
+            deleteList(&list);
             return 1;
         }
     }

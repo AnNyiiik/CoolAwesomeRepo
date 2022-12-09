@@ -16,19 +16,19 @@ typedef struct List {
 } List;
 
 List *createList(void) {
-    struct List *list = (List *) malloc(sizeof(List));
-    list->head = NULL;
-    list->tail = NULL;
+    struct List *list = (List *)calloc(1, sizeof(List));
     return list;
 }
 
-int deleteList(List *list) {
+int deleteList(List **list) {
     while (!isEmpty(list)) {
-        int errorCode = pop(&list);
+        int errorCode = pop(list);
         if (errorCode != 0) {
             return 1;
         }
     }
+    free(*list);
+    *list = NULL;
     return 0;
 }
 
@@ -58,7 +58,6 @@ void delete(List *list, int place) {
     }
     free(element->next);
     element->next = elementAfterDeleted;
-    return;
 }
 
 int pushBack(List **list, int value) {

@@ -14,10 +14,7 @@ typedef struct List {
 } List;
 
 List *createList(void) {
-    struct List *list = (List *) malloc(sizeof(List));
-    list->head = NULL;
-    list->size = 0;
-    return list;
+    return calloc(1, sizeof(List));
 }
 
 int deleteList(List **list) {
@@ -28,6 +25,8 @@ int deleteList(List **list) {
             return 1;
         }
     }
+    free(*list);
+    *list = NULL;
     return 0;
 }
 
@@ -89,15 +88,9 @@ int delete(List *list, int place) {
         ++index;
     }
     if (element->next) {
-        if (element->next->next) {
-            ListElement *elementAfterDeleted = element->next->next;
-            free(element->next);
-            element->next = elementAfterDeleted;
-            --list->size;
-            return 0;
-        }
+        ListElement *elementAfterDeleted = element->next->next;
         free(element->next);
-        element->next = NULL;
+        element->next = elementAfterDeleted;
         --list->size;
         return 0;
     }
@@ -142,15 +135,14 @@ int insertByOrder(List *list, int value) {
         previous = element;
         element = element->next;
     }
-    if ((!element->next) && (element->value <= value)) {
-        ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
+    if (!element->next && element->value <= value) {
+        ListElement *newElement = (ListElement *)calloc(1, sizeof(ListElement));
         newElement->value = value;
-        newElement->next = NULL;
         element->next = newElement;
         ++list->size;
         return 0;
     }
-    ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
+    ListElement *newElement = (ListElement *)malloc(sizeof(ListElement));
     newElement->value = value;
     if (previous->next) {
         newElement->next = previous->next;
@@ -179,8 +171,8 @@ int pop(List **list, int *value) {
         return 1;
     }
     ListElement *previous = (*list)->head;
-    *value = (previous)->value;
-    ((*list)->head) = ((*list)->head)->next;
+    *value = previous->value;
+    (*list)->head = (*list)->head->next;
     --(*list)->size;
     free(previous);
     return 0;

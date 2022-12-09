@@ -96,30 +96,27 @@ ListElement *merge(ListElement *halfFirst, ListElement *halfSecond, int key) {
 }
 
 void divide(ListElement *full, ListElement **first, ListElement **second) {
-    if (full == NULL || full->next == NULL)
-    {
+    if (full == NULL || full->next == NULL) {
         *first = full;
         *second = NULL;
         return;
     }
-    ListElement *ptr1 = full;
-    ListElement *ptr2 = full->next;
-    while (ptr2 != NULL)
-    {
-        ptr2 = ptr2->next;
-        if (ptr2 != NULL)
-        {
-            ptr1 = ptr1->next;
-            ptr2 = ptr2->next;
+    ListElement *pointerFirst = full;
+    ListElement *pointerSecond = full->next;
+    while (pointerSecond != NULL) {
+        pointerSecond = pointerSecond->next;
+        if (pointerSecond != NULL) {
+            pointerFirst = pointerFirst->next;
+            pointerSecond = pointerSecond->next;
         }
     }
     *first = full;
-    *second = ptr1->next;
-    ptr1->next = NULL;
+    *second = pointerFirst->next;
+    pointerFirst->next = NULL;
 }
 
 void mergeSort(ListElement **head, int key) {
-    if ((*head) == NULL || (*head)->next == NULL) {
+    if (*head == NULL || (*head)->next == NULL) {
         return;
     }
     ListElement *firstHalf = NULL;

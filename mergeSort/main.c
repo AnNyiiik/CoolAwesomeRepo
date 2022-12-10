@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include "sort.h"
 #include "test.h"
+#include "../List/test.h"
+
 int main() {
-    if (!testCreate() || !testDelete() || !testPushBack() || !testPop() || !testIsEmpty() || !testSort()) {
+    if (!testCreate() || !testDelete() || !testPop() ||  !testIsEmpty() || !testPushBack() || !testSort()) {
         return 1;
     }
     List *list = createList();
@@ -24,8 +26,8 @@ int main() {
     printf("Enter 0 to sort by name, 1 - by phone:\n");
     int option = 0;
     scanf("%d", &option);
-    sort(&list, option);
+    mergeSort(&list, option);
     printList(list);
-    deleteList(list);
+    deleteList(&list);
     return 0;
 }

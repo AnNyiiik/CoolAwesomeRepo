@@ -13,6 +13,13 @@ typedef struct BinaryTree {
     Node *root;
 } BinaryTree;
 
+bool isEmpty(BinaryTree *tree) {
+    if (tree == NULL) {
+        return false;
+    }
+    return tree->root == NULL;
+}
+
 BinaryTree *createTree(void) {
     BinaryTree *tree = (BinaryTree *) malloc(sizeof(BinaryTree *));
     tree->root = NULL;

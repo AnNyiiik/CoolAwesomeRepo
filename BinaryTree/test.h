@@ -1,6 +1,8 @@
-#include <stdbool.h>
 #ifndef BINARYTREE_TEST_H
 #define BINARYTREE_TEST_H
+
+#include <stdbool.h>
+
 bool testCreateTree(void);
 
 bool testAddElement(void);

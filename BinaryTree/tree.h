@@ -7,6 +7,8 @@ typedef struct BinaryTree BinaryTree;
 
 BinaryTree *createTree(void);
 
+bool isEmpty(BinaryTree *tree);
+
 int addElement(int key, char *value, BinaryTree **tree);
 
 int findValue(int key, BinaryTree *tree, bool *isExits, char *value);

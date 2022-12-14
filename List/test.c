@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define STR_SIZE 30
+
 bool testCreate(void) {
     List *list = createList();
     if (list == NULL) {
@@ -27,6 +29,9 @@ bool testDelete(void) {
 bool testPushBack(void) {
     List *list = createList();
     pushBack(&list, "a");
+    if (list == NULL) {
+        return false;
+    }
     if (isEmpty(list)) {
         deleteList(&list);
         return false;
@@ -37,9 +42,13 @@ bool testPushBack(void) {
 
 bool testPop(void) {
     List *list = createList();
-    pushBack(&list, "a");
-    char value[30] = {0};
-    int errorCode = pop(&list, value);
+    int errorCode = pushBack(&list, "a");
+    if (errorCode != 0) {
+        deleteList(&list);
+        return false;
+    }
+    char value[STR_SIZE] = {0};
+    errorCode = pop(&list, value);
     if (errorCode != 0) {
         deleteList(&list);
         return false;
@@ -73,17 +82,41 @@ bool testAddA(void) {
         deleteList(&list);
         return false;
     }
-    addStringsStartsWithA(&list);
+    error = addStringsStartsWithA(&list);
+    if (error == 1) {
+        deleteList(&list);
+        return false;
+    }
     char *correctSequence[4] = {"a", "b", "c", "a"};
-
-    char *array[4] = {0};
+    char ** array = (char**)malloc(sizeof(char*) * getSize(list));
+    if (array == NULL) {
+        return 1;
+    }
+    for (int i = 0; i < getSize(list); i++) {
+        array[i] = (char*)malloc(sizeof(int) * STR_SIZE);
+        if (array[i] == NULL) {
+            for (int j = 0; j < i; ++j) {
+                free (array[j]);
+            }
+            free(array);
+            return 1;
+        }
+    }
     getArray(list, array);
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < getSize(list); ++i) {
         if (strcmp(array[i], correctSequence[i]) != 0) {
             deleteList(&list);
+            for (int j = 0; j < getSize(list); ++j) {
+                free(array[j]);
+            }
+            free(array);
             return false;
         }
     }
+    for (int j = 0; j < getSize(list); ++j) {
+        free(array[j]);
+    }
+    free(array);
     deleteList(&list);
     return true;
 }

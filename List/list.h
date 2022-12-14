@@ -21,9 +21,12 @@ int pop(List **list, char *value);
 bool isEmpty(List *list);
 
 //Convert list to array.
-void getArray(List *list, char *array);
+void getArray(List *list, char **array);
 
 //Search and add all values that are in the list and start with "a".
 int addStringsStartsWithA(List **list);
+
+//Return a size of the list.
+int getSize(List *list);
 
 #endif //LIST_LIST_H

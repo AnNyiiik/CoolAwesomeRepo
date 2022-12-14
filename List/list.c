@@ -5,8 +5,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#define STR_SIZE 30
+
 typedef struct ListElement {
-    char value[30];
+    char value[STR_SIZE];
     struct ListElement *next;
 } ListElement;
 
@@ -18,15 +20,12 @@ typedef struct List {
 
 List *createList(void) {
     struct List *list = (List *)calloc(1, sizeof(List));
-    list->head = NULL;
-    list->tail = NULL;
-    list->size = 0;
     return list;
 }
 
 int deleteList(List **list) {
     while (!isEmpty(*list)) {
-        char value[30] = {0};
+        char value[STR_SIZE] = {0};
         int errorCode = pop(list, value);
         if (errorCode != 0) {
             return 1;
@@ -37,7 +36,7 @@ int deleteList(List **list) {
 }
 
 int pushBack(List **list, char const *value) {
-    ListElement *newNode = (ListElement *) malloc(sizeof(ListElement));
+    ListElement *newNode = (ListElement *)malloc(sizeof(ListElement));
     if (newNode == NULL) {
         return 1;
     }
@@ -92,14 +91,19 @@ int addStringsStartsWithA(List **list) {
     }
     return 0;
 }
-void getArray(List *list, char *array) {
+
+int getSize(List *list) {
+    return list->size;
+}
+
+void getArray(List *list, char **array) {
     if (isEmpty(list)) {
         printf("List is empty\n");
     }
     int count = 0;
     ListElement *element = list->head;
     while (element != NULL) {
-        array[count] = element->value;
+        strcpy(array[count], element->value);
         element = element->next;
         ++count;
     }

@@ -5,45 +5,61 @@
 #include "../List/list.h"
 #include "../List/test.h"
 
-int convertToDecimal(const char *binaryString, int *result) {
-    if (strlen(binaryString) > 32) {
-        return 1;
-    } else if (strlen(binaryString) == 32 && binaryString[0] == '1') {
+#define BINARY_SIZE 32
+
+int convertToDecimal(const char *binaryString, char *result) {
+    if (strlen(binaryString) > BINARY_SIZE) {
         return 1;
     } else if (strlen(binaryString) == 0) {
         return 1;
     }
     int base = 1;
-    *result = 0;
+    int decimal = 0;
     int length = strlen(binaryString);
     for (int i = length - 1; i >= 0; --i) {
-        *result += base * (binaryString[i] - '0');
+        decimal += base * (binaryString[i] - '0');
         base = base * 2;
     }
+    sprintf(result, "%d", decimal);
     return 0;
 }
 
 bool testConversion(void) {
-    int result = 0;
-    convertToDecimal("101", &result);
-    if (result != 5) {
+    char *result = (char*)calloc(BINARY_SIZE,sizeof(char));
+    if (result == NULL) {
         return false;
     }
-    convertToDecimal("1010", &result);
-    if (result != 10) {
+    convertToDecimal("101", result);
+    if (strcmp(result, "5") != 0) {
+        free(result);
         return false;
     }
+    convertToDecimal("1010", result);
+    if (strcmp(result, "10") != 0) {
+        free(result);
+        return false;
+    }
+    free(result);
     return true;
 }
 
 int main() {
-//    if (!testConversion()) {
-//        return 1;
-//    }
-//    int result = 0;
-//    convertToDecimal("101010", &result);
-//    printf("The result is %d\n", result);
-    if (!testAddA()) {
+    if (!testConversion()) {
+        return 1;
+    }
+    char *result = (char *)calloc(BINARY_SIZE, sizeof(char));
+    if (result == NULL) {
+        return 1;
+    }
+    int error = convertToDecimal("101010", result);
+    if (error == 1) {
+        printf("Invalid data");
+        free(result);
+        return 1;
+    }
+    printf("The result is %s\n", result);
+    free(result);
+    if (!testAddA() || !testPushBack() || !testIsEmpty() || !testPop() || !testDelete() || !testCreate()) {
         return 1;
     }
     List *list = createList();

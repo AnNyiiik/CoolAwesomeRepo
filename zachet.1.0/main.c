@@ -5,7 +5,7 @@
 #include "../List/list.h"
 #include "../List/test.h"
 
-#define BINARY_SIZE 32
+#define BINARY_SIZE (sizeof(int) * 8)
 
 int convertToDecimal(const char *binaryString, char *result) {
     if (strlen(binaryString) > BINARY_SIZE) {

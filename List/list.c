@@ -18,12 +18,20 @@ typedef struct List {
     int size;
 } List;
 
-List *createList(void) {
+List *createList(int *error) {
     struct List *list = (List *)calloc(1, sizeof(List));
+    if (list == NULL) {
+        *error = 1;
+    } else {
+        *error = 0;
+    }
     return list;
 }
 
 int deleteList(List **list) {
+    if (list == NULL || *list == NULL) {
+        return 1;
+    }
     while (!isEmpty(*list)) {
         char value[STR_SIZE] = {0};
         int errorCode = pop(list, value);
@@ -54,7 +62,7 @@ int pushBack(List **list, char const *value) {
 }
 
 int pop(List **list, char *value) {
-    if (isEmpty(*list)) {
+    if (list == NULL || *list == NULL || isEmpty(*list)) {
         return 1;
     }
     ListElement *previous = (*list)->head;
@@ -73,7 +81,7 @@ bool isEmpty(List *list) {
 }
 
 int addStringsStartsWithA(List **list) {
-    if (list == NULL || isEmpty(*list)) {
+    if (list == NULL || *list == NULL || isEmpty(*list)) {
         return 1;
     }
     ListElement *element = (*list)->head;
@@ -93,19 +101,23 @@ int addStringsStartsWithA(List **list) {
 }
 
 int getSize(List *list) {
+    if (list == NULL) {
+        return -1;
+    }
     return list->size;
 }
 
-void getArray(List *list, char **array) {
-    if (isEmpty(list)) {
-        printf("List is empty\n");
+int getArray(List *list, char **array, int size) {
+    if (list == NULL || isEmpty(list)) {
+        return 1;
     }
     int count = 0;
     ListElement *element = list->head;
-    while (element != NULL) {
+    while (element != NULL && count < size) {
         strcpy(array[count], element->value);
         element = element->next;
         ++count;
     }
+    return 0;
 }
 

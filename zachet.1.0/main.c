@@ -62,7 +62,11 @@ int main() {
     if (!testAddA() || !testPushBack() || !testIsEmpty() || !testPop() || !testDelete() || !testCreate()) {
         return 1;
     }
-    List *list = createList();
+    error = 0;
+    List *list = createList(&error);
+    if (error == 1) {
+        return false;
+    }
     pushBack(&list, "a");
     pushBack(&list, "b");
     pushBack(&list, "c");

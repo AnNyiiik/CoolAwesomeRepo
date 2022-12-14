@@ -8,8 +8,9 @@
 #define STR_SIZE 30
 
 bool testCreate(void) {
-    List *list = createList();
-    if (list == NULL) {
+    int error = 0;
+    List *list = createList(&error);
+    if (error == 1) {
         return false;
     }
     if (isEmpty(list)) {
@@ -20,16 +21,31 @@ bool testCreate(void) {
 }
 
 bool testDelete(void) {
-    List *list = createList();
-    pushBack(&list, "a");
+    int error = 0;
+    List *list = createList(&error);
+    if (error == 1) {
+        return false;
+    }
+    error = pushBack(&list, "a");
+    if (error == 1) {
+        return false;
+    }
     deleteList(&list);
     return list == NULL;
 }
 
 bool testPushBack(void) {
-    List *list = createList();
-    pushBack(&list, "a");
+    int error = 0;
+    List *list = createList(&error);
+    if (error == 1) {
+        return false;
+    }
+    error = pushBack(&list, "a");
     if (list == NULL) {
+        return false;
+    }
+    if (error == 1) {
+        deleteList(&list);
         return false;
     }
     if (isEmpty(list)) {
@@ -41,15 +57,19 @@ bool testPushBack(void) {
 }
 
 bool testPop(void) {
-    List *list = createList();
-    int errorCode = pushBack(&list, "a");
-    if (errorCode != 0) {
+    int error = 0;
+    List *list = createList(&error);
+    if (error == 1) {
+        return false;
+    }
+    error = pushBack(&list, "a");
+    if (error == 1) {
         deleteList(&list);
         return false;
     }
     char value[STR_SIZE] = {0};
-    errorCode = pop(&list, value);
-    if (errorCode != 0) {
+    error = pop(&list, value);
+    if (error != 0) {
         deleteList(&list);
         return false;
     }
@@ -66,8 +86,12 @@ bool testPop(void) {
 }
 
 bool testAddA(void) {
-    List *list = createList();
-    int error = pushBack(&list, "a");
+    int error = 0;
+    List *list = createList(&error);
+    if (error == 1) {
+        return false;
+    }
+    error = pushBack(&list, "a");
     if (error == 1) {
         deleteList(&list);
         return false;
@@ -88,32 +112,39 @@ bool testAddA(void) {
         return false;
     }
     char *correctSequence[4] = {"a", "b", "c", "a"};
-    char ** array = (char**)malloc(sizeof(char*) * getSize(list));
-    if (array == NULL) {
-        return 1;
+    int arraySize = getSize(list);
+    if (arraySize == -1) {
+        deleteList(&list);
+        return false;
     }
-    for (int i = 0; i < getSize(list); i++) {
+    char ** array = (char**)malloc(sizeof(char*) * arraySize);
+    if (array == NULL) {
+        return false;
+    }
+    for (int i = 0; i < arraySize; i++) {
         array[i] = (char*)malloc(sizeof(int) * STR_SIZE);
         if (array[i] == NULL) {
             for (int j = 0; j < i; ++j) {
                 free (array[j]);
             }
             free(array);
-            return 1;
-        }
-    }
-    getArray(list, array);
-    for (int i = 0; i < getSize(list); ++i) {
-        if (strcmp(array[i], correctSequence[i]) != 0) {
             deleteList(&list);
-            for (int j = 0; j < getSize(list); ++j) {
-                free(array[j]);
-            }
-            free(array);
             return false;
         }
     }
-    for (int j = 0; j < getSize(list); ++j) {
+    getArray(list, array, arraySize);
+    for (int i = 0; i < arraySize; ++i) {
+        if (strcmp(array[i], correctSequence[i]) != 0) {
+            deleteList(&list);
+            for (int j = 0; j < arraySize; ++j) {
+                free(array[j]);
+            }
+            free(array);
+            deleteList(&list);
+            return false;
+        }
+    }
+    for (int j = 0; j < arraySize; ++j) {
         free(array[j]);
     }
     free(array);
@@ -122,8 +153,13 @@ bool testAddA(void) {
 }
 
 bool testIsEmpty(void) {
-    List *list = createList();
+    int error = 0;
+    List *list = createList(&error);
+    if (error == 1) {
+        return false;
+    }
     if (isEmpty(list)) {
+        deleteList(&list);
         return true;
     }
     deleteList(&list);

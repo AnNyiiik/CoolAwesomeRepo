@@ -6,7 +6,7 @@
 typedef struct List List;
 
 //Create an empty list.
-List *createList(void);
+List *createList(int *error);
 
 //Delete List with all its elements.
 int deleteList(List **list);
@@ -21,7 +21,7 @@ int pop(List **list, char *value);
 bool isEmpty(List *list);
 
 //Convert list to array.
-void getArray(List *list, char **array);
+int getArray(List *list, char **array, int size);
 
 //Search and add all values that are in the list and start with "a".
 int addStringsStartsWithA(List **list);

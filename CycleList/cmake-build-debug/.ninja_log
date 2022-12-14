@@ -1,0 +1,5 @@
+# ninja log v5
+0	22	1666733700624552151	CMakeFiles/CycleList.dir/main.c.o	a74cacf58d39e855
+1	27	1666733687889555298	CMakeFiles/CycleList.dir/cycleList.c.o	71ca129f7648df07
+22	56	1666733700658806157	CycleList	9e40e82c7da85680
+1	28	1666733687889473428	CMakeFiles/CycleList.dir/test.c.o	6ca08358831251a7

@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "../List/list.h"
+#include "../List/test.h"
 
 int convertToDecimal(const char *binaryString, int *result) {
     if (strlen(binaryString) > 32) {
@@ -35,11 +37,19 @@ bool testConversion(void) {
 }
 
 int main() {
-    if (!testConversion()) {
+//    if (!testConversion()) {
+//        return 1;
+//    }
+//    int result = 0;
+//    convertToDecimal("101010", &result);
+//    printf("The result is %d\n", result);
+    if (!testAddA()) {
         return 1;
     }
-    int result = 0;
-    convertToDecimal("101010", &result);
-    printf("The result is %d\n", result);
+    List *list = createList();
+    pushBack(&list, "a");
+    pushBack(&list, "b");
+    pushBack(&list, "c");
+    addStringsStartsWithA(&list);
     return 0;
 }

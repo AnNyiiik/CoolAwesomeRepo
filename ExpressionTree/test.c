@@ -16,10 +16,7 @@ bool testClear(void) {
     int error = 0;
     BinaryTree *tree = makeTree("(* (+ 1 1) 2)", &error);
     error = clear(&tree);
-    if (tree != NULL || error != 0) {
-        return false;
-    }
-    return true;
+    return tree == NULL && error == 0;
 }
 
 bool testCalculate(void) {

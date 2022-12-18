@@ -4,8 +4,6 @@
 
 #include "expression.h"
 
-#define STR_SIZE 100
-
 typedef struct Node {
     char value[STR_SIZE];
     struct Node *left;
@@ -35,58 +33,36 @@ BinaryTree *createTree(int *error) {
     return tree;
 }
 
+void parseOperand(char const *source, char *operand, int *index) {
+    char character = source[*index];
+    int start = *index;
+    if (character != '(') {
+        while (character != ' ' && character != ')') {
+            operand[*index - start] = character;
+            ++(*index);
+            character = source[*index];
+        }
+    } else {
+        int countBrackets = 1;
+        while (countBrackets != 0) {
+            character = source[*index];
+            if (character == ')') {
+                --countBrackets;
+            } else if (character == '(' && *index != start) {
+                ++countBrackets;
+            }
+            operand[*index - start] = character;
+            ++(*index);
+        }
+    }
+}
+
 void parseOperands(char const *source, char *operation, char *operandFirst, char *operandSecond) {
     operation[0] = source[1];
-    char character = source[3];
-    int index = 0;
-    if (character != '(') {
-        character = source[3];
-        while (character != ' ') {
-            operandFirst[index] = character;
-            ++index;
-            character = source[3 + index];
-        }
-    } else {
-        int countBrackets = 1;
-        index = 0;
-        char character = ' ';
-        while (countBrackets != 0) {
-            character = source[index + 3];
-            if (character == ')') {
-                --countBrackets;
-            } else if (character == '(' && index != 0) {
-                ++countBrackets;
-            }
-            operandFirst[index] = character;
-            ++index;
-        }
-    }
-    character = source[index + 4];
-    if (character == '(') {
-        int countBrackets = 1;
-        int number = index + 4;
-        int index = 0;
-        while (countBrackets != 0) {
-            character = source[index + number];
-            if (character == ')') {
-                --countBrackets;
-            } else if (character == '(' && index != 0) {
-                ++countBrackets;
-            }
-            operandSecond[index] = character;
-            ++index;
-        }
-    } else {
-        int number = index + 4;
-        int index = 0;
-        character = source[index + number];
-        while (character != ')') {
-            operandSecond[index] = character;
-            ++index;
-            character = source[index + number];
-        }
-    }
-    return;
+    int index = 3;
+    parseOperand(source, operandFirst, &index);
+    ++index;
+    parseOperand(source, operandSecond, &index);
 }
 
 BinaryTree *makeTree(char *expression, int *error) {
@@ -113,14 +89,20 @@ BinaryTree *makeTree(char *expression, int *error) {
     parseOperands(expression, operation, operandFirst, operandSecond);
     BinaryTree *underTreeLeft = makeTree(operandFirst, error);
     if (*error == 1) {
+        clear(&tree);
         return NULL;
     }
     BinaryTree *underTreeRight = makeTree(operandSecond, error);
     if (*error == 1) {
+        clear(&tree);
+        clear(&underTreeLeft);
         return NULL;
     }
     Node *root = createNode(error, operation);
     if (*error == 1) {
+        clear(&tree);
+        clear(&underTreeRight);
+        clear(&underTreeLeft);
         return NULL;
     }
     root->left = underTreeLeft->root;
@@ -145,7 +127,7 @@ int clear(BinaryTree **tree) {
         return 1;
     }
     clearTree(&((*tree)->root));
-    (*tree) = NULL;
+    *tree = NULL;
     return 0;
 }
 
@@ -155,7 +137,7 @@ void printExpression(Node *root, bool isFirst) {
         return;
     }
     if (root->left != NULL && root->right != NULL) {
-        printf("%s%s%s", "(", root->value, " ");
+        printf("(%s ", root->value);
         printExpression(root->left, true);
         printExpression(root->right, false);
         if (isFirst) {
@@ -170,7 +152,6 @@ void printExpression(Node *root, bool isFirst) {
             printf("%s", root->value);
         }
     }
-    return;
 }
 
 void printTree(BinaryTree *tree) {

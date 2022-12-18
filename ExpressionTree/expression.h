@@ -3,24 +3,23 @@
 
 #include "stdbool.h"
 
+#define STR_SIZE 100
+
 typedef struct BinaryTree BinaryTree;
 
-//Create tree.
+// Create tree.
 BinaryTree *createTree(int *error);
 
-//Split expression string into operation and operands.
-void parseOperands(char const *source, char *operation, char *operandFirst, char *operandSecond);
-
-//Create expression tree according to given expression.
+// Create expression tree according to given expression.
 BinaryTree *makeTree(char *expression, int *error);
 
-//Print tree's expression.
+// Print tree's expression.
 void printTree(BinaryTree *tree);
 
-//Count tree's expression.
+// Count tree's expression.
 int count(BinaryTree *tree);
 
-//Clear and delete tree.
+// Clear and delete tree.
 int clear(BinaryTree **tree);
 
 #endif //EXPRESSIONTREE_EXPRESSION_H

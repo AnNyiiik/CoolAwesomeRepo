@@ -11,4 +11,5 @@ bool testCreateTree(void);
 
 //Test function clear.
 bool testClear(void);
+
 #endif //EXPRESSIONTREE_TEST_H

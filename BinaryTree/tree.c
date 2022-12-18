@@ -4,9 +4,9 @@
 #include <string.h>
 
 typedef struct Node {
-    char key[30];
+    char key[STR_SIZE];
     int height;
-    char value[100];
+    char value[STR_SIZE];
     struct Node *left;
     struct Node *right;
 } Node;
@@ -35,7 +35,9 @@ void fixHeight(Node **node) {
     } else if ((*node)->right == NULL) {
         (*node)->height = (*node)->left->height + 1;
     } else {
-        (*node)->height = ((*node)->right->height >= (*node)->left->height) ? ((*node)->right->height + 1) : ((*node)->left->height + 1);
+        (*node)->height = ((*node)->right->height >= (*node)->left->height)
+                ? ((*node)->right->height + 1)
+                : ((*node)->left->height + 1);
     }
 }
 
@@ -46,11 +48,11 @@ int countBalance(Node *node) {
     if (node->right == NULL && node->left == NULL) {
         return 0;
     } else if (node->right == NULL) {
-        return -(node->height);
+        return -node->height;
     } else if (node->left == NULL) {
-        return (node->height);
+        return node->height;
     } else {
-        return (node->right->height - node->left->height);
+        return node->right->height - node->left->height;
     }
 }
 
@@ -58,7 +60,7 @@ Node *rotateRight(Node **node) {
     Node *q = (*node)->left;
     (*node)->left = q->right;
     q->right = (*node);
-    fixHeight(&(*node));
+    fixHeight(node);
     fixHeight(&q);
     return q;
 }
@@ -67,29 +69,29 @@ Node *rotateLeft(Node **node) {
     Node *q = (*node)->right;
     (*node)->right = q->left;
     q->left = (*node);
-    fixHeight(&(*node));
+    fixHeight(node);
     fixHeight(&q);
     return q;
 }
 
 Node *balance(Node **node) {
-    fixHeight(&(*node));
+    fixHeight(node);
     int balance = countBalance((*node));
     if (balance == 2) {
         if (countBalance((*node)->right) < 0) {
             (*node)->right = rotateRight(&((*node)->right));
             fixHeight(&((*node)->right));
         }
-        fixHeight(&(*node));
-        return rotateLeft(&(*node));
+        fixHeight(node);
+        return rotateLeft(node);
     }
     if(balance == -2) {
         if (countBalance((*node)->left) > 0) {
             (*node)->left = rotateLeft(&((*node)->left));
             fixHeight(&((*node)->left));
         }
-        fixHeight(&(*node));
-        return rotateRight(&(*node));
+        fixHeight(node);
+        return rotateRight(node);
     }
     return (*node);
 }
@@ -97,24 +99,20 @@ Node *balance(Node **node) {
 void add(char *key, char *value, Node **node) {
     if ((*node)->key == key) {
         strcpy((*node)->value, value);
-    }else if (strcmp((*node)->key, key) > 0 && (*node)->left == NULL) {
+    } else if (strcmp((*node)->key, key) > 0 && (*node)->left == NULL) {
         (*node)->left = createNode(key, value);
         fixHeight(&(*node));
-        return;
     } else if (strcmp((*node)->key, key) < 0 && (*node)->right == NULL) {
         (*node)->right = createNode(key, value);
         fixHeight(&(*node));
-        return;
     } else if (strcmp((*node)->key, key) > 0) {
         add(key, value, &((*node)->left));
         fixHeight(&(*node));
         *node = balance(&(*node));
-        return;
     } else {
         add(key, value, &((*node)->right));
         fixHeight(&(*node));
         *node = balance(&(*node));
-        return;
     }
 }
 
@@ -131,16 +129,16 @@ int addElement(char *key, char *value, BinaryTree **tree) {
     }
 }
 
-int findValue(char *key, BinaryTree *tree, bool *isExits, char *value) {
+int findValue(char *key, BinaryTree *tree, bool *isExists, char *value) {
     if (tree == NULL) {
         return 1;
     }
     if (tree->root == NULL) {
-        *isExits = false;
+        *isExists = false;
         return 0;
     }
     Node *element = tree->root;
-    while(element != NULL && strcmp(element->key, key) != 0) {
+    while (element != NULL && strcmp(element->key, key) != 0) {
         if (strcmp(key, element->key) > 0) {
             element = element->right;
         } else {
@@ -149,10 +147,10 @@ int findValue(char *key, BinaryTree *tree, bool *isExits, char *value) {
     }
     if (element != NULL) {
         strcpy(value, element->value);
-        *isExits = true;
+        *isExists = true;
         return 0;
     }
-    *isExits = false;
+    *isExists = false;
     return 0;
 }
 
@@ -176,62 +174,58 @@ int clear(BinaryTree **tree) {
 
 void deleteMax(const char *key, Node **node, Node **previous, Node **maxNode) {
     if ((*node)->right != NULL) {
-        deleteMax(key, &((*node)->right), &(*node), &(*maxNode));
-        fixHeight(&(*node));
-        *node = balance(&(*node));
-    } else {
-        if ((*node)->left == NULL) {
-            *maxNode = *node;
-            if ((*previous)->left != (*node)) {
-                (*previous)->right = NULL;
-            } else {
-                (*previous)->left = NULL;
-            }
-            return;
+        deleteMax(key, &((*node)->right), node, maxNode);
+        fixHeight(node);
+        *node = balance(node);
+    } else if ((*node)->left == NULL) {
+        *maxNode = *node;
+        if ((*previous)->left != (*node)) {
+            (*previous)->right = NULL;
         } else {
-            *maxNode = *node;
-            if ((*previous)->left != (*node)) {
-                (*previous)->right = (*node)->left;
-            } else {
-                (*previous)->left = (*node)->left;
-            }
-            return;
+            (*previous)->left = NULL;
+        }
+    } else {
+        *maxNode = *node;
+        if ((*previous)->left != (*node)) {
+            (*previous)->right = (*node)->left;
+        } else {
+            (*previous)->left = (*node)->left;
         }
     }
 }
 
 void delete(char const *key, Node **node, Node **previous) {
-    if ((*node) != NULL && strcmp((*node)->key, key) != 0) {
+    if (*node != NULL && strcmp((*node)->key, key) != 0) {
         if (strcmp(key, (*node)->key) > 0) {
-            delete(key, &((*node)->right), &(*node));
-            fixHeight(&(*node));
-            (*node) = balance(&(*node));
+            delete(key, &((*node)->right), node);
+            fixHeight(node);
+            *node = balance(node);
         } else {
-            delete(key, &((*node)->left), &(*node));
-            fixHeight(&(*node));
-            (*node) = balance(&(*node));
+            delete(key, &((*node)->left), node);
+            fixHeight(node);
+            *node = balance(node);
         }
     } else {
-        if ((*node) == NULL) {
+        if (*node == NULL) {
             return;
         }
         if ((*node)->left == NULL && (*node)->right == NULL) {
-            if ((*previous)->right == (*node)) {
+            if ((*previous)->right == *node) {
                 free(*node);
                 (*previous)->right = NULL;
-            }else {
+            } else {
                 free(*node);
                 (*previous)->left = NULL;
             }
             return;
         }
         if ((*node)->left == NULL) {
-            if ((*previous) == (*node)) {
+            if ((*previous) == *node) {
                 strcpy((*node)->value, (*node)->right->value);
                 strcpy((*node)->key, (*node)->right->key);
                 free((*node)->right);
                 (*node)->right = NULL;
-                fixHeight(&(*node));
+                fixHeight(node);
                 return;
             }
             if ((*previous)->right == (*node)) {
@@ -255,33 +249,28 @@ void delete(char const *key, Node **node, Node **previous) {
                 strcpy((*node)->key, (*node)->left->key);
                 free((*node)->left);
                 (*node)->left = NULL;
-                fixHeight(&(*node));
-                return;
-            }
-            if ((*previous)->right == (*node)) {
+                fixHeight(node);
+            } else if ((*previous)->right == (*node)) {
                 strcpy((*previous)->right->value, (*node)->left->value);
                 strcpy((*previous)->right->key, (*node)->left->key);
                 free((*node)->left);
                 (*previous)->right->left = NULL;
                 fixHeight(&((*previous)->right));
-                return;
             } else {
                 strcpy((*previous)->left->value, (*node)->left->value);
                 strcpy((*previous)->left->key, (*node)->left->key);
                 free((*node)->left);
                 (*previous)->left->left = NULL;
                 fixHeight(&((*previous)->left));
-                return;
             }
         } else {
             Node *deletedNode = NULL;
-            deleteMax(key, &((*node)->left), &(*node), &(deletedNode));
-            fixHeight(&(*node));
+            deleteMax(key, &((*node)->left), node, &deletedNode);
+            fixHeight(node);
             strcpy((*node)->key, deletedNode->key);
             strcpy((*node)->value, deletedNode->value);
             free(deletedNode);
-            (*node) = balance(&(*node));
-            return;
+            *node = balance(node);
         }
     }
 }

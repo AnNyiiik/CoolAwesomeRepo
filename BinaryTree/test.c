@@ -24,14 +24,16 @@ bool testAddElement(void) {
 bool testFind(void) {
     BinaryTree *tree = createTree();
     bool isExists = false;
-    char value[30] = {0};
+    char value[STR_SIZE] = {0};
     findValue("2", tree, &isExists, value);
     if (isExists) {
+        clear(&tree);
         return false;
     }
     addElement("2", "amogus", &tree);
     findValue("2", tree, &isExists, value);
     if (!isExists) {
+        clear(&tree);
         return false;
     }
     addElement("4", "aboba", &tree);
@@ -40,14 +42,12 @@ bool testFind(void) {
     addElement("1", "boba", &tree);
     findValue("3", tree, &isExists, value);
     if (!isExists) {
+        clear(&tree);
         return false;
     }
     findValue("4", tree, &isExists, value);
-    if (!isExists) {
-        return false;
-    }
     clear(&tree);
-    return true;
+    return isExists;
 }
 
 bool testDeleteElement(void) {
@@ -56,7 +56,7 @@ bool testDeleteElement(void) {
     addElement("2", "amogus", &tree);
     addElement("7", "boba", &tree);
     deleteElement("7", &tree);
-    char value[30] = {0};
+    char value[STR_SIZE] = {0};
     bool isExists = false;
     findValue("7", tree, &isExists, value);
     clear(&tree);

@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+
 typedef struct Node {
-    int key;
+    char key[30];
     int height;
-    char *value;
+    char value[100];
     struct Node *left;
     struct Node *right;
 } Node;
@@ -15,9 +16,15 @@ typedef struct BinaryTree {
 } BinaryTree;
 
 BinaryTree *createTree(void) {
-    BinaryTree *tree = (BinaryTree *) malloc(sizeof(BinaryTree *));
-    tree->root = NULL;
+    BinaryTree *tree = (BinaryTree *)calloc(1, sizeof(BinaryTree));
     return tree;
+}
+
+Node *createNode(char *key, char *value) {
+    Node *node = (Node *)calloc(1, sizeof(Node));
+    strcpy(node->value, value);
+    strcpy(node->key, key);
+    return node;
 }
 
 void fixHeight(Node **node) {
@@ -30,7 +37,6 @@ void fixHeight(Node **node) {
     } else {
         (*node)->height = ((*node)->right->height >= (*node)->left->height) ? ((*node)->right->height + 1) : ((*node)->left->height + 1);
     }
-    return;
 }
 
 int countBalance(Node *node) {
@@ -45,63 +51,6 @@ int countBalance(Node *node) {
         return (node->height);
     } else {
         return (node->right->height - node->left->height);
-    }
-}
-
-int add(int key, char *value, Node **node) {
-    if ((*node)->key == key) {
-        strcpy((*node)->value, value);
-    }else if ((*node)->key > key && (*node)->left == NULL) {
-        Node *newElement = (Node *) malloc(sizeof(Node));
-        newElement->value = (char *) malloc(sizeof(char) * 30);
-        strcpy(newElement->value, value);
-        newElement->key = key;
-        newElement->height = 0;
-        newElement->right = NULL;
-        newElement->left = NULL;
-        (*node)->left = newElement;
-        fixHeight(&(*node));
-        return 0;
-    } else if ((*node)->key < key && (*node)->right == NULL) {
-        Node *newElement = (Node *) malloc(sizeof(Node));
-        newElement->value = (char *) malloc(sizeof(char) * 30);
-        strcpy(newElement->value, value);
-        newElement->key = key;
-        newElement->height = 0;
-        newElement->right = NULL;
-        newElement->left = NULL;
-        (*node)->right = newElement;
-        fixHeight(&(*node));
-        return 0;
-    } else if ((*node)->key > key) {
-        add(key, value, &((*node)->left));
-        fixHeight(&(*node));
-        *node = balance(&(*node));
-    } else {
-        add(key, value, &((*node)->right));
-        fixHeight(&(*node));
-        *node = balance(&(*node));
-    }
-}
-
-int addElement(int key, char *value, BinaryTree **tree) {
-
-    if (*tree == NULL) {
-        return 1;
-    }
-    if ((*tree)->root == NULL) {
-        Node *newElement = (Node *) malloc(sizeof(Node));
-        newElement->value = (char *) malloc(sizeof(char) * 30);
-        strcpy(newElement->value, value);
-        newElement->key = key;
-        newElement->height = 0;
-        newElement->right = NULL;
-        newElement->left = NULL;
-        (*tree)->root = newElement;
-        return 0;
-    } else {
-        add(key, value, &((*tree)->root));
-        (*tree)->root = balance(&((*tree)->root));
     }
 }
 
@@ -145,9 +94,44 @@ Node *balance(Node **node) {
     return (*node);
 }
 
+void add(char *key, char *value, Node **node) {
+    if ((*node)->key == key) {
+        strcpy((*node)->value, value);
+    }else if (strcmp((*node)->key, key) > 0 && (*node)->left == NULL) {
+        (*node)->left = createNode(key, value);
+        fixHeight(&(*node));
+        return;
+    } else if (strcmp((*node)->key, key) < 0 && (*node)->right == NULL) {
+        (*node)->right = createNode(key, value);
+        fixHeight(&(*node));
+        return;
+    } else if (strcmp((*node)->key, key) > 0) {
+        add(key, value, &((*node)->left));
+        fixHeight(&(*node));
+        *node = balance(&(*node));
+        return;
+    } else {
+        add(key, value, &((*node)->right));
+        fixHeight(&(*node));
+        *node = balance(&(*node));
+        return;
+    }
+}
 
+int addElement(char *key, char *value, BinaryTree **tree) {
+    if (*tree == NULL) {
+        return 1;
+    }
+    if ((*tree)->root == NULL) {
+        (*tree)->root = createNode(key, value);
+        return 0;
+    } else {
+        add(key, value, &((*tree)->root));
+        (*tree)->root = balance(&((*tree)->root));
+    }
+}
 
-int findValue(int key, BinaryTree *tree, bool *isExits, char *value) {
+int findValue(char *key, BinaryTree *tree, bool *isExits, char *value) {
     if (tree == NULL) {
         return 1;
     }
@@ -156,8 +140,8 @@ int findValue(int key, BinaryTree *tree, bool *isExits, char *value) {
         return 0;
     }
     Node *element = tree->root;
-    while(element != NULL && element->key != key) {
-        if (key > element->key) {
+    while(element != NULL && strcmp(element->key, key) != 0) {
+        if (strcmp(key, element->key) > 0) {
             element = element->right;
         } else {
             element = element->left;
@@ -171,6 +155,17 @@ int findValue(int key, BinaryTree *tree, bool *isExits, char *value) {
     *isExits = false;
     return 0;
 }
+
+int clearTree(Node **root) {
+    if ((*root) == NULL) {
+        return 0;
+    }
+    clearTree(&((*root)->right));
+    clearTree(&((*root)->left));
+    free(*root);
+    *root = NULL;
+}
+
 int clear(BinaryTree **tree) {
     if (*tree == NULL) {
         return 1;
@@ -179,20 +174,35 @@ int clear(BinaryTree **tree) {
     (*tree) = NULL;
 }
 
-int clearTree(Node **root) {
-    if ((*root) == NULL) {
-        return 0;
+void deleteMax(const char *key, Node **node, Node **previous, Node **maxNode) {
+    if ((*node)->right != NULL) {
+        deleteMax(key, &((*node)->right), &(*node), &(*maxNode));
+        fixHeight(&(*node));
+        *node = balance(&(*node));
+    } else {
+        if ((*node)->left == NULL) {
+            *maxNode = *node;
+            if ((*previous)->left != (*node)) {
+                (*previous)->right = NULL;
+            } else {
+                (*previous)->left = NULL;
+            }
+            return;
+        } else {
+            *maxNode = *node;
+            if ((*previous)->left != (*node)) {
+                (*previous)->right = (*node)->left;
+            } else {
+                (*previous)->left = (*node)->left;
+            }
+            return;
+        }
     }
-    clearTree(&((*root)->right));
-    clearTree(&((*root)->left));
-    free((*root)->value);
-    free(*root);
-    *root = NULL;
 }
 
-void delete(int key, Node **node, Node **previous) {
-    if ((*node) != NULL && (*node)->key != key) {
-        if (key > (*node)->key) {
+void delete(char const *key, Node **node, Node **previous) {
+    if ((*node) != NULL && strcmp((*node)->key, key) != 0) {
+        if (strcmp(key, (*node)->key) > 0) {
             delete(key, &((*node)->right), &(*node));
             fixHeight(&(*node));
             (*node) = balance(&(*node));
@@ -207,11 +217,9 @@ void delete(int key, Node **node, Node **previous) {
         }
         if ((*node)->left == NULL && (*node)->right == NULL) {
             if ((*previous)->right == (*node)) {
-                free((*node)->value);
                 free(*node);
                 (*previous)->right = NULL;
             }else {
-                free((*node)->value);
                 free(*node);
                 (*previous)->left = NULL;
             }
@@ -220,25 +228,22 @@ void delete(int key, Node **node, Node **previous) {
         if ((*node)->left == NULL) {
             if ((*previous) == (*node)) {
                 strcpy((*node)->value, (*node)->right->value);
-                (*node)->key = (*node)->right->key;
-                free((*node)->right->value);
+                strcpy((*node)->key, (*node)->right->key);
                 free((*node)->right);
                 (*node)->right = NULL;
                 fixHeight(&(*node));
                 return;
             }
             if ((*previous)->right == (*node)) {
-                strcpy((*previous)->right->value, (*node)->right->value);
-                (*previous)->right->key = (*node)->right->key;
-                free((*node)->right->value);
+                strcpy((*node)->value, (*node)->right->value);
+                strcpy((*node)->key, (*node)->right->key);
                 free((*node)->right);
                 (*previous)->right->right = NULL;
                 fixHeight(&((*previous)->right));
                 return;
             } else {
-                strcpy((*previous)->left->value, (*node)->right->value);
-                (*previous)->left->key = (*node)->right->key;
-                free((*node)->right->value);
+                strcpy((*node)->value, (*node)->right->value);
+                strcpy((*node)->key, (*node)->right->key);
                 free((*node)->right);
                 (*previous)->left->right = NULL;
                 fixHeight(&((*previous)->left));
@@ -247,8 +252,7 @@ void delete(int key, Node **node, Node **previous) {
         } else if ((*node)->right == NULL) {
             if ((*previous) == (*node)) {
                 strcpy((*node)->value, (*node)->left->value);
-                (*node)->key = (*node)->left->key;
-                free((*node)->left->value);
+                strcpy((*node)->key, (*node)->left->key);
                 free((*node)->left);
                 (*node)->left = NULL;
                 fixHeight(&(*node));
@@ -256,16 +260,14 @@ void delete(int key, Node **node, Node **previous) {
             }
             if ((*previous)->right == (*node)) {
                 strcpy((*previous)->right->value, (*node)->left->value);
-                (*previous)->right->key = (*node)->left->key;
-                free((*node)->left->value);
+                strcpy((*previous)->right->key, (*node)->left->key);
                 free((*node)->left);
                 (*previous)->right->left = NULL;
                 fixHeight(&((*previous)->right));
                 return;
             } else {
                 strcpy((*previous)->left->value, (*node)->left->value);
-                (*previous)->left->key = (*node)->left->key;
-                free((*node)->left->value);
+                strcpy((*previous)->left->key, (*node)->left->key);
                 free((*node)->left);
                 (*previous)->left->left = NULL;
                 fixHeight(&((*previous)->left));
@@ -275,9 +277,8 @@ void delete(int key, Node **node, Node **previous) {
             Node *deletedNode = NULL;
             deleteMax(key, &((*node)->left), &(*node), &(deletedNode));
             fixHeight(&(*node));
-            (*node)->key = deletedNode->key;
+            strcpy((*node)->key, deletedNode->key);
             strcpy((*node)->value, deletedNode->value);
-            free(deletedNode->value);
             free(deletedNode);
             (*node) = balance(&(*node));
             return;
@@ -285,40 +286,14 @@ void delete(int key, Node **node, Node **previous) {
     }
 }
 
-void deleteMax(int key, Node **node, Node **previous, Node **maxNode) {
-    if ((*node)->right != NULL) {
-        deleteMax(key, &((*node)->right), &(*node), &(*maxNode));
-        fixHeight(&(*node));
-        (*node) = balance(&(*node));
-    }else {
-        if ((*node)->left == NULL) {
-            (*maxNode) = (*node);
-            if ((*previous)->left != (*node)) {
-                (*previous)->right = NULL;
-            } else {
-                (*previous)->left = NULL;
-            }
-            return;
-        } else {
-            (*maxNode) = (*node);
-            if ((*previous)->left != (*node)) {
-                (*previous)->right = (*node)->left;
-            } else {
-                (*previous)->left = (*node)->left;
-            }
-            return;
-        }
-    }
-}
-int deleteElement(int key, BinaryTree **tree) {
+int deleteElement(char const *key, BinaryTree **tree) {
     if (*tree == NULL) {
         return 1;
     }
     if ((*tree)->root == NULL) {
         return 0;
     }
-    if (((*tree)->root->height == 0) && (key == (*tree)->root->key)) {
-        free((*tree)->root->value);
+    if (((*tree)->root->height == 0) && (strcmp(key, (*tree)->root->key)) == 0) {
         free((*tree)->root);
         (*tree)->root = NULL;
         return 0;

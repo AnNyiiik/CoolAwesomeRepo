@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 
+#define STR_SIZE 30
+
 typedef struct BinaryTree BinaryTree;
 
 //Create tree.
@@ -12,7 +14,7 @@ BinaryTree *createTree(void);
 int addElement(char *key, char *value, BinaryTree **tree);
 
 //Find element by key in the tree.
-int findValue(char *key, BinaryTree *tree, bool *isExits, char *value);
+int findValue(char *key, BinaryTree *tree, bool *isExists, char *value);
 
 //Delete element by key.
 int deleteElement(char const *key, BinaryTree **tree);

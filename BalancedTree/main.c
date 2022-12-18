@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../BinaryTree/tree.h"
 #include "../BinaryTree/test.h"
+
 int main() {
     if (!testCreateTree()) {
         return 1;
@@ -19,24 +20,27 @@ int main() {
         return 1;
     }
     int option = 0;
-    printf("To add an element enter 0\nto get value by key enter 1\nto check if the particular key exists enter 2\nto delete an element by key enter 3\nto exit enter 4\n");
+    printf("To add an element enter 0\n"
+           "to get value by key enter 1\n"
+           "to check if the particular key exists enter 2\n"
+           "to delete an element by key enter 3\n"
+           "to exit enter 4\n");
     scanf("%d", &option);
     BinaryTree *tree = createTree();
     while (option != 4) {
         if (option == 0) {
-            int key = 0;
-            char *value = (char *) malloc(sizeof(char) * 30);
+            char key[STR_SIZE] = {0};
+            char value[STR_SIZE] = {0};
             printf("Enter the key and associated value:\n");
-            scanf("%d", &key);
+            scanf("%s", key);
             scanf("%s", value);
             addElement(key, value, &tree);
-            free(value);
         } else if (option == 1 || option == 2) {
-            int key = 0;
-            char *value = (char *) malloc(sizeof(char) * 30);
+            char key[STR_SIZE] = {0};
+            char value[STR_SIZE] = {0};
             bool isExists = false;
             printf("Enter the key\n");
-            scanf("%d", &key);
+            scanf("%s", key);
             findValue(key, tree, &isExists, value);
             if (isExists) {
                 if (option == 1) {
@@ -47,11 +51,10 @@ int main() {
             } else {
                 printf("There is no such element\n");
             }
-            free(value);
         } else if (option == 3) {
-            int key = 0;
+            char key[STR_SIZE] = {0};
             printf("Enter the key to delete an element\n");
-            scanf("%d", &key);
+            scanf("%s", key);
             deleteElement(key, &tree);
         }
         printf("Enter an option\n");

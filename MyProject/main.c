@@ -12,14 +12,19 @@ int main() {
         return 1;
     }
     fclose(file);
-    int numberOfCapitals = data->numberOfCapitals;
+    int capitals = numberOfCapitals(data);
     List **countries = createCounties(data, &error);
-    for (int i = 0; i < numberOfCapitals; ++i) {
+    if (error == 1) {
+        clearData(&data);
+        return 1;
+    }
+    clearData(&data);
+    for (int i = 0; i < capitals; ++i) {
         if (countries[i] != NULL) {
             printList(countries[i]);
         }
     }
-    for (int i = 0; i < numberOfCapitals; ++i) {
+    for (int i = 0; i < capitals; ++i) {
         deleteList(&countries[i]);
     }
     free(countries);

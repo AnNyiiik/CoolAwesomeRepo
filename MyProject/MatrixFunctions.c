@@ -2,7 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Data Data;
+typedef struct Data {
+    int roads;
+    int towns;
+    int **matrix;
+    int *capitals;
+    int numberOfCapitals;
+} Data;
+
+int numberOfCapitals(Data *data) {
+    if (data == NULL) {
+        return -1;
+    }
+    return data->numberOfCapitals;
+}
 
 void clearData(Data **data) {
     for (int i = 0; i < (*data)->towns; ++i) {
@@ -22,12 +35,12 @@ int readFromFile(FILE *file, Data **data) {
     if (newData == NULL) {
         return 1;
     }
-    char towns[10] = {0};
-    fgets(towns, 10, file);
-    newData->towns = atoi(towns);
-    char roads[10] = {0};
-    fgets(roads, 10, file);
-    newData->roads = atoi(roads);
+    int towns = 0;
+    fscanf(file, "%d", &towns);
+    newData->towns = towns;
+    int roads = 0;
+    fscanf(file, "%d", &roads);
+    newData->roads = roads;
     int **matrix = (int **)calloc(newData->towns, sizeof(int *));
     if (matrix == NULL) {
         free(newData);
@@ -53,24 +66,24 @@ int readFromFile(FILE *file, Data **data) {
         int indexFirst = 0;
         int indexSecond = 0;
         int length = 0;
-        char string[10] = {0};
+        int number = 0;
         for (int j = 0; j < 3; ++j) {
-            fscanf(file, "%s", string);
+            fscanf(file, "%d", &number);
             if (j == 0) {
-                indexFirst = atoi(string);
+                indexFirst = number;
             } else if (j == 1) {
-                indexSecond = atoi(string);
+                indexSecond = number;
             } else {
-                length = atoi(string);
+                length = number;
             }
         }
         matrix[indexFirst - 1][indexSecond - 1] = length;
         matrix[indexSecond - 1][indexFirst - 1] = length;
     }
     newData->matrix = matrix;
-    char numberOfCapitals[10] = {0};
-    fscanf(file, "%s", numberOfCapitals);
-    newData->numberOfCapitals = atoi(numberOfCapitals);
+    int numberOfCapitals = 0;
+    fscanf(file, "%d", &numberOfCapitals);
+    newData->numberOfCapitals = numberOfCapitals;
     int *capitals = (int *)calloc(newData->numberOfCapitals, sizeof(int));
     if (capitals == NULL) {
         for (int j = 0; j < newData->numberOfCapitals; ++j) {
@@ -81,9 +94,9 @@ int readFromFile(FILE *file, Data **data) {
         return 1;
     }
     for (int i = 0; i < newData->numberOfCapitals; ++i) {
-        char capital[10] = {0};
-        fscanf(file, "%s", capital);
-        capitals[i] = atoi(capital);
+        int capital = 0;
+        fscanf(file, "%d", &capital);
+        capitals[i] = capital;
     }
     newData->capitals = capitals;
     *data = newData;
@@ -149,6 +162,12 @@ List  **createCounties(Data *data, int *error) {
             }
             int town = 0;
             int path = 0;
+            printf("%d : ", i + 1);
+            printList(available[i]);
+            printf("\n");
+            if (isEmpty(available[i])) {
+                continue;
+            }
             *error = pop(&available[i], &town, &path);
             if (*error != 0) {
                 deleteData(countries, available, isFree, data->numberOfCapitals);
@@ -157,8 +176,7 @@ List  **createCounties(Data *data, int *error) {
             for (int j = 0; j < data->towns; ++j) {
                 if (data->matrix[j][town - 1] != INT32_MAX) {
                     int dist = getPath(countries[i], j + 1);
-                    if (dist != -1 && getPath(countries[i], j + 1) >
-                                                              path + data->matrix[j][town - 1]) {
+                    if (dist != -1 && dist > path + data->matrix[j][town - 1]) {
                         *error = delete(countries[i], getElementPlace(countries[i], j + 1));
                         if (*error == 1) {
                             deleteData(countries, available, isFree, data->numberOfCapitals);
@@ -199,12 +217,11 @@ List  **createCounties(Data *data, int *error) {
             }
         }
     }
-    if (notDistributed == 0) {
-        for (int j = 0; j < data->numberOfCapitals; ++j) {
-            deleteList(&available[j]);
-        }
-        free(available);
-        free(isFree);
-        return countries;
+    int capitals = numberOfCapitals(data);
+    for (int j = 0; j < capitals; ++j) {
+        deleteList(&available[j]);
     }
+    free(available);
+    free(isFree);
+    return countries;
 }

@@ -4,13 +4,13 @@
 #include <stdio.h>
 #include "../List/list.h"
 
-typedef struct Data {
-    int roads;
-    int towns;
-    int **matrix;
-    int *capitals;
-    int numberOfCapitals;
-} Data;
+typedef struct Data Data;
+
+// Return number of capitals;
+int numberOfCapitals(Data *data);
+
+// Clear data.
+void clearData(Data **data);
 
 // Read a data from file and fill in structure Data.
 int readFromFile(FILE *file, Data **data);

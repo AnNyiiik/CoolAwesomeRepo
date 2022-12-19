@@ -15,10 +15,13 @@ typedef struct List {
     int size;
 } List;
 
-List *createList(void) {
-    struct List *list = (List *) malloc(sizeof(List));
-    list->head = NULL;
-    list->size = 0;
+List *createList(int *error) {
+    List *list = (List *)calloc(1, sizeof(List));
+    if (list == NULL) {
+        *error = 1;
+    } else {
+        *error = 0;
+    }
     return list;
 }
 
@@ -31,42 +34,7 @@ int deleteList(List **list) {
             return 1;
         }
     }
-    return 0;
-}
-
-int insert(List *list, int place, int number, int path) {
-    if (isEmpty(list)) {
-        int errorCode = push(&list, number, path);
-        if (errorCode != 0) {
-            return 1;
-        }
-        return 0;
-    }
-    if (place > list->size) {
-        return 1;
-    }
-    if (place == 0) {
-        int errorCode = push(&list, number, path);
-        if (errorCode != 0) {
-            return 1;
-        }
-        return 0;
-    }
-    int index = 0;
-    ListElement *element = list->head;
-    while (index < place - 1 && element->next) {
-        element = element->next;
-        ++index;
-    }
-    ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
-    newElement->number = number;
-    if (element->next) {
-        newElement->next = element->next;
-    } else {
-        newElement->next = NULL;
-    }
-    element->next = newElement;
-    ++list->size;
+    *list = NULL;
     return 0;
 }
 
@@ -108,6 +76,7 @@ int delete(List *list, int place) {
     --list->size;
     return 0;
 }
+
 int getPath(List *list, int number) {
     if (isEmpty(list)) {
         return -1;
@@ -121,6 +90,7 @@ int getPath(List *list, int number) {
     }
     return -1;
 }
+
 int getElementPlace(List *list, int number) {
     if (isEmpty(list)) {
         return -1;
@@ -159,7 +129,10 @@ int insertByOrder(List *list, int number, int path) {
         element = element->next;
     }
     if ((!element->next) && (element->path <= path)) {
-        ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
+        ListElement *newElement = (ListElement *)calloc(1, sizeof(ListElement));
+        if (newElement == NULL) {
+            return 1;
+        }
         newElement->number = number;
         newElement->path = path;
         newElement->next = NULL;
@@ -167,7 +140,10 @@ int insertByOrder(List *list, int number, int path) {
         ++list->size;
         return 0;
     }
-    ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
+    ListElement *newElement = (ListElement *)calloc(1, sizeof(ListElement));
+    if (newElement == NULL) {
+        return 1;
+    }
     newElement->number = number;
     newElement->path = path;
     if (previous->next) {
@@ -181,7 +157,7 @@ int insertByOrder(List *list, int number, int path) {
 }
 
 int push(List **list, int number, int path) {
-    ListElement *newNode = (ListElement *) malloc(sizeof(ListElement));
+    ListElement *newNode = (ListElement *)calloc(1, sizeof(ListElement));
     if (newNode == NULL) {
         return 1;
     }
@@ -207,6 +183,9 @@ int pop(List **list, int *number, int *path) {
 }
 
 bool isEmpty(List *list) {
+    if (list == NULL) {
+        return true;
+    }
     return list->head == NULL;
 }
 

@@ -16,6 +16,6 @@ typedef struct Data {
 int readFromFile(FILE *file, Data **data);
 
 // Create countries according to given data.
-int createCounties(Data *data, List ***result);
+List  **createCounties(Data *data, int *error);
 
 #endif //MYPROJECT_MATRIXFUNCTIONS_H

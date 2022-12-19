@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "MatrixFunctions.h"
-#include "../List/list.h"
 
 int main() {
     FILE *file = fopen("../text", "r");
@@ -14,11 +13,7 @@ int main() {
     }
     fclose(file);
     int numberOfCapitals = data->numberOfCapitals;
-    List **countries = (List **)calloc(numberOfCapitals, sizeof(List *));
-    for (int i = 0; i < numberOfCapitals; ++i) {
-        countries[i] = NULL;
-    }
-    createCounties(data, &countries);
+    List **countries = createCounties(data, &error);
     for (int i = 0; i < numberOfCapitals; ++i) {
         if (countries[i] != NULL) {
             printList(countries[i]);

@@ -1,4 +1,5 @@
 #include "stdio.h"
+#include "stdlib.h"
 #include "test.h"
 #include "MatrixFunctions.h"
 #include "../List/list.h"
@@ -11,6 +12,24 @@ bool test(void) {
     if (error == 1) {
         return false;
     }
-
+    int numberOfCapitals = data->numberOfCapitals;
+    List **countries = createCounties(data, &error);
+    if (error == 1) {
+        for (int i = 0; i < numberOfCapitals; ++i) {
+            deleteList(&countries[i]);
+        }
+        free(countries);
+        return false;
+    }
+    int correctAnswers[9] = {4, 8, 1, 9, 7, 2, 5, 6, 3};
+    for (int i = 0; i < numberOfCapitals; ++i) {
+        if (countries[i] != NULL) {
+            printList(countries[i]);
+        }
+    }
+    for (int i = 0; i < numberOfCapitals; ++i) {
+        deleteList(&countries[i]);
+    }
+    free(countries);
     return 0;
 }

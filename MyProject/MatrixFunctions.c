@@ -100,7 +100,7 @@ void deleteData(List **countries, List **available, bool *isFree, int numberOfCa
     free(isFree);
 }
 
-int createCounties(Data *data, List ***result) {
+List  **createCounties(Data *data, int *error) {
     List **countries = (List **)calloc(data->numberOfCapitals, sizeof(List *));
     List **available = (List **)calloc(data->numberOfCapitals, sizeof(List *));
     bool *isFree = (bool*)calloc(data->towns, sizeof(bool));
@@ -112,33 +112,32 @@ int createCounties(Data *data, List ***result) {
     }
     int notDistributed = data->towns - data->numberOfCapitals;
     for (int i = 0; i < data->numberOfCapitals; ++i) {
-        int error = 0;
-        countries[i] = createList(&error);
-        error = push(&countries[i], data->capitals[i], 0);
-        if (error == 1) {
+        countries[i] = createList(error);
+        *error = push(&countries[i], data->capitals[i], 0);
+        if (*error == 1) {
             deleteData(countries, available, isFree, data->numberOfCapitals);
-            return 1;
+            return NULL;
         }
-        available[i] = createList(&error);
-        if (error == 1) {
+        available[i] = createList(error);
+        if (*error == 1) {
             deleteData(countries, available, isFree, data->numberOfCapitals);
-            return 1;
+            return NULL;
         }
         for (int j = 0; j < data->towns; ++j) {
             if (data->matrix[data->capitals[i] - 1][j] != INT32_MAX) {
-                error = insertByOrder(available[i], j + 1, data->matrix[data->capitals[i] - 1][j]);
-                if (error == 1) {
+                *error = insertByOrder(available[i], j + 1, data->matrix[data->capitals[i] - 1][j]);
+                if (*error == 1) {
                     deleteData(countries, available, isFree, data->numberOfCapitals);
-                    return 1;
+                    return NULL;
                 }
             }
         }
         for (int j = 0; j < data->numberOfCapitals; ++j) {
             if (getElementPlace(available[i], data->capitals[i]) != -1) {
-                error = delete(available[i], getElementPlace(available[i], data->capitals[i]));
-                if (error == 1) {
+                *error = delete(available[i], getElementPlace(available[i], data->capitals[i]));
+                if (*error == 1) {
                     deleteData(countries, available, isFree, data->numberOfCapitals);
-                    return 1;
+                    return NULL;
                 }
             }
         }
@@ -150,67 +149,62 @@ int createCounties(Data *data, List ***result) {
             }
             int town = 0;
             int path = 0;
-            int errorCode = pop(&available[i], &town, &path);
-            if (errorCode != 0) {
+            *error = pop(&available[i], &town, &path);
+            if (*error != 0) {
                 deleteData(countries, available, isFree, data->numberOfCapitals);
-                return 1;
+                return NULL;
             }
             for (int j = 0; j < data->towns; ++j) {
                 if (data->matrix[j][town - 1] != INT32_MAX) {
                     int dist = getPath(countries[i], j + 1);
                     if (dist != -1 && getPath(countries[i], j + 1) >
                                                               path + data->matrix[j][town - 1]) {
-                        errorCode = delete(countries[i], getElementPlace(countries[i], j + 1));
-                        if (errorCode == 1) {
+                        *error = delete(countries[i], getElementPlace(countries[i], j + 1));
+                        if (*error == 1) {
                             deleteData(countries, available, isFree, data->numberOfCapitals);
-                            return 1;
+                            return NULL;
                         }
-                        errorCode = push(&countries[i], j + 1, path + data->matrix[j][town - 1]);
-                        if (errorCode == 1) {
+                        *error = push(&countries[i], j + 1, path + data->matrix[j][town - 1]);
+                        if (*error == 1) {
                             deleteData(countries, available, isFree, data->numberOfCapitals);
-                            return 1;
+                            return NULL;
                         }
                     } else if (isFree[j] && getPath(countries[i], j + 1) == -1) {
-                            errorCode = insertByOrder(available[i], j + 1, path + data->matrix[j][town - 1]);
-                        if (errorCode == 1) {
+                            *error = insertByOrder(available[i], j + 1, path + data->matrix[j][town - 1]);
+                        if (*error == 1) {
                             deleteData(countries, available, isFree, data->numberOfCapitals);
-                            return 1;
+                            return NULL;
                         }
                     }
                 }
             }
             --notDistributed;
             isFree[town - 1] = false;
-            errorCode = push(&countries[i], town, path);
-            if (errorCode == 1) {
+            *error = push(&countries[i], town, path);
+            if (*error == 1) {
                 deleteData(countries, available, isFree, data->numberOfCapitals);
-                return 1;
+                return NULL;
             }
             for (int j = 0; j < data->numberOfCapitals; ++j) {
                 if (j == (data->capitals[i] - 1)) {
                     continue;
                 }
                 if (getElementPlace(available[j], town) != -1) {
-                    errorCode = delete(available[j], getElementPlace(available[j], town));
-                    if (errorCode == 1) {
+                    *error = delete(available[j], getElementPlace(available[j], town));
+                    if (*error == 1) {
                         deleteData(countries, available, isFree, data->numberOfCapitals);
-                        return 1;
+                        return NULL;
                     }
                 }
             }
         }
     }
     if (notDistributed == 0) {
-        int numberOfCapitals = data->numberOfCapitals;
-        clearData(&data);
-        for (int i = 0; i < numberOfCapitals; ++i) {
-            *result[i] = countries[i];
-        }
-        for (int j = 0; j < numberOfCapitals; ++j) {
+        for (int j = 0; j < data->numberOfCapitals; ++j) {
             deleteList(&available[j]);
         }
         free(available);
         free(isFree);
-        return 0;
+        return countries;
     }
 }

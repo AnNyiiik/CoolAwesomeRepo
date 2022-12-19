@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "hashTable.h"
@@ -7,31 +6,7 @@
 #include "test.h"
 
 int main() {
-    if (!testCreateTable()) {
-        return 1;
-    }
-    if (!testDelete()) {
-        return 1;
-    }
-    if (!testHash()) {
-        return 1;
-    }
-    if (!testAdd()) {
-        return 1;
-    }
-    if (!testDelete()) {
-        return 1;
-    }
-    if (!testResize()) {
-        return 1;
-    }
-    if (!testMaxSegment()) {
-        return 1;
-    }
-    if (!testAverageSegment()) {
-        return 1;
-    }
-    if (!testOccupancy()) {
+    if (!test()) {
         return 1;
     }
     FILE *file = fopen("../text", "r");
@@ -39,26 +14,35 @@ int main() {
         printf("File not found");
         return 1;
     }
-    int character = ' ';
-    int length = 0;
-    char *word = (char *)calloc(30, sizeof(char));
-    HashTable *hashTable = createHashTable(INIT_SIZE);
-    while ((character = fgetc(file)) != EOF) {
-        if (character == ',' || character == '?' || character == '!' || character == ';' || character == '.'
-        || character == ':' || character == '\"' || character == ' ' || character == '(' || character == ')' || character == '-') {
-            if (length > 0) {
-                resize(&hashTable);
-                put(word, hashTable);
-                free(word);
-                word = (char *)calloc(30, sizeof(char));
-                length = 0;
-            }
-        }else {
-            word[length] = tolower(character);
-            ++length;
+    char word[STR_SIZE] = {0};
+    int error = 0;
+    HashTable *hashTable = createHashTable(INIT_SIZE, &error);
+    if (error == 1) {
+        fclose(file);
+        deleteHashTable(&hashTable);
+        return 1;
+    }
+    while (fscanf(file, "%s", word) > 0) {
+        int length = strlen(word);
+        for (int i = 0; i < length; ++i) {
+            word[i] = tolower(word[i]);
+        }
+        if (length == 1 && (word[0] > 122 || word[0] < 97)) {
+            continue;
+        }
+        if (word[length - 1] == '.' || word[length - 1] == ',' || word[length - 1] == '?' || word[length - 1] == '!' ||
+                word[length - 1] == ':' || word[length - 1] == ';') {
+            word[length - 1] = '\0';
+        }
+        put(word, hashTable, 1);
+        error = resize(&hashTable);
+        if (error == 1) {
+            fclose(file);
+            deleteHashTable(&hashTable);
+            return 1;
         }
     }
-    free(word);
+    fclose(file);
     printTable(hashTable);
     printf("%f", occupancyRate(hashTable));
     deleteHashTable(&hashTable);

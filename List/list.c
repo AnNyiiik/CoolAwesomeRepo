@@ -16,15 +16,79 @@ typedef struct List {
     int size;
 } List;
 
-List *createList(void) {
-    struct List *list = (List *) malloc(sizeof(List));
+List *createList(int *error) {
+    List *list = (List *) malloc(sizeof(List));
+    if (list == NULL) {
+        *error = 1;
+        return NULL;
+    }
     list->head = NULL;
     list->tail = NULL;
     list->size = 0;
+    *error = 0;
     return list;
 }
 
+void tryAdd(List **list, char *word, bool *isNew, int frequency) {
+    if (list == NULL || *list == NULL || isEmpty(*list)) {
+        return;
+    }
+    ListElement *element = (*list)->head;
+    *isNew = false;
+    while (element != NULL) {
+        if (strcmp(element->word, word) == 0) {
+            element->frequency += frequency;
+            *isNew = true;
+            break;
+        }
+        element = element->next;
+    }
+}
+
+int getHeadFrequency(List *list) {
+    if (list != NULL) {
+        return list->head->frequency;
+    }
+    else {
+        return -1;
+    }
+}
+
+int getFrequency(char *word, List *list) {
+    if (list == NULL || isEmpty(list)) {
+        return 0;
+    }
+    ListElement *element = list->head;
+    while (element != NULL) {
+        if (strcmp(element->word, word) == 0) {
+            return element->frequency;
+        }
+        element = element->next;
+    }
+    return 0;
+}
+
+int getSize(List *list) {
+    if (list != NULL) {
+        return list->size;
+    }
+    else {
+        return -1;
+    }
+}
+
+int getHead(List *list, char *value) {
+    if (list != NULL && !isEmpty(list)) {
+        strcpy(value, list->head->word);
+        return 0;
+    }
+    return 1;
+}
+
 int deleteList(List **list) {
+    if (list == NULL || *list == NULL) {
+        return 1;
+    }
     while (!isEmpty(*list)) {
         int errorCode = pop(list);
         if (errorCode != 0) {
@@ -36,12 +100,12 @@ int deleteList(List **list) {
 }
 
 int push(List **list, int frequency, char *word) {
-    ListElement *newNode = (ListElement *) malloc(sizeof(ListElement));
+    ListElement *newNode = (ListElement *)malloc(sizeof(ListElement));
     if (newNode == NULL) {
         return 1;
     }
     newNode->frequency = frequency;
-    newNode->word = (char *) malloc(sizeof(word) + 1);
+    newNode->word = (char *)malloc(sizeof(word) + 1);
     strcpy(newNode->word, word);
     newNode->word[sizeof(word)] = '\0';
     if ((*list)->head) {
@@ -58,8 +122,8 @@ int push(List **list, int frequency, char *word) {
 }
 
 int pop(List **list) {
-    if (isEmpty(list)) {
-        return 0;
+    if (isEmpty(*list)) {
+        return 1;
     }
     ListElement *previous = (*list)->head;
     ((*list)->head) = ((*list)->head)->next;
@@ -70,7 +134,7 @@ int pop(List **list) {
 }
 
 void delete(char *word, List **list) {
-    if (isEmpty(list)) {
+    if (isEmpty(*list)) {
         return;
     }
     ListElement *element = (*list)->head;
@@ -90,9 +154,22 @@ void delete(char *word, List **list) {
     free(element->word);
     free(element);
     --(*list)->size;
-    return;
 }
 
 bool isEmpty(List *list) {
+    if (list == NULL) {
+        return true;
+    }
     return list->head == NULL;
+}
+
+void printList(List *list) {
+    if (list == NULL || isEmpty(list)) {
+        return;
+    }
+    ListElement *element = list->head;
+    while(element != NULL) {
+        printf("%s - %d\n", element->word, element->frequency);
+        element = element->next;
+    }
 }

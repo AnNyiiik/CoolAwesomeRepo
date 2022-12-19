@@ -1,34 +1,59 @@
 #include "MatrixFunctions.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "../List/list.h"
+
 typedef struct Data Data;
 
-typedef struct List {
-    struct ListElement *head;
-    int size;
-} List;
+void clearData(Data **data) {
+    for (int i = 0; i < (*data)->towns; ++i) {
+        free((*data)->matrix[i]);
+    }
+    free((*data)->matrix);
+    free((*data)->capitals);
+    free((*data));
+    (*data) = NULL;
+}
 
 int readFromFile(FILE *file, Data **data) {
     if (file == NULL) {
         return 1;
     }
     Data *newData = (Data *)malloc(sizeof(Data));
-    char *towns = (char *)malloc(10);
+    if (newData == NULL) {
+        return 1;
+    }
+    char towns[10] = {0};
     fgets(towns, 10, file);
     newData->towns = atoi(towns);
-    char *roads = (char *)malloc(10);
+    char roads[10] = {0};
     fgets(roads, 10, file);
     newData->roads = atoi(roads);
-    int **matrix = (int **)calloc(atoi(towns), sizeof(int *));
-    for (int i = 0; i < atoi(towns); ++i) {
-        matrix[i] = (int *)calloc(atoi(towns), sizeof(int));
+    int **matrix = (int **)calloc(newData->towns, sizeof(int *));
+    if (matrix == NULL) {
+        free(newData);
+        return 1;
     }
-    for (int i = 0; i < atoi(roads); ++i) {
+    for (int i = 0; i < newData->towns; ++i) {
+        matrix[i] = (int *)calloc(newData->towns, sizeof(int));
+        if (matrix[i] == NULL) {
+            for (int j = 0; j < i; ++j) {
+                free(matrix[j]);
+            }
+            free(newData);
+            free(matrix);
+            return 1;
+        }
+    }
+    for (int i = 0 ; i < newData->towns; ++i) {
+        for (int j = 0; j < newData->towns; ++j) {
+            matrix[i][j] = INT32_MAX;
+        }
+    }
+    for (int i = 0; i < newData->roads; ++i) {
         int indexFirst = 0;
         int indexSecond = 0;
         int length = 0;
-        char *string = (char *)malloc(sizeof(char) * 10);
+        char string[10] = {0};
         for (int j = 0; j < 3; ++j) {
             fscanf(file, "%s", string);
             if (j == 0) {
@@ -39,31 +64,43 @@ int readFromFile(FILE *file, Data **data) {
                 length = atoi(string);
             }
         }
-        free(string);
         matrix[indexFirst - 1][indexSecond - 1] = length;
         matrix[indexSecond - 1][indexFirst - 1] = length;
     }
     newData->matrix = matrix;
-    free(towns);
-    free(roads);
-    char *numberOfCapitals = (char*)malloc(sizeof(char) * 10);
+    char numberOfCapitals[10] = {0};
     fscanf(file, "%s", numberOfCapitals);
     newData->numberOfCapitals = atoi(numberOfCapitals);
     int *capitals = (int *)calloc(newData->numberOfCapitals, sizeof(int));
-    char *capital = NULL;
-    for (int i = 0; i < atoi(numberOfCapitals); ++i) {
-        capital = (char *)malloc(sizeof(char) * 10);
+    if (capitals == NULL) {
+        for (int j = 0; j < newData->numberOfCapitals; ++j) {
+            free(matrix[j]);
+        }
+        free(newData);
+        free(matrix);
+        return 1;
+    }
+    for (int i = 0; i < newData->numberOfCapitals; ++i) {
+        char capital[10] = {0};
         fscanf(file, "%s", capital);
         capitals[i] = atoi(capital);
-        free(capital);
     }
     newData->capitals = capitals;
-    free(numberOfCapitals);
-    (*data) = newData;
+    *data = newData;
     return 0;
 }
 
-void createCounties(Data *data, char *result) {
+void deleteData(List **countries, List **available, bool *isFree, int numberOfCapitals) {
+    for (int j = 0; j < numberOfCapitals; ++j) {
+        deleteList(&countries[j]);
+        deleteList(&available[j]);
+    }
+    free(countries);
+    free(available);
+    free(isFree);
+}
+
+int createCounties(Data *data, List ***result) {
     List **countries = (List **)calloc(data->numberOfCapitals, sizeof(List *));
     List **available = (List **)calloc(data->numberOfCapitals, sizeof(List *));
     bool *isFree = (bool*)calloc(data->towns, sizeof(bool));
@@ -75,17 +112,34 @@ void createCounties(Data *data, char *result) {
     }
     int notDistributed = data->towns - data->numberOfCapitals;
     for (int i = 0; i < data->numberOfCapitals; ++i) {
-        countries[i] = createList();
-        push(&countries[i], data->capitals[i], 0);
-        available[i] = createList();
+        int error = 0;
+        countries[i] = createList(&error);
+        error = push(&countries[i], data->capitals[i], 0);
+        if (error == 1) {
+            deleteData(countries, available, isFree, data->numberOfCapitals);
+            return 1;
+        }
+        available[i] = createList(&error);
+        if (error == 1) {
+            deleteData(countries, available, isFree, data->numberOfCapitals);
+            return 1;
+        }
         for (int j = 0; j < data->towns; ++j) {
-            if (data->matrix[data->capitals[i] - 1][j] != 0) {
-                insertByOrder(available[i], j + 1, data->matrix[data->capitals[i] - 1][j]);
+            if (data->matrix[data->capitals[i] - 1][j] != INT32_MAX) {
+                error = insertByOrder(available[i], j + 1, data->matrix[data->capitals[i] - 1][j]);
+                if (error == 1) {
+                    deleteData(countries, available, isFree, data->numberOfCapitals);
+                    return 1;
+                }
             }
         }
         for (int j = 0; j < data->numberOfCapitals; ++j) {
             if (getElementPlace(available[i], data->capitals[i]) != -1) {
-                delete(available[i], getElementPlace(available[i], data->capitals[i]));
+                error = delete(available[i], getElementPlace(available[i], data->capitals[i]));
+                if (error == 1) {
+                    deleteData(countries, available, isFree, data->numberOfCapitals);
+                    return 1;
+                }
             }
         }
     }
@@ -97,36 +151,66 @@ void createCounties(Data *data, char *result) {
             int town = 0;
             int path = 0;
             int errorCode = pop(&available[i], &town, &path);
-            for (int k = 0; k < data->towns; ++k) {
-                printf("%d ", isFree[k]);
+            if (errorCode != 0) {
+                deleteData(countries, available, isFree, data->numberOfCapitals);
+                return 1;
             }
-            printf("\n");
-            if (errorCode == 0) {
-                for (int j = 0; j < data->towns; ++j) {
-                    if (data->matrix[j][town - 1] != 0) {
-                        int dist = getPath(countries[i], j + 1);
-                        if (dist != -1 && getPath(countries[i], j + 1) >
-                                                                  path + data->matrix[j][town - 1]) {
-                            delete(countries[i], getElementPlace(countries[i], j + 1));
-                            push(&countries[i], j + 1, path + data->matrix[j][town - 1]);
-                        } else if (isFree[j] && getPath(countries[i], j + 1) == -1) {
-                                insertByOrder(available[i], j + 1, path + data->matrix[j][town - 1]);
+            for (int j = 0; j < data->towns; ++j) {
+                if (data->matrix[j][town - 1] != INT32_MAX) {
+                    int dist = getPath(countries[i], j + 1);
+                    if (dist != -1 && getPath(countries[i], j + 1) >
+                                                              path + data->matrix[j][town - 1]) {
+                        errorCode = delete(countries[i], getElementPlace(countries[i], j + 1));
+                        if (errorCode == 1) {
+                            deleteData(countries, available, isFree, data->numberOfCapitals);
+                            return 1;
+                        }
+                        errorCode = push(&countries[i], j + 1, path + data->matrix[j][town - 1]);
+                        if (errorCode == 1) {
+                            deleteData(countries, available, isFree, data->numberOfCapitals);
+                            return 1;
+                        }
+                    } else if (isFree[j] && getPath(countries[i], j + 1) == -1) {
+                            errorCode = insertByOrder(available[i], j + 1, path + data->matrix[j][town - 1]);
+                        if (errorCode == 1) {
+                            deleteData(countries, available, isFree, data->numberOfCapitals);
+                            return 1;
                         }
                     }
                 }
-                --notDistributed;
-                isFree[town - 1] = false;
-                push(&countries[i], town, path);
-                for (int j = 0; j < data->numberOfCapitals; ++j) {
-                    if (j == (data->capitals[i] - 1)) {
-                        continue;
+            }
+            --notDistributed;
+            isFree[town - 1] = false;
+            errorCode = push(&countries[i], town, path);
+            if (errorCode == 1) {
+                deleteData(countries, available, isFree, data->numberOfCapitals);
+                return 1;
+            }
+            for (int j = 0; j < data->numberOfCapitals; ++j) {
+                if (j == (data->capitals[i] - 1)) {
+                    continue;
+                }
+                if (getElementPlace(available[j], town) != -1) {
+                    errorCode = delete(available[j], getElementPlace(available[j], town));
+                    if (errorCode == 1) {
+                        deleteData(countries, available, isFree, data->numberOfCapitals);
+                        return 1;
                     }
-                    delete(available[j], getElementPlace(available[j], town));
                 }
             }
         }
-        for (int i = 0; i < data->numberOfCapitals; ++i) {
-            printList(countries[i]);
+    }
+    if (notDistributed == 0) {
+        int numberOfCapitals = data->numberOfCapitals;
+        clearData(&data);
+        for (int i = 0; i < numberOfCapitals; ++i) {
+            *result[i] = countries[i];
         }
+        for (int j = 0; j < numberOfCapitals; ++j) {
+            deleteList(&available[j]);
+        }
+        free(available);
+        free(isFree);
+        return 0;
     }
 }

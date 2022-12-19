@@ -3,4 +3,4 @@ project(MyProject C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(MyProject main.c MatrixFunctions.c MatrixFunctions.h "../List/list.c")
+add_executable(MyProject main.c MatrixFunctions.c MatrixFunctions.h "../List/list.c" test.c test.h)

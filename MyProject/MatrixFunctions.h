@@ -2,6 +2,7 @@
 #define MYPROJECT_MATRIXFUNCTIONS_H
 
 #include <stdio.h>
+#include "../List/list.h"
 
 typedef struct Data {
     int roads;
@@ -10,8 +11,11 @@ typedef struct Data {
     int *capitals;
     int numberOfCapitals;
 } Data;
+
+// Read a data from file and fill in structure Data.
 int readFromFile(FILE *file, Data **data);
 
-void createCounties(Data *data, char *result);
+// Create countries according to given data.
+int createCounties(Data *data, List ***result);
 
 #endif //MYPROJECT_MATRIXFUNCTIONS_H

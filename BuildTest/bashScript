@@ -1,0 +1,6 @@
+#!/bin/bash
+file="paths"
+for path in $(cat $file)
+do
+$path
+done

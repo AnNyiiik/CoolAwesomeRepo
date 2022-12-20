@@ -6,15 +6,17 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+// States of DFA.
 typedef enum States {
-    waitingStart = 0,
-    integerPartInProcess = 1,
-    startFraction = 2,
-    fractionPartInProcess = 3,
-    startExponent = 4,
-    powerPartInProcess = 5,
+    waitingStart,
+    integerPartInProcess,
+    startFraction,
+    fractionPartInProcess,
+    startExponent,
+    powerPartInProcess,
 } States;
 
+// Check if the given string representation of a number is a correct real number.
 bool isRealNumber(const char *string);
 
 #endif //LEXERREALNUMBERS_LEXER_H

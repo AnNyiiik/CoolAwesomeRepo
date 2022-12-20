@@ -1,6 +1,5 @@
 #include "test.h"
 #include "lexer.h"
-#include <stdio.h>
 
 bool testTrue(void) {
     char *testData[8] = {"10", "10.5", "0.52", "1.52E100",

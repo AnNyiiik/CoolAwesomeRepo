@@ -1,64 +1,55 @@
 #include "lexer.h"
 
 bool isRealNumber(const char *string) {
-    int position = 0;
+    int position = -1;
     int length = strlen(string);
     States state = waitingStart;
-    States newState = waitingStart;
-    while (position < length) {
+    while (position < length - 1) {
+        ++position;
         switch (state) {
             case waitingStart:
                 if (!isdigit(string[position])) {
                     return false;
                 }
-                newState = integerPartInProcess;
-                ++position;
+                state = integerPartInProcess;
                 break;
             case integerPartInProcess:
                 if (string[position] == 'E') {
-                    ++position;
-                    newState = startExponent;
+                    state = startExponent;
                 } else if (string[position] == '.') {
-                    newState = startFraction;
+                    state = startFraction;
                 } else if (!isdigit(string[position])){
                     return false;
                 }
-                ++position;
                 break;
             case startFraction:
                 if (!isdigit(string[position])) {
                     return false;
                 }
-                ++position;
-                newState = fractionPartInProcess;
+                state = fractionPartInProcess;
                 break;
             case fractionPartInProcess:
                 if (string[position] == 'E') {
-                    ++position;
-                    newState = startExponent;
+                    state = startExponent;
                 } else if (!isdigit(string[position])) {
                     return false;
                 }
-                ++position;
                 break;
             case startExponent:
                 if (string[position] == '+' || string[position] == '-') {
-                    ++position;
+                    continue;
                 } else if (!isdigit(string[position])) {
                     return false;
                 } else {
-                    newState = powerPartInProcess;
-                    ++position;
+                    state = powerPartInProcess;
                 }
                 break;
             case powerPartInProcess:
                 if (!isdigit(string[position])) {
                     return false;
                 }
-                ++position;
                 break;
         }
-        state = newState;
     }
     return state == powerPartInProcess || state == fractionPartInProcess || state == integerPartInProcess;
 }

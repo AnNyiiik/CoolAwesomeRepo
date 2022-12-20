@@ -3,7 +3,7 @@
 #include "lexer.h"
 
 int main() {
-    if (!testTrue() && !testFalse()) {
+    if (!testTrue() || !testFalse()) {
         return 1;
     }
     printf("Enter the string\n");

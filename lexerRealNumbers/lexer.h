@@ -3,7 +3,6 @@
 
 #include <string.h>
 #include <stdbool.h>
-#include <stdlib.h>
 #include <ctype.h>
 
 // States of DFA.
@@ -13,6 +12,7 @@ typedef enum States {
     startFraction,
     fractionPartInProcess,
     startExponent,
+    startExponentSign,
     powerPartInProcess,
 } States;
 

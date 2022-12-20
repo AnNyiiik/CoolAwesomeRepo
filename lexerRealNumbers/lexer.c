@@ -8,17 +8,18 @@ bool isRealNumber(const char *string) {
         ++position;
         switch (state) {
             case waitingStart:
-                if (!isdigit(string[position])) {
+                if (isdigit(string[position])) {
+                    state = integerPartInProcess;
+                } else {
                     return false;
                 }
-                state = integerPartInProcess;
                 break;
             case integerPartInProcess:
                 if (string[position] == 'E') {
                     state = startExponent;
                 } else if (string[position] == '.') {
                     state = startFraction;
-                } else if (!isdigit(string[position])){
+                } else if (!isdigit(string[position])) {
                     return false;
                 }
                 break;
@@ -37,12 +38,18 @@ bool isRealNumber(const char *string) {
                 break;
             case startExponent:
                 if (string[position] == '+' || string[position] == '-') {
-                    continue;
+                    state = startExponentSign;
                 } else if (!isdigit(string[position])) {
                     return false;
                 } else {
                     state = powerPartInProcess;
                 }
+                break;
+            case startExponentSign:
+                if (!isdigit(string[position])) {
+                    return false;
+                }
+                state = powerPartInProcess;
                 break;
             case powerPartInProcess:
                 if (!isdigit(string[position])) {

@@ -1,6 +1,0 @@
-# ninja log v5
-0	29	1666688735010636499	CMakeFiles/mergeSort.dir/test.c.o	987ac5f1c9793397
-25	57	1666689230694079846	mergeSort	6a62f99f60b4b6c0
-0	29	1666688860498197176	CMakeFiles/mergeSort.dir/sort.c.o	93fdbe2469ce2b34
-0	25	1666689230660788853	CMakeFiles/mergeSort.dir/main.c.o	c3046aa97c722846
-4	48	1667137027050089202	build.ninja	bab4954fdc0c0e7a

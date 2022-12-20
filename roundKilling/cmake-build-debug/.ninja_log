@@ -1,7 +1,0 @@
-# ninja log v5
-23	52	1666524611096442623	roundKilling	c39d2060b06a3919
-1	27	1666734119744613008	CMakeFiles/roundKilling.dir/Users/annnikolaeff/CoolAwesomeRepo/CycleList/cycleList.c.o	c54e35a55b5f5b9a
-1	27	1666734119744515805	CMakeFiles/roundKilling.dir/main.c.o	7d82510cce63297
-1	31	1666734159361957059	build.ninja	ea12392afbf7481f
-1	26	1666734160742376837	CMakeFiles/roundKilling.dir/Users/annnikolaeff/CoolAwesomeRepo/CycleList/test.c.o	3ffa8c5b067cfd3
-26	58	1666734160774925766	roundKilling	34626d22dd8ecea2

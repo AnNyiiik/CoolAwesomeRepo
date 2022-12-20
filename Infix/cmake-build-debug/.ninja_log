@@ -1,7 +1,0 @@
-# ninja log v5
-0	22	1666302941055113726	CMakeFiles/Infix.dir/Users/annnikolaeff/CoolAwesomeRepo/StackModule/test.c.o	ada3b56118121054
-27	56	1666304816503465498	Infix	aa7b874d9f067117
-1	15	1666303923698444594	CMakeFiles/Infix.dir/testSortingStation.c.o	366202870369a922
-2	237	1666301114743703589	CMakeFiles/Infix.dir/Users/annnikolaeff/CoolAwesomeRepo/StackModule/stack.c.o	b10659e004bf0ec6
-0	34	1666438245903586264	build.ninja	d76794a1a6918517
-1	27	1666304816473897173	CMakeFiles/Infix.dir/main.c.o	45bf2ba705352087

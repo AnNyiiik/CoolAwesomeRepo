@@ -1,9 +1,0 @@
-# ninja log v5
-0	25	1666129771373873316	CMakeFiles/Postfix.dir/test.c.o	8282994698134382
-1	44	1666128824622086769	CMakeFiles/Postfix.dir/Users/annnikolaeff/CoolAwesomeRepo/StackModule/test.c.o	d56ba492d84f080d
-26	61	1666130402123088612	Postfix	b4f7c0758da98186
-1	45	1666128824622115017	CMakeFiles/Postfix.dir/Users/annnikolaeff/CoolAwesomeRepo/StackModule/stack.c.o	668a7f6055f76edb
-3	52	1666130482703037152	build.ninja	3ea86654137885b6
-0	26	1666130402087696616	CMakeFiles/Postfix.dir/main.c.o	5ccf22ad48632b2
-0	36	1666130482703037152	build.ninja	3ea86654137885b6
-0	33	1666130482741756900	Postfix	dd4002b57e8ee012

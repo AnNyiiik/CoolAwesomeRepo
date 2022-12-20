@@ -16,7 +16,7 @@ int main() {
     }
     char word[STR_SIZE] = {0};
     int error = 0;
-    HashTable *hashTable = createHashTable(INIT_SIZE, &error);
+    HashTable *hashTable = createHashTable(&error);
     if (error == 1) {
         fclose(file);
         deleteHashTable(&hashTable);
@@ -44,7 +44,9 @@ int main() {
     }
     fclose(file);
     printTable(hashTable);
-    printf("%f", occupancyRate(hashTable));
+    printf("occupancy : %f\n", occupancyRate(hashTable));
+    printf("max segment size : %d\n", maxSegmentSize(hashTable));
+    printf("average segment size : %f\n", averageSegmentSize(hashTable));
     deleteHashTable(&hashTable);
     return 0;
 }

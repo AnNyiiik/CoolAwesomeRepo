@@ -17,7 +17,7 @@ bool testHash(void) {
 
 bool testOccupancy(void) {
     int error = 0;
-    HashTable *hashTable = createHashTable(INIT_SIZE, &error);
+    HashTable *hashTable = createHashTable(&error);
     if (error == 1) {
         deleteHashTable(&hashTable);
         return false;
@@ -37,12 +37,13 @@ bool testOccupancy(void) {
 
 bool testMaxSegment(void) {
     int error = 0;
-    HashTable *hashTable = createHashTable(INIT_SIZE, &error);
+    HashTable *hashTable = createHashTable(&error);
     if (error == 1) {
         deleteHashTable(&hashTable);
         return false;
     }
-    char *words[10] = {"fox", "apple", "snake", "mountain", "exquisite", "lengthy", "capacity", "embroidery", "lake", "maple"};
+    char *words[10] = {"fox", "apple", "snake", "mountain", "exquisite",
+                       "lengthy", "capacity", "embroidery", "lake", "maple"};
     for (int i = 0; i < 10; ++i) {
         put(words[i], hashTable, 1);
     }
@@ -56,7 +57,7 @@ bool testMaxSegment(void) {
 
 bool testAverageSegment(void) {
     int error = 0;
-    HashTable *hashTable = createHashTable(INIT_SIZE, &error);
+    HashTable *hashTable = createHashTable(&error);
     if (error == 1) {
         deleteHashTable(&hashTable);
         return false;
@@ -64,9 +65,11 @@ bool testAverageSegment(void) {
     char *words[10] = {"fox", "apple", "snake", "mountain", "exquisite",
                        "lengthy", "capacity", "embroidery", "lake", "maple"};
     for (int i = 0; i < 10; ++i) {
-        put(words[i % 10], hashTable, 1);
+        put(words[i], hashTable, 1);
+        resize(&hashTable);
     }
-    if (averageSegmentSize(hashTable) != 1) {
+    float average = averageSegmentSize(hashTable);
+    if (abs(average - 1.1111) > 0.0001) {
         deleteHashTable(&hashTable);
         return false;
     }
@@ -76,7 +79,7 @@ bool testAverageSegment(void) {
 
 bool testAdd(void) {
     int error = 0;
-    HashTable *hashTable = createHashTable(INIT_SIZE, &error);
+    HashTable *hashTable = createHashTable(&error);
     if (error == 1) {
         deleteHashTable(&hashTable);
         return false;
@@ -92,7 +95,7 @@ bool testAdd(void) {
 
 bool testDelete(void) {
     int error = 0;
-    HashTable *hashTable = createHashTable(INIT_SIZE, &error);
+    HashTable *hashTable = createHashTable(&error);
     if (error == 1) {
         deleteHashTable(&hashTable);
         return false;
@@ -109,7 +112,7 @@ bool testDelete(void) {
 
 bool testCreateTable(void) {
     int error = 0;
-    HashTable *hashTable = createHashTable(INIT_SIZE, &error);
+    HashTable *hashTable = createHashTable(&error);
     if (error == 1) {
         deleteHashTable(&hashTable);
         return false;
@@ -133,7 +136,7 @@ bool testCreateTable(void) {
 
 bool testDeleteTable(void) {
     int error = 0;
-    HashTable *hashTable = createHashTable(INIT_SIZE, &error);
+    HashTable *hashTable = createHashTable(&error);
     if (error == 1) {
         deleteHashTable(&hashTable);
         return false;
@@ -147,7 +150,7 @@ bool testDeleteTable(void) {
 
 bool testResize(void) {
     int error = 0;
-    HashTable *hashTable = createHashTable(INIT_SIZE, &error);
+    HashTable *hashTable = createHashTable(&error);
     if (error == 1) {
         deleteHashTable(&hashTable);
         return false;
@@ -168,9 +171,6 @@ bool testResize(void) {
 }
 
 bool test(void) {
-    if (!testCreateTable() || !testDelete() || !testHash() || !testAdd() || !testDelete() ||
-    !testResize() || !testMaxSegment() || !testAverageSegment() || !testOccupancy() || !testDeleteTable()) {
-        return false;
-    }
-    return true;
+    return testCreateTable() && testDelete() && testHash() && testAdd() && testDelete() &&
+        testResize() && testMaxSegment() && testAverageSegment() && testOccupancy() && testDeleteTable();
 }

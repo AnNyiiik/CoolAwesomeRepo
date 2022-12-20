@@ -32,7 +32,7 @@ int size(HashTable *hashTable) {
     return hashTable->size;
 }
 
-HashTable *createHashTable(int size, int *error) {
+HashTable *createHashTableWithSize(int size, int *error) {
     HashTable *hashTable = (HashTable *)malloc(sizeof(HashTable));
     if (hashTable == NULL) {
         *error = 1;
@@ -62,14 +62,15 @@ HashTable *createHashTable(int size, int *error) {
     return hashTable;
 }
 
+HashTable *createHashTable(int *error) {
+    return createHashTableWithSize(INIT_SIZE, error);
+}
+
 int wordFrequency(char *word, HashTable *hashTable) {
     if (hashTable == NULL || hashTable->size == 0) {
         return 0;
     }
     int hash = getHash(word, hashTable->size);
-    if (hash < 0) {
-        hash = hashTable->size + hash;
-    }
     int frequency = getFrequency(word, hashTable->values[hash]);
     if (frequency > 0) {
         return frequency;
@@ -82,20 +83,20 @@ int resize(HashTable **hashTable) {
         return 0;
     }
     float occupancy = occupancyRate(*hashTable);
-    if ((occupancy <= 1 && occupancy > 0.5) || (occupancy <= 0.5 && (*hashTable)->size == 8)) {
+    if ((occupancy <= 1 && occupancy > 0.5) || (occupancy <= 0.5 && (*hashTable)->size == INIT_SIZE)) {
         return 0;
     }
     HashTable *newHashTable = NULL;
     if (occupancy > 1) {
         int error = 0;
-        newHashTable = createHashTable((*hashTable)->size * 2, &error);
+        newHashTable = createHashTableWithSize((*hashTable)->size * 2, &error);
         if (error == 1) {
             deleteHashTable(hashTable);
             return 1;
         }
-    } else if (occupancy <= 0.5 && (*hashTable)->size > 8) {
+    } else if (occupancy <= 0.5 && (*hashTable)->size > INIT_SIZE) {
         int error = 0;
-        newHashTable = createHashTable((*hashTable)->size / 2, &error);
+        newHashTable = createHashTableWithSize((*hashTable)->size / 2, &error);
         if (error == 1) {
             deleteHashTable(hashTable);
             return 1;
@@ -103,7 +104,7 @@ int resize(HashTable **hashTable) {
     }
     for (int i = 0; i < (*hashTable)->size; ++i) {
         while (!isEmpty((*hashTable)->values[i])) {
-            char word[30] = {0};
+            char word[STR_SIZE] = {0};
             getHead((*hashTable)->values[i], word);
             put(word, newHashTable, getHeadFrequency((*hashTable)->values[i]));
             pop(&(*hashTable)->values[i]);
@@ -122,6 +123,7 @@ void deleteHashTable(HashTable **hashTable) {
         deleteList(&((*hashTable)->values[i]));
         free((*hashTable)->values[i]);
     }
+    free((*hashTable)->values);
     free(*hashTable);
     *hashTable = NULL;
 }
@@ -131,9 +133,6 @@ void deleteWord(char *word, HashTable **hashTable) {
         return;
     }
     int hash = getHash(word, (*hashTable)->size);
-    if (hash < 0) {
-        hash = (*hashTable)->size + hash;
-    }
     if (isEmpty((*hashTable)->values[hash])) {
         return;
     }
@@ -145,9 +144,6 @@ void put(char *word, HashTable *hashTable, int frequency) {
         return;
     }
     int hash = getHash(word, hashTable->size);
-    if (hash < 0) {
-        hash = hashTable->size + hash;
-    }
     if (isEmpty(hashTable->values[hash])) {
         push(&(hashTable->values[hash]), frequency, word);
         ++hashTable->numberOfElements;
@@ -181,6 +177,9 @@ int getHash(char *word, int size) {
         hash = (hash + power * word[i]) % module;
         power = (power * base) % module;
     }
+    if (hash < 0) {
+        hash += size;
+    }
     return hash;
 }
 
@@ -209,9 +208,9 @@ int maxSegmentSize(HashTable *hashTable) {
     return max;
 }
 
-int averageSegmentSize(HashTable *hashTable) {
-    if (hashTable == NULL ||  getNumberOfElements(hashTable) == 0) {
+float averageSegmentSize(HashTable *hashTable) {
+    if (hashTable == NULL || getNumberOfElements(hashTable) == 0) {
         return 0;
     }
-    return (hashTable->numberOfUsedSegments == 0) ? 1 : (int)(hashTable->numberOfElements/hashTable->numberOfUsedSegments);
+    return (hashTable->numberOfUsedSegments == 0) ? 1 : ((float)hashTable->numberOfElements / hashTable->numberOfUsedSegments);
 }

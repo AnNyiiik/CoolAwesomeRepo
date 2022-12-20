@@ -1,6 +1,7 @@
-#include "../List/list.h"
 #ifndef HASHTABLE_HASHTABLE_H
 #define HASHTABLE_HASHTABLE_H
+
+#include "../List/list.h"
 
 #define INIT_SIZE 8
 #define STR_SIZE 30
@@ -8,7 +9,7 @@
 typedef struct HashTable HashTable;
 
 // Create an empty hashTable.
-HashTable *createHashTable(int size, int *error);
+HashTable *createHashTable(int *error);
 
 // Delete a hash table.
 void deleteHashTable(HashTable **hashTable);
@@ -26,7 +27,7 @@ int maxSegmentSize(HashTable *hashTable);
 float occupancyRate(HashTable *hashTable);
 
 // Return an average segment size.
-int averageSegmentSize(HashTable *hashTable);
+float averageSegmentSize(HashTable *hashTable);
 
 // Count a hash for the word.
 int getHash(char *word, int size);

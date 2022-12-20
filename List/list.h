@@ -1,6 +1,7 @@
-#include <stdbool.h>
 #ifndef LIST_LIST_H
 #define LIST_LIST_H
+
+#include <stdbool.h>
 
 typedef struct List List;
 
@@ -27,4 +28,5 @@ int getHeadFrequency(List *list);
 int getFrequency(char *word, List *list);
 
 bool isEmpty(List *list);
+
 #endif //LIST_LIST_H

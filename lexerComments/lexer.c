@@ -7,18 +7,19 @@ int **createTable(const char *path) {
     int states = 0;
     fscanf(file, "%d", &states);
     int **table = (int **)calloc(states, sizeof(int *));
-    int *possibleSteps = (int *)calloc(states, sizeof(int));
     for (int i = 0; i < states; ++i) {
-        fscanf(file, "%d", &possibleSteps[i]);
-        table[i] = (int *)calloc(possibleSteps[i], sizeof(int));
+        table[i] = (int *)calloc(3, sizeof(int));
+    }
+    char string[10] = {0};
+    for (int i = 0; i < states; ++i) {
+        fscanf(file, "%s", string);
     }
     for (int i = 0; i < states; ++i) {
-        for (int j = 0; j < possibleSteps[i]; ++j) {
-            int from = 0;
-            char symbol[10] = {0};
-            int to = 0;
-            fscanf(file, "%d%s%d", &from, symbol, &to);
-            table[i][j] = to;
+        fscanf(file, "%s", string);
+        for (int j = 0; j < 3; ++j) {
+            int state = 0;
+            fscanf(file, "%d", &state);
+            table[i][j] = state;
         }
     }
     fclose(file);
@@ -27,6 +28,8 @@ int **createTable(const char *path) {
 
 int move(int from, char character, int **table) {
     if (character != '*' && character != '/') {
+        return table[from][2];
+    } else if (character == '/') {
         return table[from][0];
     }
     return table[from][1];
@@ -42,6 +45,12 @@ int writeCommentsToFile(char const *outputFile, char const *inputFile) {
         return 1;
     }
     int **table = createTable("../table");
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            printf("%d ", table[i][j]);
+        }
+        printf("\n");
+    }
     int state = 0;
     char *comment = (char *)calloc(100, sizeof(char));
     comment[0] = '/';

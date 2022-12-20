@@ -1,7 +1,7 @@
 #include "test.h"
 
 bool test(void) {
-    char *correctSequence[3] = {"/*Hi*/\n", "/*, amogus*/\n", "/*ajisoixjisoiqojjixosoiaj*/\n"};
+    char *correctSequence[4] = {"/*Hi*/\n", "/*, amogus*/\n", "/**/\n", "/*ajisoixjisoiqojjixosoiaj*/\n"};
     writeCommentsToFile("../output", "../testDataInput");
     FILE * file  = fopen("../output", "r");
     int readLines = 0;
@@ -15,5 +15,5 @@ bool test(void) {
         ++readLines;
     }
     fclose(file);
-    return isSimilar && (readLines == 3);
+    return isSimilar && (readLines == 4);
 }

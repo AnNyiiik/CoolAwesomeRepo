@@ -162,9 +162,6 @@ List  **createCounties(Data *data, int *error) {
             }
             int town = 0;
             int path = 0;
-            printf("%d : ", i + 1);
-            printList(available[i]);
-            printf("\n");
             if (isEmpty(available[i])) {
                 continue;
             }

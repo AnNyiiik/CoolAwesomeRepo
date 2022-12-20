@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "MatrixFunctions.h"
+#include "test.h"
 
 int main() {
+    if (!test()) {
+        return 1;
+    }
     FILE *file = fopen("../text", "r");
     Data *data = NULL;
     int error = readFromFile(file, &data);

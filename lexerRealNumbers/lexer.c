@@ -1,61 +1,64 @@
 #include "lexer.h"
 
-void naturalNumberParse(char const *string, bool *isNotCorrect, int *index) {
-    States state = waitingForFirstDigit;
-    int length = strlen(string) - *index;
-    int currentIndex = 0;
-    while (true) {
-        if (currentIndex == length) {
-            *isNotCorrect = (currentIndex == 0);
-            *index = *index + currentIndex;
-            return;
-        } else {
-            char character = string[currentIndex + *index];
-            if (isdigit(character) && state == waitingForFirstDigit) {
-                state = waitingForOtherDigit;
-                ++(currentIndex);
-            } else if (isdigit(character) && state == waitingForOtherDigit) {
-                ++(currentIndex);
-            } else {
-                *isNotCorrect = (currentIndex == 0);
-                *index = *index + currentIndex;
-                return;
-            }
-        }
-    }
-}
-
 bool isRealNumber(const char *string) {
-    States  state = integerPartDone;
-    bool isNotCorrect = false;
-    int index = 0;
-    naturalNumberParse(string, &isNotCorrect, &index);
+    int position = 0;
     int length = strlen(string);
-    while (true) {
-        if (isNotCorrect) {
-            return false;
+    States state = waitingStart;
+    States newState = waitingStart;
+    while (position < length) {
+        switch (state) {
+            case waitingStart:
+                if (!isdigit(string[position])) {
+                    return false;
+                }
+                newState = integerPartInProcess;
+                ++position;
+                break;
+            case integerPartInProcess:
+                if (string[position] == 'E') {
+                    ++position;
+                    newState = startExponent;
+                } else if (string[position] == '.') {
+                    newState = startFraction;
+                } else if (!isdigit(string[position])){
+                    return false;
+                }
+                ++position;
+                break;
+            case startFraction:
+                if (!isdigit(string[position])) {
+                    return false;
+                }
+                ++position;
+                newState = fractionPartInProcess;
+                break;
+            case fractionPartInProcess:
+                if (string[position] == 'E') {
+                    ++position;
+                    newState = startExponent;
+                } else if (!isdigit(string[position])) {
+                    return false;
+                }
+                ++position;
+                break;
+            case startExponent:
+                if (string[position] == '+' || string[position] == '-') {
+                    ++position;
+                } else if (!isdigit(string[position])) {
+                    return false;
+                } else {
+                    newState = powerPartInProcess;
+                    ++position;
+                }
+                break;
+            case powerPartInProcess:
+                if (!isdigit(string[position])) {
+                    return false;
+                }
+                ++position;
+                break;
         }
-        if (index == length) {
-            return state != expDone;
-        }
-        char character = string[index];
-        if (character == '.' && state == integerPartDone) {
-            ++index;
-            naturalNumberParse(string, &isNotCorrect, &index);
-            state = fractionPartDone;
-        } else if (character == 'E' && (state == integerPartDone || state == fractionPartDone)) {
-            state = expDone;
-            ++index;
-        } else if (state == expDone) {
-            state = powerDone;
-            if (character == '+' || character == '-') {
-                ++index;
-                naturalNumberParse(string, &isNotCorrect, &index);
-            } else {
-                naturalNumberParse(string, &isNotCorrect, &index);
-            }
-        } else {
-            return false;
-        }
+        state = newState;
     }
+    return state == powerPartInProcess || state == fractionPartInProcess || state == integerPartInProcess;
 }

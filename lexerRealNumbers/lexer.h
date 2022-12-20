@@ -7,15 +7,13 @@
 #include <ctype.h>
 
 typedef enum States {
-    integerPartDone = 1,
-    waitingForFirstDigit = 2,
-    waitingForOtherDigit = 3,
-    fractionPartDone = 4,
-    powerDone = 5,
-    expDone = 6
+    waitingStart = 0,
+    integerPartInProcess = 1,
+    startFraction = 2,
+    fractionPartInProcess = 3,
+    startExponent = 4,
+    powerPartInProcess = 5,
 } States;
-
-void naturalNumberParse(char const *string, bool *isNotCorrect, int *index);
 
 bool isRealNumber(const char *string);
 

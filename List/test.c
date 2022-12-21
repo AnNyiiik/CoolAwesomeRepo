@@ -2,61 +2,33 @@
 #include "list.h"
 
 #include <stdbool.h>
-#include <stdlib.h>
 #include <string.h>
 
-typedef struct ListElement {
-    int value;
-    struct ListElement *next;
-} ListElement;
-
-typedef struct List {
-    struct ListElement *head;
-    int size;
-} List;
-
 bool testCreate(void) {
-    List *list = createList();
-    if (isEmpty(list) && (list->head == NULL) && (list->size == 0)) {
-        return true;
-    }
-    deleteList(&list);
-    return false;
-}
-
-bool testDelete(void) {
-    List *list = createList();
-    insert(list, 0, 0);
-    insert(list, 1, 0);
-    deleteList(&list);
-    return isEmpty(list);
-}
-
-bool testInsert(void) {
-    List *list = createList();
-    insert(list, 0, 19);
-    if (isEmpty(list) || list->size == 0 || list->head == NULL) {
-        deleteList(&list);
+    int error = 0;
+    List *list = createList(&error);
+    if (list == NULL) {
         return false;
     }
-    if (list->head->value != 19) {
-        deleteList(&list);
-        return false;
-    }
+    bool answer = isEmpty(list);
     deleteList(&list);
-    return true;
+    return answer;
 }
 
 bool testPop(void) {
-    List *list = createList();
-    insert(list, 0, 16);
+    int error = 0;
+    List *list = createList(&error);
+    if (list == NULL) {
+        return false;
+    }
+    push(&list, 5);
     int value = 0;
-    int errorCode = pop(&list, &value);
-    if (errorCode != 0) {
+    error = pop(&list, &value);
+    if (error != 0) {
         deleteList(&list);
         return false;
     }
-    if (value != 16) {
+    if (value != 5) {
         deleteList(&list);
         return false;
     }
@@ -68,31 +40,71 @@ bool testPop(void) {
     return true;
 }
 
-bool testIsEmpty(void) {
-    List *list = createList();
-    if (isEmpty(list)) {
-        return true;
+bool testPush(void) {
+    int error = 0;
+    List *list = createList(&error);
+    if (list == NULL) {
+        return false;
     }
+    push(&list, 5);
+    bool answer = !(isEmpty(list));
     deleteList(&list);
-    return false;
+    return answer;
 }
 
-bool testInsertByOrder(void) {
-    List *list = createList();
+bool testDelete(void) {
+    int error = 0;
+    List *list = createList(&error);
+    if (list == NULL) {
+        return false;
+    }
+    for (int i = 0; i < 11; ++i) {
+        push(&list, 5);
+    }
+    error = deleteList(&list);
+    if (error == 1) {
+        return false;
+    }
+    return (isEmpty(list) && list == NULL);
+}
+
+bool testDeleteOdd(void) {
+    int error = 0;
+    List *list = createList(&error);
+    if (error == 1) {
+        deleteList(&list);
+        return false;
+    }
+    for (int i = 5; i > 0; --i) {
+        error = push(&list, i);
+        if (error == 1) {
+            deleteList(&list);
+            return false;
+        }
+    }
+    error = deleteOddPositions(&list);
+    if (error == 1) {
+        deleteList(&list);
+        return false;
+    }
+    int correctValues[3] = {1, 3, 5};
     for (int i = 0; i < 3; ++i) {
-        int errorCode= insertByOrder(list, rand() % 10);
-        if (errorCode != 0) {
+        int value = 0;
+        error = pop(&list, &value);
+        if (error == 1) {
+            deleteList(&list);
+            return false;
+        }
+        if (value != correctValues[i]) {
             deleteList(&list);
             return false;
         }
     }
-    ListElement *element = list->head;
-    for (int i = 0; i < 2; ++i) {
-        if (element->value > element->next->value) {
-            deleteList(&list);
-            return false;
-        }
-    }
+    bool answer = isEmpty(list);
     deleteList(&list);
-    return true;
+    return answer;
+}
+
+bool test(void) {
+    return (testCreate() && testPop() && testDelete() && testPush() && testDeleteOdd());
 }

@@ -14,10 +14,13 @@ typedef struct List {
     int size;
 } List;
 
-List *createList(void) {
+List *createList(int *error) {
+    *error = 0;
     struct List *list = (List *)calloc(1, sizeof(List));
-    list->head = NULL;
-    list->size = 0;
+    if (list == NULL) {
+        *error = 1;
+        return NULL;
+    }
     return list;
 }
 
@@ -29,142 +32,13 @@ int deleteList(List **list) {
             return 1;
         }
     }
-    return 0;
-}
-
-int insert(List *list, int place, int value) {
-    if (isEmpty(list)) {
-        int errorCode = push(&list, value);
-        if (errorCode != 0) {
-            return 1;
-        }
-        return 0;
-    }
-    if (place > list->size) {
-        return 1;
-    }
-    if (place == 0) {
-        int errorCode = push(&list, value);
-        if (errorCode != 0) {
-            return 1;
-        }
-        return 0;
-    }
-    int index = 0;
-    ListElement *element = list->head;
-    while (index < place - 1 && element->next) {
-        element = element->next;
-        ++index;
-    }
-    ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
-    newElement->value = value;
-    if (element->next) {
-        newElement->next = element->next;
-    } else {
-        newElement->next = NULL;
-    }
-    element->next = newElement;
-    ++list->size;
-    return 0;
-}
-
-int delete(List *list, int place) {
-    if (place > list->size - 1) {
-        return 1;
-    }
-    if (isEmpty(list)) {
-        return 1;
-    }
-    if (place == 0) {
-        int value = 0;
-        int errorCode = pop(&list, &value);
-        if (errorCode != 0) {
-            return 1;
-        }
-        return 0;
-    }
-    int index = 0;
-    ListElement *element = list->head;
-    while (index < place - 1 && element->next) {
-        element = element->next;
-        ++index;
-    }
-    if (element->next) {
-        if (element->next->next) {
-            ListElement *elementAfterDeleted = element->next->next;
-            free(element->next);
-            element->next = elementAfterDeleted;
-            --list->size;
-            return 0;
-        }
-        free(element->next);
-        element->next = NULL;
-        --list->size;
-        return 0;
-    }
-    --list->size;
-    return 0;
-}
-
-int getElementPlace(List *list, int value) {
-    if (isEmpty(list)) {
-        return -1;
-    }
-    ListElement *element = list->head;
-    int index = 0;
-    while (element->next) {
-        if (element->value == value) {
-            return index;
-        }
-        element = element->next;
-        ++index;
-    }
-    return -1;
-}
-
-int insertByOrder(List *list, int value) {
-    if (isEmpty(list)) {
-        int errorCode = push(&list, value);
-        if (errorCode != 0) {
-            return 1;
-        }
-        return 0;
-    }
-    if (list->head->value >= value) {
-        int errorCode = push(&list, value);
-        if (errorCode != 0) {
-            return 1;
-        }
-        return 0;
-    }
-    ListElement *element = list->head;
-    ListElement *previous = list->head;
-    while (element->value <= value && element->next) {
-        previous = element;
-        element = element->next;
-    }
-    if ((!element->next) && (element->value <= value)) {
-        ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
-        newElement->value = value;
-        newElement->next = NULL;
-        element->next = newElement;
-        ++list->size;
-        return 0;
-    }
-    ListElement *newElement = (ListElement *) malloc(sizeof(ListElement));
-    newElement->value = value;
-    if (previous->next) {
-        newElement->next = previous->next;
-    } else {
-        newElement->next = NULL;
-    }
-    previous->next = newElement;
-    ++list->size;
+    free(*list);
+    *list = NULL;
     return 0;
 }
 
 int push(List **list, int value) {
-    ListElement *newNode = (ListElement *) malloc(sizeof(ListElement));
+    ListElement *newNode = (ListElement *)calloc(1, sizeof(ListElement));
     if (newNode == NULL) {
         return 1;
     }
@@ -176,7 +50,7 @@ int push(List **list, int value) {
 }
 
 int pop(List **list, int *value) {
-    if (isEmpty(*list)) {
+    if (list == NULL || *list == NULL || isEmpty(*list)) {
         return 1;
     }
     ListElement *previous = (*list)->head;
@@ -188,20 +62,24 @@ int pop(List **list, int *value) {
 }
 
 bool isEmpty(List *list) {
+    if (list == NULL) {
+        return true;
+    }
     return list->head == NULL;
 }
 
-void printList(List *list) {
-    if (isEmpty(list)) {
-        printf("List is empty\n");
+int deleteOddPositions(List **list) {
+    if (list == NULL || *list == NULL || isEmpty(*list)) {
+        return 1;
     }
-    ListElement *element = list->head;
+    ListElement *previous = (*list)->head;
+    ListElement *element = previous->next;
     while (element != NULL) {
-        if (!element->next) {
-            printf("%d%s", element->value, "\n");
-        } else {
-            printf("%d%s", element->value, ", ");
-        }
-        element = element->next;
+        previous->next = element->next;
+        free(element);
+        --(*list)->size;
+        previous = previous->next;
+        element = previous->next;
     }
+    return 0;
 }

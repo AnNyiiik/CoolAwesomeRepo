@@ -3,22 +3,7 @@
 
 #include <stdbool.h>
 
-//Test a function createList.
-bool testCreate(void);
-
-//Test a function deleteList.
-bool testDelete(void);
-
-//Test a function insert.
-bool testInsert(void);
-
-//Test a function pop.
-bool testPop(void);
-
-//Test a function isEmpty.
-bool testIsEmpty(void);
-
-//Test a function insertByOrder.
-bool testInsertByOrder(void);
+// Test list's functions.
+bool test(void);
 
 #endif //LIST_TEST_H

@@ -7,9 +7,24 @@ typedef enum States {
     startAddress,
     addSign,
     waitingForPoint,
-    Point,
+    point,
     endCharacter
 } States;
+
+bool conditionFirst(char character) {
+    return character >= 65 && character <= 90 || isdigit(character)
+           || character == '.' || character == '_' || character == '%'
+           || character == '+' || character == '-';
+}
+
+bool conditionSecond(char character) {
+    return character >= 65 && character <= 90 || isdigit(character)
+           || character == '-';
+}
+
+bool conditionThird(char character) {
+    return character >= 65 && character <= 90;
+}
 
 bool isCorrectMail(char const *string) {
     if (string == NULL) {
@@ -20,57 +35,50 @@ bool isCorrectMail(char const *string) {
     int position = -1;
     while (position < size - 1) {
         ++position;
+        char characterCurrent = string[position];
         switch (state) {
             case waitingForFirstCharacter:
-                if (string[position] >= 65 && string[position] <= 90 || isdigit(string[position])
-                || string[position] == '.' || string[position] == '_' || string[position] == '%'
-                || string[position] == '+' || string[position] == '-') {
+                if (conditionFirst(characterCurrent)) {
                     state = startAddress;
                 } else {
                     return false;
                 }
                 break;
             case startAddress:
-                if (string[position] == '@') {
+                if (characterCurrent == '@') {
                     state = addSign;
-                } else if (!(string[position] >= 65 && string[position] <= 90 || isdigit(string[position])
-                           || string[position] == '.' || string[position] == '_' || string[position] == '%'
-                           || string[position] == '+' || string[position] == '-')) {
+                } else if (!conditionFirst(characterCurrent)) {
                     return false;
                 }
                 break;
             case addSign:
-                if (string[position] >= 65 && string[position] <= 90 || isdigit(string[position])
-                    || (string[position] == '-')) {
+                if (conditionSecond(characterCurrent)) {
                     state = waitingForPoint;
                 } else {
                     return false;
                 }
                 break;
             case waitingForPoint:
-                if (string[position] == '.') {
-                    state = Point;
-                } else if (!(string[position] >= 65 && string[position] <= 90
-                    || isdigit(string[position]) || string[position] == '-')) {
+                if (characterCurrent == '.') {
+                    state = point;
+                } else if (!conditionSecond(characterCurrent)) {
                     return false;
                 }
                 break;
-            case Point:
-                if (string[position] >= 65 && string[position] <= 90) {
+            case point:
+                if (conditionThird(characterCurrent)) {
                     state = endCharacter;
-                } else if (string[position] >= 65 && string[position] <= 90
-                           || isdigit(string[position]) || string[position] == '-') {
+                } else if (conditionSecond(characterCurrent)) {
                     state = waitingForPoint;
                 } else {
                     return false;
                 }
                 break;
             case endCharacter:
-                if (string[position] >= 65 && string[position] <= 90
-                    || isdigit(string[position]) || string[position] == '-') {
+                if (conditionSecond(characterCurrent)) {
                     state = waitingForPoint;
-                } else if (string[position] == '.') {
-                    state = Point;
+                } else if (characterCurrent == '.') {
+                    state = point;
                 } else {
                     return false;
                 }

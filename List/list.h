@@ -5,29 +5,29 @@
 
 typedef struct List List;
 
+int getHead(List *list, char *value);
+
 // Create an empty list.
 List *createList(int *error);
 
 // Delete a given list with all its elements.
 int deleteList(List **list);
 
-// Add a new element to the head od the given list.
-int push(List **list, int number, int path);
+int push(List **list, int value, char *word);
 
-// Insert a new element according to a value.
-int insertByOrder(List *list, int number, int path);
+void tryAdd(List **list, char *word, bool *isNew, int frequency);
 
-// Delete an element placed on the particular place in the given list.
-int delete(List *list, int place);
+int getSize(List *list);
 
-// Delete an element from the head of the given list.
-int pop(List **list, int *number, int *path);
+int pop(List **list);
 
-// Search the 1st position of an element by given value.
-int getElementPlace(List *list, int number);
+void delete(char *word, List **list);
 
-// Return the path.
-int getPath(List *list, int number);
+void printList(List *list);
+
+int getHeadFrequency(List *list);
+
+int getFrequency(char *word, List *list);
 
 // Print list.
 void printList(List *list);

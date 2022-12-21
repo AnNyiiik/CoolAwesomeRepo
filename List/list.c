@@ -1,29 +1,45 @@
 #include "list.h"
-
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 typedef struct ListElement {
-    int number;
-    int path;
+    int frequency;
+    char *word;
     struct ListElement *next;
 } ListElement;
 
 typedef struct List {
     struct ListElement *head;
+    struct ListElement *tail;
     int size;
 } List;
 
 List *createList(int *error) {
-    List *list = (List *)calloc(1, sizeof(List));
+    List *list = (List *)calloc(sizeof(List));
     if (list == NULL) {
         *error = 1;
-    } else {
-        *error = 0;
+        return NULL;
     }
+    *error = 0;
     return list;
 }
+
+void tryAdd(List **list, char *word, bool *isNew, int frequency) {
+    if (list == NULL || *list == NULL || isEmpty(*list)) {
+        return;
+    }
+    ListElement *element = (*list)->head;
+    *isNew = false;
+    while (element != NULL) {
+        if (strcmp(element->word, word) == 0) {
+            element->frequency += frequency;
+            *isNew = true;
+            break;
+        }
+        element = element->next;
+    }
 
 int deleteList(List **list) {
     while (!isEmpty(*list)) {
@@ -38,148 +54,114 @@ int deleteList(List **list) {
     return 0;
 }
 
-int delete(List *list, int place) {
-    if (place > list->size - 1) {
-        return 1;
+int getHeadFrequency(List *list) {
+    if (list != NULL) {
+        return list->head->frequency;
     }
-    if (isEmpty(list)) {
-        return 1;
+    else {
+        return -1;
     }
-    if (place == 0) {
-        int value = 0;
-        int path = 0;
-        int errorCode = pop(&list, &value, &path);
-        if (errorCode != 0) {
-            return 1;
-        }
+}
+
+int getFrequency(char *word, List *list) {
+    if (list == NULL || isEmpty(list)) {
         return 0;
     }
-    int index = 0;
     ListElement *element = list->head;
-    while (index < place - 1 && element->next) {
-        element = element->next;
-        ++index;
-    }
-    if (element->next) {
-        if (element->next->next) {
-            ListElement *elementAfterDeleted = element->next->next;
-            free(element->next);
-            element->next = elementAfterDeleted;
-            --list->size;
-            return 0;
+    while (element != NULL) {
+        if (strcmp(element->word, word) == 0) {
+            return element->frequency;
         }
-        free(element->next);
-        element->next = NULL;
-        --list->size;
-        return 0;
+        element = element->next;
     }
-    --list->size;
     return 0;
 }
 
-int getPath(List *list, int number) {
-    if (isEmpty(list)) {
+int getSize(List *list) {
+    if (list != NULL) {
+        return list->size;
+    }
+    else {
         return -1;
+
+
+int getHead(List *list, char *value) {
+    if (list != NULL && !isEmpty(list)) {
+        strcpy(value, list->head->word);
+        return 0;
     }
-    ListElement *element = list->head;
-    while (element->next) {
-        if (element->number == number) {
-            return element->path;
-        }
-        element = element->next;
-    }
-    return -1;
+    return 1;
 }
 
-int getElementPlace(List *list, int number) {
-    if (isEmpty(list)) {
-        return -1;
-    }
-    ListElement *element = list->head;
-    int index = 0;
-    while (element->next) {
-        if (element->number == number) {
-            return index;
-        }
-        element = element->next;
-        ++index;
-    }
-    return -1;
-}
-
-int insertByOrder(List *list, int number, int path) {
-    if (isEmpty(list)) {
-        int errorCode = push(&list, number, path);
-        if (errorCode != 0) {
-            return 1;
-        }
-        return 0;
-    }
-    if (list->head->path >= path) {
-        int errorCode = push(&list, number, path);
-        if (errorCode != 0) {
-            return 1;
-        }
-        return 0;
-    }
-    ListElement *element = list->head;
-    ListElement *previous = list->head;
-    while (element->path <= path && element->next) {
-        previous = element;
-        element = element->next;
-    }
-    if ((!element->next) && (element->path <= path)) {
-        ListElement *newElement = (ListElement *)calloc(1, sizeof(ListElement));
-        if (newElement == NULL) {
-            return 1;
-        }
-        newElement->number = number;
-        newElement->path = path;
-        newElement->next = NULL;
-        element->next = newElement;
-        ++list->size;
-        return 0;
-    }
-    ListElement *newElement = (ListElement *)calloc(1, sizeof(ListElement));
-    if (newElement == NULL) {
+int deleteList(List **list) {
+    if (list == NULL || *list == NULL) {
         return 1;
     }
-    newElement->number = number;
-    newElement->path = path;
-    if (previous->next) {
-        newElement->next = previous->next;
-    } else {
-        newElement->next = NULL;
+    while (!isEmpty(*list)) {
+        int errorCode = pop(list);
+        if (errorCode != 0) {
+            return 1;
+        }
     }
-    previous->next = newElement;
-    ++list->size;
+    (*list) = NULL;
     return 0;
 }
 
-int push(List **list, int number, int path) {
-    ListElement *newNode = (ListElement *)calloc(1, sizeof(ListElement));
+int push(List **list, int frequency, char *word) {
+    ListElement *newNode = (ListElement *)malloc(sizeof(ListElement));
     if (newNode == NULL) {
         return 1;
     }
-    newNode->number = number;
-    newNode->path = path;
-    newNode->next = (*list)->head;
-    (*list)->head = newNode;
+    newNode->frequency = frequency;
+    newNode->word = (char *)malloc(sizeof(word) + 1);
+    strcpy(newNode->word, word);
+    newNode->word[sizeof(word)] = '\0';
+    if ((*list)->head) {
+        (*list)->tail->next = newNode;
+        newNode->next = NULL;
+        (*list)->tail = newNode;
+    } else {
+        newNode->next = NULL;
+        (*list)->head = newNode;
+        (*list)->tail = newNode;
+    }
     ++(*list)->size;
     return 0;
 }
 
-int pop(List **list, int *number, int *path) {
+int pop(List **list) {
     if (isEmpty(*list)) {
         return 1;
     }
     ListElement *previous = (*list)->head;
-    *number = previous->number;
-    *path = previous->path;
     ((*list)->head) = ((*list)->head)->next;
     --(*list)->size;
+    free(previous->word);
     free(previous);
     return 0;
+}
+
+void delete(char *word, List **list) {
+    if (isEmpty(*list)) {
+        return;
+    }
+    ListElement *element = (*list)->head;
+    ListElement *previous = (*list)->head;
+    while (element != NULL && strcmp(element->word, word) != 0) {
+        previous = element;
+        element = element->next;
+    }
+    if (element == NULL) {
+        return;
+    }
+    if (element == previous) {
+        pop(list);
+        return;
+    }
+    previous->next = element->next;
+    free(element->word);
+    free(element);
+    --(*list)->size;
 }
 
 bool isEmpty(List *list) {
@@ -190,16 +172,12 @@ bool isEmpty(List *list) {
 }
 
 void printList(List *list) {
-    if (isEmpty(list)) {
-        printf("List is empty\n");
+    if (list == NULL || isEmpty(list)) {
+        return;
     }
     ListElement *element = list->head;
-    while (element != NULL) {
-        if (!element->next) {
-            printf("%d%s", element->number, "\n");
-        } else {
-            printf("%d%s", element->number, ", ");
-        }
+    while(element != NULL) {
+        printf("%s - %d\n", element->word, element->frequency);
         element = element->next;
     }
 }

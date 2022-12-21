@@ -11,7 +11,7 @@ int main() {
         deleteList(&list);
         return 1;
     }
-    for (int i = 5; i > 0; --i) {
+    for (int i = 6; i > 0; --i) {
         error = push(&list, i);
         if (error == 1) {
             deleteList(&list);

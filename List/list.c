@@ -79,6 +79,9 @@ int deleteOddPositions(List **list) {
         free(element);
         --(*list)->size;
         previous = previous->next;
+        if (previous == NULL) {
+            break;
+        }
         element = previous->next;
     }
     return 0;

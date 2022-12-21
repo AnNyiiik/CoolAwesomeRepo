@@ -3,4 +3,4 @@ project(KMP C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(KMP main.c)
+add_executable(KMP main.c kmp.c kmp.h test.c test.h)

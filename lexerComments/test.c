@@ -1,13 +1,19 @@
 #include "test.h"
 
 bool test(void) {
-    char *correctSequence[4] = {"/*Hi*/\n", "/*, amogus*/\n", "/**/\n", "/*ajisoixjisoiqojjixosoiaj*/\n"};
-    writeCommentsToFile("../output", "../testDataInput");
+    char *correctSequence[5] = {"/* hausiuh\n", "jsioaij */\n", "/*ajisoixjisoiqojjixosoiaj*/\n", "/**/\n", "/*/ aa*/\n"};
+    int error = writeCommentsToFile("../output", "../testDataInput");
+    if (error == 1) {
+        return false;
+    }
     FILE * file  = fopen("../output", "r");
+    if (file == NULL) {
+        return false;
+    }
     int readLines = 0;
-    char comment[100] = {0};
+    char comment[COMMENT_SIZE] = {0};
     bool isSimilar = true;
-    while(fgets(comment, 100, file) > 0) {
+    while(fgets(comment, COMMENT_SIZE, file) > 0) {
         if (strcmp(comment, correctSequence[readLines]) != 0) {
             isSimilar = false;
             break;
@@ -15,5 +21,5 @@ bool test(void) {
         ++readLines;
     }
     fclose(file);
-    return isSimilar && (readLines == 4);
+    return isSimilar && (readLines == 5);
 }

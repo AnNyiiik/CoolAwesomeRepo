@@ -5,6 +5,7 @@
 #include <string.h>
 #include "lexer.h"
 
+// Test function writeCommentsToFile.
 bool test(void);
 
 #endif //LEXERCOMMENTS_TEST_H

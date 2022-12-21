@@ -19,6 +19,10 @@ int main() {
         }
     }
     error = deleteOddPositions(&list);
+    if (error == 1) {
+        deleteList(&list);
+        return false;
+    }
     deleteList(&list);
     return 0;
 }

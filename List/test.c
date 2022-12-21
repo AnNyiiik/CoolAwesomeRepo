@@ -7,7 +7,7 @@
 bool testCreate(void) {
     int error = 0;
     List *list = createList(&error);
-    if (list == NULL) {
+    if (error == 1) {
         return false;
     }
     bool answer = isEmpty(list);
@@ -18,21 +18,13 @@ bool testCreate(void) {
 bool testPop(void) {
     int error = 0;
     List *list = createList(&error);
-    if (list == NULL) {
+    if (error == 1) {
         return false;
     }
     push(&list, 5);
     int value = 0;
     error = pop(&list, &value);
-    if (error != 0) {
-        deleteList(&list);
-        return false;
-    }
-    if (value != 5) {
-        deleteList(&list);
-        return false;
-    }
-    if (!isEmpty(list)) {
+    if (error != 0 || value != 5 || !isEmpty(list)) {
         deleteList(&list);
         return false;
     }
@@ -43,7 +35,7 @@ bool testPop(void) {
 bool testPush(void) {
     int error = 0;
     List *list = createList(&error);
-    if (list == NULL) {
+    if (error == 1) {
         return false;
     }
     push(&list, 5);
@@ -55,7 +47,7 @@ bool testPush(void) {
 bool testDelete(void) {
     int error = 0;
     List *list = createList(&error);
-    if (list == NULL) {
+    if (error == 1) {
         return false;
     }
     for (int i = 0; i < 11; ++i) {

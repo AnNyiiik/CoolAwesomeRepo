@@ -17,14 +17,11 @@ typedef struct List {
 } List;
 
 List *createList(int *error) {
-    List *list = (List *) malloc(sizeof(List));
+    List *list = (List *)calloc(sizeof(List));
     if (list == NULL) {
         *error = 1;
         return NULL;
     }
-    list->head = NULL;
-    list->tail = NULL;
-    list->size = 0;
     *error = 0;
     return list;
 }
@@ -43,6 +40,18 @@ void tryAdd(List **list, char *word, bool *isNew, int frequency) {
         }
         element = element->next;
     }
+
+int deleteList(List **list) {
+    while (!isEmpty(*list)) {
+        int value = 0;
+        int path = 0;
+        int errorCode = pop(list, &value, &path);
+        if (errorCode != 0) {
+            return 1;
+        }
+    }
+    *list = NULL;
+    return 0;
 }
 
 int getHeadFrequency(List *list) {
@@ -74,8 +83,7 @@ int getSize(List *list) {
     }
     else {
         return -1;
-    }
-}
+
 
 int getHead(List *list, char *value) {
     if (list != NULL && !isEmpty(list)) {

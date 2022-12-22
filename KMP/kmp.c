@@ -1,72 +1,74 @@
 #include "kmp.h"
 
-void prefixFunction(char const *string, int size, int *prefix) {
-    prefix[0] = -1;
-    for (int i = 1; i <= size; ++i) {
-        int length = prefix[i - 1];
-        while (length != -1 && string[length] != string[i - 1]) {
-            length = prefix[length];
-        }
-        prefix[i] = length + 1;
+int *prefixTable(char const *pattern, int *error) {
+    int length = strlen(pattern);
+    int *prefix = (int *)calloc(length, sizeof(int));
+    if (prefix == NULL) {
+        *error = 1;
+        return NULL;
     }
+    for (int i = 1; i < length; ++i) {
+        int prefixValue = prefix[i - 1];
+        while (pattern[prefixValue] != pattern[i] && prefixValue > 0) {
+            prefixValue = prefix[prefixValue - 1];
+        }
+        if (pattern[prefixValue] == pattern[i]) {
+            prefix[prefixValue] += 1;
+        }
+        prefix[i] = prefixValue;
+    }
+    return prefix;
 }
 
-int countPattern(char const *path, char const *pattern, int *error) {
-    FILE *file = fopen(path, "r");
+int firstPosition(char const *string, char const *pattern, int *error) {
+    *error = 0;
+    int index = 0;
+    int stringLength = strlen(string);
+    int patternLength = strlen(pattern);
+    int *prefix = prefixTable(pattern, error);
+    if (*error == 1) {
+        return  -1;
+    }
+    for (int i = 0; i < stringLength; ++i) {
+        while (pattern[index] != string[i] && index > 0) {
+            index = prefix[index - 1];
+        }
+        if (pattern[index] == string[i]) {
+            index += 1;
+        }
+        if (index == patternLength) {
+            free(prefix);
+            return i - patternLength + 1;
+        }
+    }
+    free(prefix);
+    return -1;
+}
+
+int findPositionInFile(char const *path, char const *pattern, int *error) {
+    *error = 0;
+    FILE* file = fopen(path, "r");
     if (file == NULL) {
         *error = 1;
         return -1;
     }
     char string[STR_SIZE] = {0};
-    while(fgets(string, STR_SIZE, file) > 0) {
-        int sizeString = strlen(string);
-        int sizePattern = strlen(pattern);
-        if (sizePattern > sizeString) {
+    while (fscanf(file, "%s", string) > 0) {
+        int position = firstPosition(string, pattern, error);
+        if (*error == 1) {
+            fclose(file);
+            return -1;
+        }
+        if (position == -1) {
             continue;
-        }
-        int sizeHelpString = sizeString + sizePattern;
-        char *helpString = (char *)calloc(sizeHelpString, sizeof(char));
-        if (helpString == NULL) {
-            *error = 1;
+        } else {
+            *error = 0;
             fclose(file);
-            return -1;
+            return position;
         }
-        strcpy(helpString, pattern);
-        strcat(helpString, string);
-        int *prefix = (int *)calloc(sizeHelpString + 1, sizeof(int));
-        if (prefix == NULL) {
-            free(helpString);
-            *error = 1;
-            fclose(file);
-            return -1;
-        }
-        prefixFunction(helpString, sizeHelpString + 1, prefix);
-        for (int i = 0; i < sizeHelpString + 1; ++i) {
-            printf("%d ,", prefix[i]);
-        }
-        for (int i = 2 * sizePattern; i < sizeHelpString + 1; ++i) {
-            if (prefix[i] >= sizePattern) {
-                bool isEqual = true;
-                if (i == 2 * sizePattern) {
-                    for (int j = i - sizePattern; j < i; ++j) {
-                        if (helpString[j] != helpString[j - sizePattern]) {
-                            isEqual = false;
-                            break;
-                        }
-                    }
-                }
-                if (!isEqual) {
-                    continue;
-                }
-                free(prefix);
-                free(helpString);
-                fclose(file);
-                return i - 2 * sizePattern;
-            }
-        }
-        free(prefix);
-        free(helpString);
     }
     fclose(file);
     return -1;
 }
+
+

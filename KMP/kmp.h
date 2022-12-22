@@ -8,7 +8,7 @@
 
 #define STR_SIZE 100
 
-// Count the amount of inclusions of pattern in the string.
-int countPattern(char const *string, char const *pattern, int *error);
+// Find the first position of substring pattern in the given string. If there is no inclusion, return -1.
+int findPositionInFile(char const *path, char const *pattern, int *error);
 
 #endif //KMP_KMP_H

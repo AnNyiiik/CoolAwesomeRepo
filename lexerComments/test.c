@@ -1,4 +1,7 @@
 #include "test.h"
+#include "lexer.h"
+#include <stdio.h>
+#include <string.h>
 
 bool test(void) {
     char *correctSequence[5] = {"/* hausiuh\n", "jsioaij */\n", "/*ajisoixjisoiqojjixosoiaj*/\n", "/**/\n", "/*/ aa*/\n"};

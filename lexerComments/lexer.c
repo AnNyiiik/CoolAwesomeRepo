@@ -1,6 +1,7 @@
-#include "lexer.h"
-#include "stdlib.h"
+#include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include "lexer.h"
 
 int **createTable(const char *path, int *states, int *error) {
     *error = 0;
@@ -29,12 +30,11 @@ int **createTable(const char *path, int *states, int *error) {
             return NULL;
         }
     }
-    char string[CHARACTER_SIZE] = {0};
     for (int i = 0; i < *states; ++i) {
-        fscanf(file, "%s", string);
+        fscanf(file, "%*s");
     }
     for (int i = 0; i < *states; ++i) {
-        fscanf(file, "%s", string);
+        fscanf(file, "%*s");
         for (int j = 0; j < 3; ++j) {
             fscanf(file, "%d", &table[i][j]);
         }
@@ -110,6 +110,7 @@ int writeCommentsToFile(char const *outputFile, char const *inputFile) {
             position = 2;
         }
     }
+    deleteTable(table, states);
     free(comment);
     fclose(output);
     fclose(input);

@@ -1,8 +1,6 @@
 #ifndef LEXERCOMMENTS_LEXER_H
 #define LEXERCOMMENTS_LEXER_H
 
-#include <stdio.h>
-
 #define COMMENT_SIZE 100
 #define CHARACTER_SIZE 10
 

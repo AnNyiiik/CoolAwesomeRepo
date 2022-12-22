@@ -55,13 +55,15 @@ void deleteTable(int **table, int rows) {
     free(table);
 }
 
-int move(int from, char character, int **table) {
+int getCharacterClass(char character) {
     if (character != '*' && character != '/') {
-        return table[from][2];
-    } else if (character == '/') {
-        return table[from][0];
+        return 2;
     }
-    return table[from][1];
+    return (character == '/') ? 0 : 1;
+}
+
+int move(int from, int characterClass, int **table) {
+    return table[from][characterClass];
 }
 
 int writeCommentsToFile(char const *outputFile, char const *inputFile) {
@@ -93,7 +95,8 @@ int writeCommentsToFile(char const *outputFile, char const *inputFile) {
             comment[position] = (char)character;
             ++position;
         }
-        currentState = move(currentState, (char)character, table);
+        int characterClass = getCharacterClass(character);
+        currentState = move(currentState, characterClass, table);
         if (currentState == 0 && strcmp(comment, "/*") != 0) {
             fprintf(output, "%s", comment);
             fprintf(output, "\n");

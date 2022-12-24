@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
 #include <string.h>
 
 #define STR_SIZE 100
@@ -16,12 +15,7 @@ int readFromFile(const char *pathInput, const char *pathOutput) {
         return 1;
     }
     bool isOpened = false;
-    char *string = (char *)calloc(STR_SIZE, sizeof(char));
-    if (string == NULL) {
-        fclose(input);
-        fclose(output);
-        return 1;
-    }
+    char string[STR_SIZE] = {0};
     int character = 0;
     int position = 0;
     while ((character = fgetc(input)) > 0 && position < STR_SIZE) {
@@ -30,24 +24,17 @@ int readFromFile(const char *pathInput, const char *pathOutput) {
             isOpened = true;
             position = 1;
         } else if (isOpened) {
-            string[position] = character;
+            string[position] = (char)character;
             ++position;
             if (character == '"') {
                 isOpened = false;
                 fprintf(output, "%s\n", string);
-                free(string);
-                string = (char *)calloc(STR_SIZE, sizeof(char));
-                if (string == NULL) {
-                    fclose(input);
-                    fclose(output);
-                    return 1;
-                }
+                memset(string, '\0', sizeof(char) * STR_SIZE);
             }
         }
     }
     fclose(input);
     fclose(output);
-    free(string);
     return 0;
 }
 
